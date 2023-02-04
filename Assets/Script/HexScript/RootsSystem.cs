@@ -32,7 +32,9 @@ public class RootsSystem : MonoBehaviour
 
     public void BuildRoots()
     {
-        GetNeighbourBranchDirection(MouseManager.Instance.CurrentSelectedObject.GetComponent<Tile>());
+        Tile selectedTile = MouseManager.Instance.CurrentSelectedObject.GetComponent<Tile>();
+        GetNeighbourBranchDirection(selectedTile); 
+        GameManager.Instance.GetMotherTree().AddRoots(selectedTile);
         AIController.Instance.UpdateAIGrid();
     }
 
@@ -52,7 +54,6 @@ public class RootsSystem : MonoBehaviour
             {
                 if (NeighboursDirection.TryGetValue(position - neighbourPosition, out string direction))
                 {
-                    GameManager.Instance.GetMotherTree().AddRoots(tile);
                     switch (direction)
                     {
                         case "x":

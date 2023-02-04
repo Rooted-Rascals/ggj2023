@@ -1,7 +1,10 @@
-﻿using Script.Decorators.Biomes;
+﻿using System;
+using Script.Decorators.Biomes;
 using Script.Decorators.Plants;
 using Script.Manager;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 namespace Script
@@ -58,7 +61,7 @@ namespace Script
                 if (visited.Contains(next))
                     continue;
 
-                neighbours = startTile.GetNeighboursTile();
+                neighbours = next.GetNeighboursTile();
 
                 foreach (Tile neighbour in neighbours)
                 {
@@ -70,17 +73,27 @@ namespace Script
                 }
                 visited.Add(next);
             }
-
+            
             EnabledRootsList = visited;
         }
 
         public float GetEnergyGeneration()
         {
-            return defaultEnergyGeneration; // + all attached object that generate energy
+            float energyGeneration = defaultEnergyGeneration;
+            foreach (Tile EnabledRoots in EnabledRootsList)
+            {
+                Plant plant = EnabledRoots.GetComponentInChildren<Plant>();
+                if (plant)
+                {
+                    energyGeneration += plant.GetEnergyGeneration();
+                }
+            }
+            return energyGeneration;
         }
 
         public float GetWaterConsumption()
         {
+
             float waterConsumption = defaultWaterConsumption;
             foreach (Tile EnabledRoots in EnabledRootsList)
             {
@@ -95,7 +108,21 @@ namespace Script
 
         public float GetWaterGeneration()
         {
-            return defaultWaterGeneration;
+            float waterGeneration = defaultWaterGeneration;
+            foreach (Tile EnabledRoots in EnabledRootsList)
+            {
+                Plant plant = EnabledRoots.GetComponentInChildren<Plant>();
+                if (plant)
+                {
+                    waterGeneration += plant.GetWaterGeneration();
+                }
+            }
+            return waterGeneration;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Handles.Label(transform.position + Vector3.up * 3f, EnabledRootsList.ToString());
         }
     }
 }
