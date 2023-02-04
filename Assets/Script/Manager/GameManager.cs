@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using Script;
 using Script.Decorators.Plants;
 using UnityEditor.Search;
 using UnityEngine;
-using MotherTree = Script.MotherTree;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,11 +30,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool isDebugLogging = false;
     [SerializeField] private TilesManager tilesManager;
     [SerializeField] private ResourcesManager resourcesManager;
-    [SerializeField] MotherTree motherTreePrefab;
     [SerializeField] private float decayDamage = 3f;
-    private MotherTree motherTree;
+    private MotherTreeOrchestrator motherTree;
 
-    public MotherTree GetMotherTree()
+    public MotherTreeOrchestrator GetMotherTree()
     {
         return motherTree;
     }
@@ -64,6 +63,8 @@ public class GameManager : MonoBehaviour
             return;
         }
 
+        totalTime += 0f;
+        
         UpdateResources();
         UpdateTreeStats();
     }
@@ -77,7 +78,7 @@ public class GameManager : MonoBehaviour
         GameObject spawnedObject = spawnTile.SetActiveBuildingTile(PlantType.MOTHERTREE);
         if (spawnedObject != null)
         {
-            motherTree = spawnedObject.GetComponent<MotherTree>();   
+            motherTree = spawnedObject.GetComponent<MotherTreeOrchestrator>();   
         }
         AIController.Instance.UpdateAIGrid();
     }
@@ -121,16 +122,28 @@ public class GameManager : MonoBehaviour
 
     public float GetWaterConsumption()
     {
+        if (motherTree == null)
+        {
+            return 0f;
+        }
         return motherTree.GetWaterConsumption() * waterConsumptionMultiplier;
     }
 
     public float GetEnergyGeneration()
     {
+        if (motherTree == null)
+        {
+            return 0f;
+        }
         return motherTree.GetEnergyGeneration() * productionMultiplier;
     }
 
     public float GetWaterGeneration()
     {
+        if (motherTree == null)
+        {
+            return 0f;
+        }
         return motherTree.GetWaterGeneration() * waterGenerationMultiplier;
     }
 

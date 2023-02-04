@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2986839224248199382}
   - component: {fileID: -7978086162010728938}
+  - component: {fileID: 8164155232609887389}
+  - component: {fileID: 9124723791876453620}
   m_Layer: 0
   m_Name: MotherTree
   m_TagString: Untagged
@@ -45,6 +47,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 285e730b3c8c4f76aaaa9d059380f983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8164155232609887389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2470118987408562047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e32a03a995a43dfa7c41e1739328b5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9124723791876453620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2470118987408562047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d87f86543f0f94c8f7335a74eb3cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBar: {fileID: 0}
+  Health: 0
+  MaxHealth: 100
+  LerpSpeed: 0
+  isEnnemy: 0
 --- !u!1001 &4048981570656780560
 PrefabInstance:
   m_ObjectHideFlags: 0

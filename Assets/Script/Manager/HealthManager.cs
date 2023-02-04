@@ -78,4 +78,8 @@ public class HealthManager : MonoBehaviour
         DestroyImmediate(this.gameObject);
     }
 
+    public float GetHealth()
+    {
+        return Health;
+    }
 }
