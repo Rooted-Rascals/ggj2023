@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Script.Decorators;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public enum TileType
 {
@@ -17,27 +19,28 @@ public class Tile : MonoBehaviour
     private Vector3Int Position;
 
     [SerializeField]
-    private GameObject Halo;
-    [SerializeField]
     private GameObject FogOfWar;
 
     [SerializeField]
     private TileType CurrentTyleType;
 
     [SerializeField]
-    private TileBuildingType CurrentBuildingType;
+    private List<TileBuildingType> CurrentBuildingType;
 
     private List<Tile> Neighbours = new List<Tile>();
 
     public List<TileBuilding> Buildings;
+    public List<RootsOnTile> Roots;
     public List<TileDecorator> TileDecorators;
     
     public void Awake()
     {
         TileDecorators = GetComponentsInChildren<TileDecorator>().ToList();
         Buildings = GetComponentsInChildren<TileBuilding>().ToList();
+        Roots = GetComponentsInChildren<RootsOnTile>().ToList();
         SetNeighboursTile(new List<Tile>());
         SetActiveBuildingTile(TileBuildingType.NONE);
+        Roots.ForEach(b => b.gameObject.SetActive(false));
     }
 
     public void SetNeighboursTile(List<Tile> neighbours)
@@ -45,12 +48,32 @@ public class Tile : MonoBehaviour
         Neighbours = neighbours;
     }
 
+    public List<Tile> GetNeighboursTile()
+    {
+        return Neighbours;
+    }
+
+    public List<TileBuildingType> GetBuildingsTile()
+    {
+        return CurrentBuildingType;
+    }
+
     public void SetActiveBuildingTile(TileBuildingType type)
     {
+        CurrentBuildingType.Add(type);
         Buildings.ForEach(b => b.gameObject.SetActive(false));
         if(type != TileBuildingType.NONE)
             Buildings.FirstOrDefault(b => b.type == type).gameObject.SetActive(true);
-        
+
+        SetNeighboursActive();
+    }
+
+    public void SetRootsTile(RootsType type)
+    {
+        Roots.FirstOrDefault(b => b.type == type).gameObject.SetActive(true);
+        gameObject.GetComponentInChildren<TileDecorator>().RootsList.Add(type);
+        gameObject.GetComponentInChildren<TileDecorator>().hasRoots = true;
+
         SetNeighboursActive();
     }
 
@@ -88,9 +111,8 @@ public class Tile : MonoBehaviour
         Position = newPosition;
     }
 
-
-    public void SetHalo(bool value)
+    public Vector3Int GetPosition()
     {
-        Halo.SetActive(value);
+        return Position;
     }
 }

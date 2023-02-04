@@ -6,7 +6,12 @@ public enum TileBuildingType
 {
     NONE,
     MotherTree,
-    Roots
+    Rootsx,
+    Rootsx_minus,
+    Rootsy,
+    Rootsy_minus,
+    Rootsz,
+    Rootsz_minus,
 };
 
 public class TileBuilding : MonoBehaviour
