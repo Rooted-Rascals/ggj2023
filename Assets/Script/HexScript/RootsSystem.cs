@@ -3,6 +3,7 @@ using Script.Manager;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Script.Decorators.Buildings;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -50,10 +51,10 @@ public class RootsSystem : MonoBehaviour
 
         foreach (Tile neighbour in neighbours)
         {
-            List<TileBuildingType> ActiveBuildingType = neighbour.GetBuildingsTile();
+            TileBuildingType ActiveBuildingType = neighbour.GetCurrentBuildingType();
             Vector3Int neighbourPosition = neighbour.GetPosition();
 
-            if (ActiveBuildingType.Contains(TileBuildingType.MotherTree))
+            if (ActiveBuildingType == TileBuildingType.MOTHERTREE)
             {
                 
                 print(neighbour.GetComponentInChildren<TileDecorator>().hasRoots);
