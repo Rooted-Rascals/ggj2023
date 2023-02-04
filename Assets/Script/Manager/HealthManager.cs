@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
@@ -20,9 +22,7 @@ public class HealthManager : MonoBehaviour
     [SerializeField]
     private float Height = 3.0f;
 
-    UnityEvent _OnDeath;
-
-
+    public UnityEvent onDeath;
     GameObject HealthBar;
 
     private void Awake()
@@ -33,8 +33,11 @@ public class HealthManager : MonoBehaviour
         HealthBar = Instantiate(Resources.Load("Prefab/HealthBar"), new Vector3(0,Height,0), Quaternion.identity) as GameObject;
         HealthBar.transform.parent = gameObject.transform;
         HealthBarImage = HealthBar.GetComponentInChildren<Image>();
+    }
 
-        _OnDeath.AddListener(OnDeath);
+    private void Start()
+    {
+        onDeath.AddListener(OnDeath);
     }
 
     private void Update()
@@ -59,7 +62,7 @@ public class HealthManager : MonoBehaviour
         if(Health < 0)
         {
             Health = 0;
-            _OnDeath.Invoke();
+            onDeath.Invoke();
         }
     }
 
