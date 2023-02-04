@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
     [SerializeField]
-    private Image HealthBar;
+    private Image HealthBarImage;
 
     [SerializeField]
     private float Health, MaxHealth = 100f;
@@ -16,11 +17,22 @@ public class HealthManager : MonoBehaviour
     [SerializeField]
     private bool isEnnemy = false;
 
+    [SerializeField]
+    private float Height = 3.0f;
+
+    UnityEvent _ObjectDeath;
+
+
+    GameObject HealthBar;
+
     private void Start()
     {
         Health = MaxHealth;
         if (isEnnemy)
-            HealthBar.color = Color.red;
+            HealthBarImage.color = Color.red;
+        HealthBar = Instantiate(Resources.Load("Prefab/HealthBar"), new Vector3(0,Height,0), Quaternion.identity) as GameObject;
+        HealthBar.transform.parent = gameObject.transform;
+        HealthBarImage = HealthBar.GetComponentInChildren<Image>();
     }
 
     private void Update()
@@ -35,7 +47,7 @@ public class HealthManager : MonoBehaviour
 
     public void HealthBarFiller()
     {
-        HealthBar.fillAmount = Mathf.Lerp(HealthBar.fillAmount, Health / MaxHealth, LerpSpeed);
+        HealthBarImage.fillAmount = Mathf.Lerp(HealthBarImage.fillAmount, Health / MaxHealth, LerpSpeed);
     }
 
 
