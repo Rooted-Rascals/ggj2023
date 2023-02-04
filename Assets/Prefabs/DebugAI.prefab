@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8586381379816376722}
   - component: {fileID: 3434985848417036414}
   - component: {fileID: 4025847263969822449}
+  - component: {fileID: -4664927333800568344}
   - component: {fileID: 9073942672465627093}
   m_Layer: 0
   m_Name: DebugAI
@@ -98,6 +99,27 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4664927333800568344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258272597870032622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d87f86543f0f94c8f7335a74eb3cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarImage: {fileID: 0}
+  Health: 0
+  MaxHealth: 100
+  LerpSpeed: 0
+  isEnnemy: 1
+  Height: 3
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &9073942672465627093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,4 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9761f0f645722f7419539c3b26fec9f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 2.2
+  movementSpeed: 2.3
+  movementSpeedModifier: 1
+  attackRange: 1
+  attackDelay: 3
+  attackDamage: 5

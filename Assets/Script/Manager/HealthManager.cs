@@ -28,11 +28,12 @@ public class HealthManager : MonoBehaviour
     private void Awake()
     {
         Health = MaxHealth;
-        if (isEnnemy)
-            HealthBarImage.color = Color.red;
-        HealthBar = Instantiate(Resources.Load("Prefab/HealthBar"), new Vector3(0,Height,0), Quaternion.identity) as GameObject;
+        Vector3 healthBarPosition = new Vector3(transform.position.x, Height, transform.position.z);
+        HealthBar = Instantiate(Resources.Load("Prefab/HealthBar"),  healthBarPosition, Quaternion.identity) as GameObject;
         HealthBar.transform.parent = gameObject.transform;
         HealthBarImage = HealthBar.GetComponentInChildren<Image>();
+        if (isEnnemy)
+            HealthBarImage.color = Color.red;
     }
 
     private void Start()
@@ -78,4 +79,8 @@ public class HealthManager : MonoBehaviour
         DestroyImmediate(this.gameObject);
     }
 
+    public float GetHealth()
+    {
+        return Health;
+    }
 }

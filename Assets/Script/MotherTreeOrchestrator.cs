@@ -2,7 +2,7 @@
 
 namespace Script
 {
-    public class MotherTree : MonoBehaviour
+    public class MotherTreeOrchestrator : MonoBehaviour
     {
         private float defaultWaterConsumption = 10f;
         private float defaultEnergyGeneration = 3f;

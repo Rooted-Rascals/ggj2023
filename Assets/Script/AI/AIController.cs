@@ -127,7 +127,7 @@ public class AIController : MonoBehaviour
 
     private void UpdateAIs()
     {
-        MotherTree motherTree = GameManager.Instance.GetMotherTree();
+        MotherTreeOrchestrator motherTree = GameManager.Instance.GetMotherTree();
         foreach (AI ai in aiList)
         {
             Vector3 target = aiTargets[ai];
@@ -150,7 +150,7 @@ public class AIController : MonoBehaviour
                 }
             }
 
-            if (ai.IsInAttackRange(motherTree.transform.position))
+            if (motherTree != null && ai.IsInAttackRange(motherTree.transform.position))
             {
                 ai.Attack(motherTree.GameObject());
             }

@@ -74,17 +74,19 @@ public class Tile : MonoBehaviour
         return Neighbours;
     }
 
-    public void SetActiveBuildingTile(PlantType type)
+    public GameObject SetActiveBuildingTile(PlantType type)
     {
         if(CurrentBuilding is not null || type == PlantType.NONE)
             Destroy(CurrentBuilding);
 
         if (type == PlantType.NONE)
-            return;
-        
-        CurrentBuilding = Instantiate(BuildingCache[type], BuildingSpawn).GetComponent<Plant>();
+            return null;
+
+        GameObject createdObject = Instantiate(BuildingCache[type], BuildingSpawn);
+        CurrentBuilding = createdObject.GetComponent<Plant>();
         CurrentBuilding.transform.SetParent(transform);
         SetNeighboursActive(3);
+        return createdObject;
     }
 
     public void SetRootsTile(RootsType type)
