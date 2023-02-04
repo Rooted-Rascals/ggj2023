@@ -28,9 +28,8 @@ public class Tile : MonoBehaviour
     [SerializeField]
     private Transform BuildingSpawn;
 
-    [SerializeField]
-    private BuildingDecorator CurrentBuilding;
-    
+    public BuildingDecorator CurrentBuilding { get; private set; }
+
     private List<Tile> Neighbours = new List<Tile>();
 
     public List<TileDecorator> TileDecorators;
@@ -38,10 +37,13 @@ public class Tile : MonoBehaviour
     public float AICost { get; set; } = float.MaxValue;
     public static Dictionary<TileBuildingType, GameObject> BuildingCache = null;
     
+    public List<RootsOnTile> Roots;
+    
     public void Awake()
     {
         GenerateBuildingCache();
         TileDecorators = GetComponentsInChildren<TileDecorator>().ToList();
+        Roots = GetComponentsInChildren<RootsOnTile>().ToList();
         SetNeighboursTile(new List<Tile>());
         SetActiveBuildingTile(TileBuildingType.NONE);
         Roots.ForEach(b => b.gameObject.SetActive(false));
@@ -58,7 +60,7 @@ public class Tile : MonoBehaviour
         foreach (Object building in Resources.LoadAll("Buildings"))
         {
             BuildingDecorator decorator = building.GetComponent<BuildingDecorator>();
-            BuildingCache.Add(decorator.TypeBuilder, building.GameObject());
+            BuildingCache.Add(decorator.BuildingType, building.GameObject());
         }
     }
 
@@ -70,11 +72,6 @@ public class Tile : MonoBehaviour
     public List<Tile> GetNeighboursTile()
     {
         return Neighbours;
-    }
-
-    public List<TileBuildingType> GetBuildingsTile()
-    {
-        return CurrentBuildingType;
     }
 
     public void SetActiveBuildingTile(TileBuildingType type)
@@ -135,5 +132,10 @@ public class Tile : MonoBehaviour
     public Vector3Int GetPosition()
     {
         return Position;
+    }
+
+    public TileBuildingType GetCurrentBuildingType()
+    {
+        return CurrentBuilding?.BuildingType ?? TileBuildingType.NONE;
     }
 }

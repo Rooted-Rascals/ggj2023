@@ -2,6 +2,6 @@
 {
     public class MotherTreeDecorator : BuildingDecorator
     {
-        public override TileBuildingType TypeBuilder => TileBuildingType.MOTHERTREE;
+        public override TileBuildingType BuildingType => TileBuildingType.MOTHERTREE;
     }
 }

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -9,10 +10,13 @@ namespace Script.Decorators
 
         public bool hasMotherTree = false;
 
+        
         #region Roots
 
         public bool hasRoots = false;
         public virtual bool CanBuildRoots => !hasRoots;
+
+        public List<RootsType> RootsList = new List<RootsType>();
 
         #endregion
 

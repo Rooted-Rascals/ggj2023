@@ -2,6 +2,6 @@
 {
     public class CactusDecorator : BuildingDecorator
     {
-        public override TileBuildingType TypeBuilder => TileBuildingType.CACTUS;
+        public override TileBuildingType BuildingType => TileBuildingType.CACTUS;
     }
 }

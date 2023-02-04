@@ -11,6 +11,6 @@ namespace Script.Decorators.Buildings
     
     public abstract class BuildingDecorator : MonoBehaviour
     {
-        public abstract TileBuildingType TypeBuilder { get; }
+        public abstract TileBuildingType BuildingType { get; }
     }
 }
