@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Script.Decorators;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 
 public class AIPathManager : MonoBehaviour
@@ -136,19 +137,13 @@ public class AIPathManager : MonoBehaviour
         return tileType is TileType.Rock or TileType.Water;
     }
 
-    void Update()
+    void OnDrawGizmos()
     {
         // Debug Helping Code
-        if (debugEnable)
+        foreach (Tile tile in tilesManager.GetTiles())
         {
-            foreach (Tile tile in tilesManager.GetTiles())
-            {
-                TextMeshProUGUI ui = tile.GetComponentInChildren<TextMeshProUGUI>();
-                if (ui)
-                {
-                    ui.text = $"{tile.AICost}";
-                }
-            }
+            string label = float.MaxValue == tile.AICost ? "INF" : $"{tile.AICost}";
+            Handles.Label(tile.transform.position + Vector3.up * 1.5f, label);
         }
     }
 
