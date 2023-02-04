@@ -53,7 +53,6 @@ public class RootsSystem : MonoBehaviour
             {
                 if (NeighboursDirection.TryGetValue(position - neighbourPosition, out string direction))
                 {
-                    print("neighbour");
                     switch (direction)
                     {
                         case "x":

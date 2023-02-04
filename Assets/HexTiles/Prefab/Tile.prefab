@@ -55,7 +55,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Position: {x: 0, y: 0, z: 0}
   FogOfWar: {fileID: 6004241427659724156}
-  CurrentTyleType: 0
   BuildingSpawn: {fileID: 4058670800010238377}
   TileDecorators: []
   Roots: []

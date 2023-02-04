@@ -7,22 +7,23 @@ namespace Script.Decorators
     public abstract class TileDecorator : MonoBehaviour
     {
         public abstract TileType Type { get; }
-
-        public bool hasMotherTree = false;
-
+        public bool IsVisible { get; set; } = false;
         
         #region Roots
 
         public bool hasRoots = false;
         public virtual bool CanBuildRoots => !hasRoots && 
-            RootsSystem.CheckNeighboursForRoots(gameObject.GetComponentInParent<Tile>());
+            RootsSystem.CheckNeighboursForRoots(gameObject.GetComponentInParent<Tile>()) &&
+            IsVisible;
 
         public List<RootsType> RootsList = new List<RootsType>();
 
         #endregion
 
-        public bool hasCactus = false;
+        #region Cactus
 
-        
+        public virtual bool CanBuildCactus => false;
+
+        #endregion
     }
 }

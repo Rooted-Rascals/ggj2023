@@ -21,9 +21,7 @@ public class Tile : MonoBehaviour
 
     [SerializeField]
     private GameObject FogOfWar;
-
-    [SerializeField]
-    private TileType CurrentTyleType;
+    public TileDecorator CurrentTyleDecorator { get; private set; }
 
     [SerializeField]
     private Transform BuildingSpawn;
@@ -61,6 +59,7 @@ public class Tile : MonoBehaviour
         {
             BuildingDecorator decorator = building.GetComponent<BuildingDecorator>();
             BuildingCache.Add(decorator.BuildingType, building.GameObject());
+            Debug.Log($"Found {decorator.BuildingType.ToString()}");
         }
     }
 
@@ -123,21 +122,22 @@ public class Tile : MonoBehaviour
 
     public TileType GetTileType()
     {
-        return CurrentTyleType;
+        return CurrentTyleDecorator.Type;
     }
     
     public void SetActiveTile(TileType type, bool fogOfWar)
     {
-        CurrentTyleType = type;
+        CurrentTyleDecorator = TileDecorators.FirstOrDefault(b => b.Type == type);
+        CurrentTyleDecorator.IsVisible = !fogOfWar;
+        
         TileDecorators.ForEach(b => b.gameObject.SetActive(false)) ;
         if (fogOfWar)
             FogOfWar.SetActive(true);
         else
         {
             FogOfWar.SetActive(false);
-            TileDecorators.FirstOrDefault(b => b.Type == type).gameObject.SetActive(true);
+            CurrentTyleDecorator.gameObject.SetActive(true);
         }
-            
     }
 
     public void SetPosition(Vector3Int newPosition)

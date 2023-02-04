@@ -6,9 +6,5 @@ namespace Script.Decorators
     {
         public override TileType Type => TileType.Rock;
         public override bool CanBuildRoots => false;
-        private void Start()
-        {
-            
-        }
     }
 }
