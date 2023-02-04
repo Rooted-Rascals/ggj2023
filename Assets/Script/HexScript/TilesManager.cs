@@ -26,8 +26,6 @@ public class TilesManager : MonoBehaviour
             new Vector3Int(-1, 0, 1)
         };
 
-
-    // Start is called before the first frame update
     void Awake()
     {
 
@@ -64,18 +62,12 @@ public class TilesManager : MonoBehaviour
             }
         }
 
-
-
         foreach(KeyValuePair <Vector3Int, Tile> tile  in tilesMaps)
         {
             List<Tile> neighbours = GetNeighbours(tile.Value, tile.Key);
             tile.Value.GetComponent<Tile>().SetNeighboursTile(neighbours);
         }
-
-        Tile spawn = tilesMaps[new Vector3Int(0, 0, 0)];
-
-        spawn.GetComponent<Tile>().SetActiveTile(BiomeType.Grass, false);
-        spawn.SetActiveBuildingTile(PlantType.MOTHERTREE);
+        
         AIController.Instance.UpdateAIGrid();
     }
 

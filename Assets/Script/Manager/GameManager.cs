@@ -2,9 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
-using Script;
+using Script.Decorators.Plants;
 using UnityEditor.Search;
 using UnityEngine;
+using MotherTree = Script.MotherTree;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TilesManager tilesManager;
     [SerializeField] private ResourcesManager resourcesManager;
     [SerializeField] MotherTree motherTreePrefab;
+    [SerializeField] private float decayDamage = 3f;
     private MotherTree motherTree;
 
     public MotherTree GetMotherTree()
@@ -70,7 +72,11 @@ public class GameManager : MonoBehaviour
     {
         waitingTime = 0f;
         Tile spawnTile = tilesManager.GetTile(new Vector3Int(0, 0, 0));
-        motherTree = Instantiate(motherTreePrefab, spawnTile.transform.position, Quaternion.identity);
+        
+        spawnTile.GetComponent<Tile>().SetActiveTile(BiomeType.Grass, false);
+        spawnTile.SetActiveBuildingTile(PlantType.MOTHERTREE);
+        motherTree = Instantiate(motherTreePrefab, spawnTile.transform.position + Vector3.up * 0.3f, Quaternion.identity);
+        AIController.Instance.UpdateAIGrid();
     }
 
     private void UpdateResources()
@@ -105,7 +111,8 @@ public class GameManager : MonoBehaviour
     {
         if (resourcesManager.GetWaterCount() <= 0)
         {
-            // TODO : Hurt tree life
+            HealthManager health = motherTree.GetComponent<HealthManager>();
+            health.Damage(decayDamage);
         }
     }
 
