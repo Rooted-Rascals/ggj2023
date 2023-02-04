@@ -74,8 +74,11 @@ public class GameManager : MonoBehaviour
         Tile spawnTile = tilesManager.GetTile(new Vector3Int(0, 0, 0));
         
         spawnTile.GetComponent<Tile>().SetActiveTile(BiomeType.Grass, false);
-        spawnTile.SetActiveBuildingTile(PlantType.MOTHERTREE);
-        motherTree = Instantiate(motherTreePrefab, spawnTile.transform.position + Vector3.up * 0.3f, Quaternion.identity);
+        GameObject spawnedObject = spawnTile.SetActiveBuildingTile(PlantType.MOTHERTREE);
+        if (spawnedObject != null)
+        {
+            motherTree = spawnedObject.GetComponent<MotherTree>();   
+        }
         AIController.Instance.UpdateAIGrid();
     }
 
