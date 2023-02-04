@@ -1,6 +1,9 @@
 using Script.Manager;
 using System.Collections;
 using System.Collections.Generic;
+using Script.Decorators;
+using Script.Decorators.Buildings;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -77,7 +80,9 @@ public class TilesManager : MonoBehaviour
         Tile spawn = tilesMaps[new Vector3Int(0, 0, 0)];
 
         spawn.GetComponent<Tile>().SetActiveTile(TileType.Grass, false);
-        spawn.GetComponent<Tile>().SetActiveBuildingTile(TileBuildingType.MotherTree);
+        spawn.GetComponentInChildren<TileDecorator>().hasMotherTree = true;
+        spawn.SetActiveBuildingTile(TileBuildingType.MOTHERTREE);
+        //spawn.GetComponent<Tile>().SetActiveBuildingTile(TileBuildingType.MotherTree);
     }
 
     private void InstantiateTile(Vector3Int position)

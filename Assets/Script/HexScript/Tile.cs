@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Script.Decorators;
-using UnityEditor;
+using Script.Decorators.Buildings;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using Object = UnityEngine.Object;
 
 public enum TileType
 {
@@ -25,24 +26,40 @@ public class Tile : MonoBehaviour
     private TileType CurrentTyleType;
 
     [SerializeField]
-    private List<TileBuildingType> CurrentBuildingType;
+    private Transform BuildingSpawn;
 
+    [SerializeField]
+    private BuildingDecorator CurrentBuilding;
+    
     private List<Tile> Neighbours = new List<Tile>();
 
-    public List<TileBuilding> Buildings;
-    public List<RootsOnTile> Roots;
     public List<TileDecorator> TileDecorators;
 
     public float AICost { get; set; } = float.MaxValue;
+    public static Dictionary<TileBuildingType, GameObject> BuildingCache = null;
     
     public void Awake()
     {
+        GenerateBuildingCache();
         TileDecorators = GetComponentsInChildren<TileDecorator>().ToList();
-        Buildings = GetComponentsInChildren<TileBuilding>().ToList();
-        Roots = GetComponentsInChildren<RootsOnTile>().ToList();
         SetNeighboursTile(new List<Tile>());
         SetActiveBuildingTile(TileBuildingType.NONE);
         Roots.ForEach(b => b.gameObject.SetActive(false));
+    }
+
+    public void GenerateBuildingCache()
+    {
+        if (BuildingCache is not null) 
+            return;
+        
+        BuildingCache = new Dictionary<TileBuildingType, GameObject>();
+        
+        //We load all prefabs in the Buildings folder.
+        foreach (Object building in Resources.LoadAll("Buildings"))
+        {
+            BuildingDecorator decorator = building.GetComponent<BuildingDecorator>();
+            BuildingCache.Add(decorator.TypeBuilder, building.GameObject());
+        }
     }
 
     public void SetNeighboursTile(List<Tile> neighbours)
@@ -62,11 +79,14 @@ public class Tile : MonoBehaviour
 
     public void SetActiveBuildingTile(TileBuildingType type)
     {
-        CurrentBuildingType.Add(type);
-        Buildings.ForEach(b => b.gameObject.SetActive(false));
-        if(type != TileBuildingType.NONE)
-            Buildings.FirstOrDefault(b => b.type == type).gameObject.SetActive(true);
+        if(CurrentBuilding is not null || type == TileBuildingType.NONE)
+            Destroy(CurrentBuilding);
 
+        if (type == TileBuildingType.NONE)
+            return;
+        
+        CurrentBuilding = Instantiate(BuildingCache[type], BuildingSpawn).GetComponent<BuildingDecorator>();
+        CurrentBuilding.transform.SetParent(transform);
         SetNeighboursActive();
     }
 
@@ -85,7 +105,6 @@ public class Tile : MonoBehaviour
         {
             TileType type = item.GetComponent<Tile>().GetTileType();
             item.GetComponent<Tile>().SetActiveTile(type, false);
-            
         }
     }
 

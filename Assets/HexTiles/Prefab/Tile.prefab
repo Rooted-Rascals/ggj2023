@@ -75,6 +75,7 @@ Transform:
   - {fileID: 4462740298255472364}
   - {fileID: 5318009845452006120}
   - {fileID: 9039895629766611486}
+  - {fileID: 5662513103857302479}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -453,6 +454,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e1cd4f9c134a2584ddedb25fa95f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasMotherTree: 0
   hasRoots: 0
   RootsList: 
   hasCactus: 0
@@ -712,6 +714,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ca944cbb7f74bb99c055ee5e163493d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasMotherTree: 0
   hasRoots: 0
   RootsList: 
   hasCactus: 0
@@ -811,6 +814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74bc9c80222a47f29c8c1568f52ff60d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasMotherTree: 0
   hasRoots: 0
   RootsList: 
   hasCactus: 0
@@ -907,6 +911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88d23a345d274f1f8ebe1ef530724b9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasMotherTree: 0
   hasRoots: 0
   RootsList: 
   hasCactus: 0
