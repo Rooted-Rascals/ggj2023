@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Script.Decorators;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -29,14 +30,17 @@ public class Tile : MonoBehaviour
     private List<Tile> Neighbours = new List<Tile>();
 
     public List<TileBuilding> Buildings;
+    public List<RootsOnTile> Roots;
     public List<TileDecorator> TileDecorators;
     
     public void Awake()
     {
         TileDecorators = GetComponentsInChildren<TileDecorator>().ToList();
         Buildings = GetComponentsInChildren<TileBuilding>().ToList();
+        Roots = GetComponentsInChildren<RootsOnTile>().ToList();
         SetNeighboursTile(new List<Tile>());
         SetActiveBuildingTile(TileBuildingType.NONE);
+        Roots.ForEach(b => b.gameObject.SetActive(false));
     }
 
     public void SetNeighboursTile(List<Tile> neighbours)
@@ -60,7 +64,16 @@ public class Tile : MonoBehaviour
         Buildings.ForEach(b => b.gameObject.SetActive(false));
         if(type != TileBuildingType.NONE)
             Buildings.FirstOrDefault(b => b.type == type).gameObject.SetActive(true);
-        
+
+        SetNeighboursActive();
+    }
+
+    public void SetRootsTile(RootsType type)
+    {
+        Roots.FirstOrDefault(b => b.type == type).gameObject.SetActive(true);
+        gameObject.GetComponentInChildren<TileDecorator>().RootsList.Add(type);
+        gameObject.GetComponentInChildren<TileDecorator>().hasRoots = true;
+
         SetNeighboursActive();
     }
 
