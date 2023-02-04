@@ -8,8 +8,7 @@ public class LookAtCamera : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var canvas = GetComponent<Canvas>();
-        _camera = canvas.worldCamera;
+        _camera = Camera.main;
     }
 
     // Update is called once per frame
