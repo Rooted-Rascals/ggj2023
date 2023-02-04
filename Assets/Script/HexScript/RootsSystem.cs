@@ -83,6 +83,7 @@ public class RootsSystem : MonoBehaviour
                             Tile.SetRootsTile(RootsType.Rootsz_minus);
                             break;
                     }
+                    break;
                 }
                     
             }
@@ -120,6 +121,7 @@ public class RootsSystem : MonoBehaviour
                             neighbour.SetRootsTile(RootsType.Rootsz);
                             break;
                     }
+                    break;
                 }
            }
             
