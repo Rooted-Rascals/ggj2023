@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Script.Decorators;
+using Script.Decorators.Biomes;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
@@ -91,8 +92,8 @@ public class AIPathManager : MonoBehaviour
 
             foreach (Tile neighbour in visiting.GetNeighboursTile())
             {
-                TileDecorator tileDecorator = neighbour.GetComponentInChildren<TileDecorator>();
-                if (tileDecorator == null)
+                Biome biome = neighbour.GetComponentInChildren<Biome>();
+                if (biome == null)
                 {
                     if (!TileIsBlocker(neighbour))
                     {
@@ -113,9 +114,9 @@ public class AIPathManager : MonoBehaviour
 
     private bool TileIsBlocker(Tile tile)
     {
-        TileType tileType = tile.GetTileType();
+        BiomeType biomeType = tile.GetTileType();
 
-        return tileType is TileType.Rock or TileType.Water;
+        return biomeType is BiomeType.Rock or BiomeType.Water;
     }
 
     void OnDrawGizmos()

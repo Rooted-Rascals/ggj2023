@@ -1,11 +1,6 @@
-using Script.Manager;
-using System.Collections;
 using System.Collections.Generic;
-using Script.Decorators;
-using Script.Decorators.Buildings;
-using Unity.VisualScripting;
+using Script.Decorators.Plants;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class TilesManager : MonoBehaviour
 {
@@ -79,8 +74,8 @@ public class TilesManager : MonoBehaviour
 
         Tile spawn = tilesMaps[new Vector3Int(0, 0, 0)];
 
-        spawn.GetComponent<Tile>().SetActiveTile(TileType.Grass, false);
-        spawn.SetActiveBuildingTile(TileBuildingType.MOTHERTREE);
+        spawn.GetComponent<Tile>().SetActiveTile(BiomeType.Grass, false);
+        spawn.SetActiveBuildingTile(PlantType.MOTHERTREE);
         AIController.Instance.UpdateAIGrid();
     }
 
@@ -94,18 +89,18 @@ public class TilesManager : MonoBehaviour
         if(position.x == gridsize || position.x == -gridsize ||
            position.y == gridsize || position.y == -gridsize ||
            position.z == gridsize || position.z == -gridsize)
-            t.GetComponent<Tile>().SetActiveTile(TileType.Rock, true);
+            t.GetComponent<Tile>().SetActiveTile(BiomeType.Rock, true);
         else
         {
             int xcount = Random.Range(1, 11);
             if (xcount == 3)
-                t.GetComponent<Tile>().SetActiveTile(TileType.Water, true);
+                t.GetComponent<Tile>().SetActiveTile(BiomeType.Water, true);
             else if (xcount == 4)
-                t.GetComponent<Tile>().SetActiveTile(TileType.Rock, true);
+                t.GetComponent<Tile>().SetActiveTile(BiomeType.Rock, true);
             else if (xcount <= 2)
-                t.GetComponent<Tile>().SetActiveTile(TileType.Sand, true);
+                t.GetComponent<Tile>().SetActiveTile(BiomeType.Sand, true);
             else
-                t.GetComponent<Tile>().SetActiveTile(TileType.Grass, true);
+                t.GetComponent<Tile>().SetActiveTile(BiomeType.Grass, true);
         }
         tilesMaps.Add(position, t);
         tiles.Add(t);

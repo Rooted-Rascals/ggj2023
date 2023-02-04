@@ -1,6 +1,4 @@
-﻿using Script.Decorators;
-using Script.Decorators.Buildings;
-using Unity.VisualScripting;
+﻿using Script.Decorators.Plants;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -51,7 +49,7 @@ namespace Script.Manager
 
         public void BuildCactus()
         {
-            currentTile.SetActiveBuildingTile(TileBuildingType.CACTUS);
+            currentTile.SetActiveBuildingTile(PlantType.CACTUS);
             
             RefreshMenu();
         }

@@ -1,13 +1,23 @@
 using System.Collections.Generic;
+using Script.Decorators.Plants;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Script.Decorators
+namespace Script.Decorators.Biomes
 {
-    public abstract class TileDecorator : MonoBehaviour
+    public abstract class Biome : MonoBehaviour
     {
-        public abstract TileType Type { get; }
+        private Tile _ownerTile;
+        
+        public void Awake()
+        {
+            _ownerTile = GetComponentInParent<Tile>();
+        }
+
+        public abstract BiomeType Type { get; }
         public bool IsVisible { get; set; } = false;
+
+        protected bool HasABuilding => CurrentPlantType != PlantType.NONE;
+        private PlantType CurrentPlantType => _ownerTile.CurrentBuilding?.PlantType ?? PlantType.NONE;
         
         #region Roots
 

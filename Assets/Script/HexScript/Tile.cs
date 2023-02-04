@@ -1,13 +1,13 @@
 #nullable enable
 using System.Collections.Generic;
 using System.Linq;
-using Script.Decorators;
-using Script.Decorators.Buildings;
+using Script.Decorators.Biomes;
+using Script.Decorators.Plants;
 using Unity.VisualScripting;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public enum TileType
+public enum BiomeType
 {
     Grass,
     Water,
@@ -22,29 +22,29 @@ public class Tile : MonoBehaviour
 
     [SerializeField]
     private GameObject FogOfWar;
-    public TileDecorator CurrentTyleDecorator { get; private set; }
+    public Biome CurrentTyleDecorator { get; private set; }
 
     [SerializeField]
     private Transform BuildingSpawn;
 
-    public BuildingDecorator CurrentBuilding { get; private set; }
+    public Plant CurrentBuilding { get; private set; }
 
     private List<Tile> Neighbours = new List<Tile>();
 
-    public List<TileDecorator> TileDecorators;
+    public List<Biome> TileDecorators;
 
     public float AICost { get; set; } = float.MaxValue;
-    public static Dictionary<TileBuildingType, GameObject> BuildingCache = null;
+    public static Dictionary<PlantType, GameObject> BuildingCache = null;
     
     public List<RootsOnTile> Roots;
     
     public void Awake()
     {
         GenerateBuildingCache();
-        TileDecorators = GetComponentsInChildren<TileDecorator>().ToList();
+        TileDecorators = GetComponentsInChildren<Biome>().ToList();
         Roots = GetComponentsInChildren<RootsOnTile>().ToList();
         SetNeighboursTile(new List<Tile>());
-        SetActiveBuildingTile(TileBuildingType.NONE);
+        SetActiveBuildingTile(PlantType.NONE);
         Roots.ForEach(b => b.gameObject.SetActive(false));
     }
 
@@ -53,14 +53,14 @@ public class Tile : MonoBehaviour
         if (BuildingCache is not null) 
             return;
         
-        BuildingCache = new Dictionary<TileBuildingType, GameObject>();
+        BuildingCache = new Dictionary<PlantType, GameObject>();
         
         //We load all prefabs in the Buildings folder.
         foreach (Object building in Resources.LoadAll("Buildings"))
         {
-            BuildingDecorator decorator = building.GetComponent<BuildingDecorator>();
-            BuildingCache.Add(decorator.BuildingType, building.GameObject());
-            Debug.Log($"Found {decorator.BuildingType.ToString()}");
+            Plant decorator = building.GetComponent<Plant>();
+            BuildingCache.Add(decorator.PlantType, building.GameObject());
+            Debug.Log($"Found {decorator.PlantType.ToString()}");
         }
     }
 
@@ -74,15 +74,15 @@ public class Tile : MonoBehaviour
         return Neighbours;
     }
 
-    public void SetActiveBuildingTile(TileBuildingType type)
+    public void SetActiveBuildingTile(PlantType type)
     {
-        if(CurrentBuilding is not null || type == TileBuildingType.NONE)
+        if(CurrentBuilding is not null || type == PlantType.NONE)
             Destroy(CurrentBuilding);
 
-        if (type == TileBuildingType.NONE)
+        if (type == PlantType.NONE)
             return;
         
-        CurrentBuilding = Instantiate(BuildingCache[type], BuildingSpawn).GetComponent<BuildingDecorator>();
+        CurrentBuilding = Instantiate(BuildingCache[type], BuildingSpawn).GetComponent<Plant>();
         CurrentBuilding.transform.SetParent(transform);
         SetNeighboursActive(3);
     }
@@ -90,8 +90,8 @@ public class Tile : MonoBehaviour
     public void SetRootsTile(RootsType type)
     {
         Roots.FirstOrDefault(b => b.type == type).gameObject.SetActive(true);
-        gameObject.GetComponentInChildren<TileDecorator>().RootsList.Add(type);
-        gameObject.GetComponentInChildren<TileDecorator>().hasRoots = true;
+        gameObject.GetComponentInChildren<Biome>().RootsList.Add(type);
+        gameObject.GetComponentInChildren<Biome>().hasRoots = true;
 
         SetNeighboursActive(1);
     }
@@ -110,7 +110,7 @@ public class Tile : MonoBehaviour
 
                 if (!alreadySeen.Contains(position))
                 {
-                    TileType type = tile.GetTileType();
+                    BiomeType type = tile.GetTileType();
                     tile.SetActiveTile(type, false);
                 }
                 if (size > 1)
@@ -121,12 +121,12 @@ public class Tile : MonoBehaviour
         return alreadySeen;
     }
 
-    public TileType GetTileType()
+    public BiomeType GetTileType()
     {
         return CurrentTyleDecorator.Type;
     }
     
-    public void SetActiveTile(TileType type, bool fogOfWar)
+    public void SetActiveTile(BiomeType type, bool fogOfWar)
     {
         CurrentTyleDecorator = TileDecorators.FirstOrDefault(b => b.Type == type);
         CurrentTyleDecorator.IsVisible = !fogOfWar;
@@ -151,8 +151,8 @@ public class Tile : MonoBehaviour
         return Position;
     }
 
-    public TileBuildingType GetCurrentBuildingType()
+    public PlantType GetCurrentBuildingType()
     {
-        return CurrentBuilding?.BuildingType ?? TileBuildingType.NONE;
+        return CurrentBuilding?.PlantType ?? PlantType.NONE;
     }
 }

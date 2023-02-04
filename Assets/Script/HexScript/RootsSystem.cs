@@ -1,11 +1,8 @@
-using Script.Decorators;
 using Script.Manager;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using Script.Decorators.Buildings;
+using Script.Decorators.Biomes;
+using Script.Decorators.Plants;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public enum RootsType
 {
@@ -46,11 +43,11 @@ public class RootsSystem : MonoBehaviour
 
         foreach (Tile neighbour in neighbours)
         {
-            TileBuildingType ActiveBuildingType = neighbour.GetCurrentBuildingType();
+            PlantType ActiveBuildingType = neighbour.GetCurrentBuildingType();
             Vector3Int neighbourPosition = neighbour.GetPosition();
 
-            TileDecorator tileDecorator = neighbour.gameObject.GetComponentInChildren<TileDecorator>();
-            if (tileDecorator && tileDecorator.hasRoots || ActiveBuildingType == TileBuildingType.MOTHERTREE)
+            Biome biome = neighbour.gameObject.GetComponentInChildren<Biome>();
+            if (biome && biome.hasRoots || ActiveBuildingType == PlantType.MOTHERTREE)
             {
                 if (NeighboursDirection.TryGetValue(position - neighbourPosition, out string direction))
                 {
@@ -96,11 +93,11 @@ public class RootsSystem : MonoBehaviour
 
         foreach (Tile neighbour in neighbours)
         {
-            TileBuildingType ActiveBuildingType = neighbour.GetCurrentBuildingType();
+            PlantType ActiveBuildingType = neighbour.GetCurrentBuildingType();
             Vector3Int neighbourPosition = neighbour.GetPosition();
 
-            TileDecorator tileDecorator = neighbour.gameObject.GetComponentInChildren<TileDecorator>();
-            if (tileDecorator && tileDecorator.hasRoots || ActiveBuildingType == TileBuildingType.MOTHERTREE)
+            Biome biome = neighbour.gameObject.GetComponentInChildren<Biome>();
+            if (biome && biome.hasRoots || ActiveBuildingType == PlantType.MOTHERTREE)
             {
                 isNearRoots = true;
                 break;
