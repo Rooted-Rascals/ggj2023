@@ -1,3 +1,4 @@
+using Script.Manager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +17,7 @@ public class TilesManager : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
 
         for (int i = -gridsize; i <= gridsize; i++)
@@ -64,20 +65,25 @@ public class TilesManager : MonoBehaviour
         if(position.x == gridsize || position.x == -gridsize ||
            position.y == gridsize || position.y == -gridsize ||
            position.z == gridsize || position.z == -gridsize)
-            t.GetComponent<Tile>().SetTileType(2);
+            t.GetComponent<Tile>().SetActiveTile(TileType.Rock, false);
         else
         {
             int xcount = Random.Range(1, 11);
             if (xcount == 3)
-                t.GetComponent<Tile>().SetTileType(1);
+                t.GetComponent<Tile>().SetActiveTile(TileType.Water, false);
             else if (xcount == 4)
-                t.GetComponent<Tile>().SetTileType(2);
+                t.GetComponent<Tile>().SetActiveTile(TileType.Rock, false);
             else if (xcount <= 2)
-                t.GetComponent<Tile>().SetTileType(3);
+                t.GetComponent<Tile>().SetActiveTile(TileType.Sand, false);
+            else
+                t.GetComponent<Tile>().SetActiveTile(TileType.Grass, false);
         }
     }
 
-    // Update is called once per frame
+        /*MouseManager.Instance.onHoverChanged.AddListener((OBJ) => { 
+
+        });*/
+
     void Update()
     {
         
