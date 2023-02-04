@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5984e8749c6e477281eaa849d8a9d1c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waterConsumption: 0
+  waterGeneration: 5
+  energyGeneration: 0
 --- !u!1001 &1153913772970339577
 PrefabInstance:
   m_ObjectHideFlags: 0
