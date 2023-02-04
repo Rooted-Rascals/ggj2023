@@ -11,12 +11,12 @@ namespace Script.Decorators
 
         public bool hasRoots = false;
         public virtual bool CanBuildRoots => !hasRoots;
-        public void BuildRoots()
-        {
-            
-        }
 
         #endregion
+
+        public bool hasCactus = false;
         
+        
+
     }
 }

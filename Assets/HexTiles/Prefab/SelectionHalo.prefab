@@ -412,6 +412,7 @@ GameObject:
   - component: {fileID: 9101411637247551903}
   - component: {fileID: 6161551003056705207}
   - component: {fileID: 2633024891157518971}
+  - component: {fileID: 40579299039953780}
   m_Layer: 0
   m_Name: BuildMenuCanvas
   m_TagString: Untagged
@@ -511,5 +512,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c9779d168524534986bc30761be03c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &40579299039953780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8945917506758740443}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c4a83a3a5b24a6fa8ae78072ba43810, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
