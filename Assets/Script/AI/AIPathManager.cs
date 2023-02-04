@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Script.Decorators;
 using TMPro;
 using UnityEngine;
 
@@ -9,7 +11,7 @@ public class AIPathManager : MonoBehaviour
     private bool debugEnable = false;
     private static AIPathManager INSTANCE;
 
-    public AIPathManager Instance
+    public static AIPathManager Instance
     {
         get
         {
@@ -18,6 +20,12 @@ public class AIPathManager : MonoBehaviour
     }
     
     [SerializeField] private TilesManager tilesManager;
+    private List<Tile> spawnPossibleTiles = new List<Tile>();
+
+    public List<Tile> GetSpawnPossibleTiles()
+    {
+        return spawnPossibleTiles;
+    }
 
     private const uint BASE_COST = 1;
     void Awake()
@@ -33,6 +41,12 @@ public class AIPathManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
+    public void UpdateAIGrid()
+    {
+        UpdateGridAICost();
+        UpdateSpawningGridTiles();
+    }
+    
     void UpdateGridAICost()
     {
         foreach (Tile tile in tilesManager.GetTiles())
@@ -74,6 +88,45 @@ public class AIPathManager : MonoBehaviour
 
             visitedTile.Add(visiting);
         }
+
+        // spawnTile.AICost = float.MaxValue;
+    }
+
+    void UpdateSpawningGridTiles()
+    {
+        HashSet<Tile> visitedTile = new HashSet<Tile>();
+        HashSet<Tile> spawningTiles = new HashSet<Tile>();
+        Queue<Tile> toVisitTiles = new Queue<Tile>();
+        Tile spawnTile = tilesManager.GetTile(new Vector3Int(0, 0, 0));
+        toVisitTiles.Enqueue(spawnTile);
+        while (toVisitTiles.Count > 0)
+        {
+            Tile visiting = toVisitTiles.Dequeue();
+            if (visitedTile.Contains(visiting))
+            {
+                continue;
+            }
+
+            foreach (Tile neighbour in visiting.GetNeighboursTile())
+            {
+                TileDecorator tileDecorator = neighbour.GetComponentInChildren<TileDecorator>();
+                if (tileDecorator == null)
+                {
+                    if (!TileIsBlocker(neighbour))
+                    {
+                        spawningTiles.Add(neighbour);
+                    }
+                }
+                else
+                {
+                    toVisitTiles.Enqueue(neighbour);
+                }
+            }
+
+            visitedTile.Add(visiting);
+        }
+
+        spawnPossibleTiles = spawningTiles.ToList();
     }
 
     private bool TileIsBlocker(Tile tile)
@@ -83,9 +136,9 @@ public class AIPathManager : MonoBehaviour
         return tileType is TileType.Rock or TileType.Water;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // Debug Helping Code
         if (debugEnable)
         {
             foreach (Tile tile in tilesManager.GetTiles())
@@ -101,6 +154,6 @@ public class AIPathManager : MonoBehaviour
 
     void Start()
     {
-        UpdateGridAICost();
+        UpdateAIGrid();
     }
 }

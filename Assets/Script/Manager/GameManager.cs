@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
 
     private static GameManager INSTANCE;
 
-    public GameManager Instance
+    public static GameManager Instance
     {
         get
         {
@@ -31,6 +31,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ResourcesManager resourcesManager;
     [SerializeField] MotherTree motherTreePrefab;
     private MotherTree motherTree;
+
+    public MotherTree MotherTree
+    {
+        get
+        {
+            return motherTree;
+        }
+    }
 
     void Awake()
     {
