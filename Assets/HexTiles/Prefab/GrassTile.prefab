@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7118672019902986548}
-  - component: {fileID: 3890224859577893494}
+  - component: {fileID: 527390814036294812}
   m_Layer: 0
   m_Name: GrassTile
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3890224859577893494
+--- !u!114 &527390814036294812
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,10 +42,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1395673391790763608}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf8e54da9cc46dd41a8cb6bca16c4ab8, type: 3}
+  m_Script: {fileID: 11500000, guid: 86e1cd4f9c134a2584ddedb25fa95f82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  hasRoots: 0
 --- !u!1001 &492142535671917276
 PrefabInstance:
   m_ObjectHideFlags: 0
