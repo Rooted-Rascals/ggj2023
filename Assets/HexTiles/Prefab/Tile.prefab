@@ -83,16 +83,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ed0e2a36f8218141a2feb22e4460753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  position: {x: 0, y: 0, z: 0}
+  Position: {x: 0, y: 0, z: 0}
   Halo: {fileID: 0}
   FogOfWar: {fileID: 6004241427659724156}
-  TileType: 0
-  TileBuildingType: 0
-  Tiles:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  CurrentTyleType: 0
+  CurrentBuildingType: 0
   Buildings:
   - {fileID: 5320589850321805731}
   TileDecorators: []
@@ -565,7 +560,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2470118987408562047, guid: c9d1d29309351e1419e063e21386eb18, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2986839224248199382, guid: c9d1d29309351e1419e063e21386eb18, type: 3}
       propertyPath: m_RootOrder

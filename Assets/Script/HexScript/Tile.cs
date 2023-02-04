@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Script.Decorators;
@@ -15,7 +14,7 @@ public enum TileType
 public class Tile : MonoBehaviour
 {
     [SerializeField]
-    private Vector3Int position;
+    private Vector3Int Position;
 
     [SerializeField]
     private GameObject Halo;
@@ -23,19 +22,24 @@ public class Tile : MonoBehaviour
     private GameObject FogOfWar;
 
     [SerializeField]
-    private TileType TileType;
+    private TileType CurrentTyleType;
 
     [SerializeField]
-    private TileBuildingType TileBuildingType;
+    private TileBuildingType CurrentBuildingType;
 
-    private List<GameObject> Neighbours;
+    private List<GameObject> Neighbours = new List<GameObject>();
 
-    [SerializeField]
-    private List<TileDecorator> Tiles = new List<TileDecorator>();
-
-    [SerializeField]
-    private List<TileBuilding> Buildings = new List<TileBuilding>();
-
+    public List<TileBuilding> Buildings;
+    public List<TileDecorator> TileDecorators;
+    
+    public void Awake()
+    {
+        TileDecorators = GetComponentsInChildren<TileDecorator>().ToList();
+        Buildings = GetComponentsInChildren<TileBuilding>().ToList();
+        SetNeighboursTile(new List<GameObject>());
+        SetActiveBuildingTile(TileBuildingType.NONE);
+    }
+    
     public void SetNeighboursTile(List<GameObject> neighbours)
     {
         Neighbours = neighbours;
@@ -44,7 +48,9 @@ public class Tile : MonoBehaviour
     public void SetActiveBuildingTile(TileBuildingType type)
     {
         Buildings.ForEach(b => b.gameObject.SetActive(false));
-        Buildings.FirstOrDefault(b => b.type == type).gameObject.SetActive(true);
+        if(type != TileBuildingType.NONE)
+            Buildings.FirstOrDefault(b => b.type == type).gameObject.SetActive(true);
+        
         SetNeighboursActive();
     }
 
@@ -60,19 +66,12 @@ public class Tile : MonoBehaviour
 
     public TileType GetTileType()
     {
-        return TileType;
+        return CurrentTyleType;
     }
-
-    public List<TileDecorator> TileDecorators;
-
-    public void Awake()
-    {
-        TileDecorators = GetComponentsInChildren<TileDecorator>().ToList();
-    }
-
+    
     public void SetActiveTile(TileType type, bool fogOfWar)
     {
-        TileType = type;
+        CurrentTyleType = type;
         TileDecorators.ForEach(b => b.gameObject.SetActive(false)) ;
         if (fogOfWar)
             FogOfWar.SetActive(true);
@@ -86,7 +85,7 @@ public class Tile : MonoBehaviour
 
     public void SetPosition(Vector3Int newPosition)
     {
-        position = newPosition;
+        Position = newPosition;
     }
 
 
