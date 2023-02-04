@@ -1,14 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Resources;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class ResourcesManager : MonoBehaviour
 {
+    private static ResourcesManager _instance = null;
+    public static ResourcesManager Instance => _instance;
+    
     private float waterCount = 100f;
     private float energyCount = 0f;
     public UnityEvent<float> energyChangeEvent = new UnityEvent<float>();
+
+    public void Awake()
+    {
+        _instance = this;
+    }
 
     public float GetEnergyCount()
     {

@@ -56,15 +56,15 @@ namespace Script.Manager
         {
             GetComponent<RootsSystem>().BuildRoots();
             _currentTile.CurrentBiome.hasRoots = true;
-
             _audioSource.PlayOneShot(_currentTile.CurrentBiome.RootsBuildSounds[UnityEngine.Random.Range(0, _currentTile.CurrentBiome.RootsBuildSounds.Count)]);
             
             RefreshMenu();
         }
 
-        private void Build(PlantType type)
+        private void Build(PlantType type, int cost = 0)
         {
             _currentTile.SetActiveBuildingTile(type);
+            ResourcesManager.Instance.DecreaseEnergyCount(cost);
             _audioSource.PlayOneShot(_currentTile.CurrentBuilding.GrowingSound[UnityEngine.Random.Range(0, _currentTile.CurrentBuilding.GrowingSound.Count)]);
             RefreshMenu();
         }
@@ -75,6 +75,14 @@ namespace Script.Manager
 
         public void BuildLilyPad() => Build(PlantType.LILYPAD);
 
-        public void BuildMushroom() => Build(PlantType.MUSHROOM);
+        public void BuildMushroom()
+        {
+            int price = typeof(Mushroom).GetAttribute<PriceAttribute>().Price;
+            
+            if (ResourcesManager.Instance.CanAfford(price))
+            {
+                Build(PlantType.MUSHROOM, price);
+            }
+        }
     }
 }
