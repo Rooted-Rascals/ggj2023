@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,8 +22,7 @@ public class Tile : MonoBehaviour
 
     [SerializeField]
     private TileType TileType;
-
-
+    
     public List<TileDecorator> Tiles = new List<TileDecorator>();
 
     public void SetActiveTile(TileType type, bool fogOfWar)

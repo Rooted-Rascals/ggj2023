@@ -53,7 +53,7 @@ namespace Script.Manager
         void Update()
         {
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray, out _currentHit);
+            Physics.Raycast(ray, out _currentHit, Mathf.Infinity, LayerMask.GetMask("Tiles"));
             UpdateSelections(_currentHit.collider?.gameObject);
 
             Move();
@@ -100,7 +100,7 @@ namespace Script.Manager
             if (rotateRight)
                 angle *= -1;
 
-            Ray ray = _mainCamera.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2, 0));
+            Ray ray = _mainCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
             Physics.Raycast(ray, out RaycastHit middleHit, Mathf.Infinity, LayerMask.GetMask("Ground"));
             transform.RotateAround(middleHit.point, Vector3.up, angle);
         }
@@ -109,10 +109,10 @@ namespace Script.Manager
         {
             //TODO : Make this smoother
             _mainCamera.orthographicSize += Input.GetAxis("Mouse ScrollWheel") * -1 * zoomSpeed;
-            
+
             if (_mainCamera.orthographicSize > maxZoom)
                 _mainCamera.orthographicSize = maxZoom;
-            
+
             if (_mainCamera.orthographicSize < minZoom)
                 _mainCamera.orthographicSize = minZoom;
         }
@@ -121,9 +121,9 @@ namespace Script.Manager
         {
             if (Input.GetMouseButtonDown(0))
                 onSelection.Invoke(obj);
-                
+
             if (CurrentHoverObject != obj)
-                onHoverChanged.Invoke(obj);    
+                onHoverChanged.Invoke(obj);
         }
 
         private void OnSelection(GameObject obj)
@@ -131,7 +131,7 @@ namespace Script.Manager
             CurrentSelectedObject = obj;
             print(CurrentSelectedObject != null ? $"Selected {CurrentSelectedObject.name}" : $"No object selected");
         }
-        
+
         private void OnHoverChanged(GameObject obj)
         {
             CurrentHoverObject = obj;
