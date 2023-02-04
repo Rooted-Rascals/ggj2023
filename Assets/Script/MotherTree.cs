@@ -1,6 +1,8 @@
-﻿namespace Script
+﻿using UnityEngine;
+
+namespace Script
 {
-    public class MotherTree
+    public class MotherTree : MonoBehaviour
     {
         private float defaultWaterConsumption = 10f;
         private float defaultEnergyGeneration = 3f;

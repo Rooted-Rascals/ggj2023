@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -6,9 +7,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // TODO : Change this for the real mother tree object
-    public MotherTree motherTree = new MotherTree();
-
     private float totalTime = 0f;
     private float waitingTime = 0f;
     private float waterCount = 100f;
@@ -19,12 +17,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float waterGenerationMultiplier = 1f;
     [SerializeField] private bool activated = true;
     [SerializeField] private bool isDebugLogging = false;
+    [SerializeField] private TilesManager tilesManager;
+    [SerializeField] MotherTree motherTreePrefab;
+
+    private MotherTree motherTree;
 
     void Start()
     {
         waitingTime = 0f;
         waterCount = 100f;
         energyCount = 0f;
+        // Get SpawnTile and get the right coordinate for the spawn tile
+        motherTree = Instantiate(motherTreePrefab, new Vector3(0, 0, 0), Quaternion.identity);
     }
 
     // Update is called once per frame
