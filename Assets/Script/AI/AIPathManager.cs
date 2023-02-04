@@ -54,7 +54,10 @@ public class AIPathManager : MonoBehaviour
             foreach (Tile neighbour in visiting.GetNeighboursTile())
             {
                 lowestNeighbourCost = Mathf.Min(neighbour.AICost, lowestNeighbourCost);
-                toVisitTiles.Enqueue(neighbour);
+                if (!TileIsBlocker(visiting))
+                {
+                    toVisitTiles.Enqueue(neighbour);
+                }
             }
 
             if (visiting != spawnTile)
@@ -95,7 +98,7 @@ public class AIPathManager : MonoBehaviour
                 Biome biome = neighbour.GetComponentInChildren<Biome>();
                 if (biome == null)
                 {
-                    if (!TileIsBlocker(neighbour))
+                    if (!TileIsBlocker(neighbour) && neighbour.AICost < float.MaxValue)
                     {
                         spawningTiles.Add(neighbour);
                     }
