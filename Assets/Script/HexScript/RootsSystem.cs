@@ -47,10 +47,12 @@ public class RootsSystem : MonoBehaviour
             Vector3Int neighbourPosition = neighbour.GetPosition();
 
             Biome biome = neighbour.gameObject.GetComponentInChildren<Biome>();
+            //si conecter a labre
             if (biome && biome.hasRoots || ActiveBuildingType == PlantType.MOTHERTREE)
             {
                 if (NeighboursDirection.TryGetValue(position - neighbourPosition, out string direction))
                 {
+                    GameManager.Instance.GetMotherTree().AddRoots(tile);
                     switch (direction)
                     {
                         case "x":

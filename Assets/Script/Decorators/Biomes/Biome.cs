@@ -28,8 +28,6 @@ namespace Script.Decorators.Biomes
             RootsSystem.CheckNeighboursForRoots(gameObject.GetComponentInParent<Tile>()) &&
             IsVisible;
 
-        public List<RootsType> RootsList = new List<RootsType>();
-
         public List<AudioClip> RootsBuildSounds;
         
         #endregion

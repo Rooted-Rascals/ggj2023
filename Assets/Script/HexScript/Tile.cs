@@ -89,13 +89,20 @@ public class Tile : MonoBehaviour
         return createdObject;
     }
 
-    public void SetRootsTile(RootsType type)
+    public void SetRootsTile(RootsType? type)
     {
-        Roots.FirstOrDefault(b => b.type == type).gameObject.SetActive(true);
-        gameObject.GetComponentInChildren<Biome>().RootsList.Add(type);
-        gameObject.GetComponentInChildren<Biome>().hasRoots = true;
+        if(type is null)
+        {
+            Roots.FirstOrDefault(b => b.type == type).gameObject.SetActive(false);
+            gameObject.GetComponentInChildren<Biome>().hasRoots = false;
+        }
+        else
+        {
+            Roots.FirstOrDefault(b => b.type == type).gameObject.SetActive(true);
+            gameObject.GetComponentInChildren<Biome>().hasRoots = true;
 
-        SetNeighboursActive(1);
+            SetNeighboursActive(1);
+        }
     }
 
     public List<Vector3Int> SetNeighboursActive(int size, List<Vector3Int>? alreadySeen = null)
