@@ -194,6 +194,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 2972931752439679356, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972931752439679356, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1521485220}
+    - target: {fileID: 2972931752439679356, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: BuildRoots
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972931752439679356, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RootsSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2972931752439679356, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3664374340923272074, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
