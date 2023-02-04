@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -24,9 +25,42 @@ public class Tile : MonoBehaviour
     private TileType TileType;
 
     [SerializeField]
-    private TileType TileBuildingType;
+    private TileBuildingType TileBuildingType;
 
-    public List<TileDecorator> Tiles = new List<TileDecorator>();
+    private List<GameObject> Neighbours;
+
+    [SerializeField]
+    private List<TileDecorator> Tiles = new List<TileDecorator>();
+
+    [SerializeField]
+    private List<TileBuilding> Buildings = new List<TileBuilding>();
+
+    public void SetNeighboursTile(List<GameObject> neighbours)
+    {
+        Neighbours = neighbours;
+    }
+
+    public void SetActiveBuildingTile(TileBuildingType type)
+    {
+        Buildings.ForEach(b => b.gameObject.SetActive(false));
+        Buildings.FirstOrDefault(b => b.type == type).gameObject.SetActive(true);
+        SetNeighboursActive();
+    }
+
+    public void SetNeighboursActive()
+    {
+        foreach (GameObject item in Neighbours)
+        {
+            TileType type = item.GetComponent<Tile>().GetTileType();
+            item.GetComponent<Tile>().SetActiveTile(type, false);
+            
+        }
+    }
+
+    public TileType GetTileType()
+    {
+        return TileType;
+    }
 
     public void SetActiveTile(TileType type, bool fogOfWar)
     {

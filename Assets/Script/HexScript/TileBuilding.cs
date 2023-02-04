@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum TileBuildingType
 {
+    NONE,
     MotherTree,
     Roots
 };
