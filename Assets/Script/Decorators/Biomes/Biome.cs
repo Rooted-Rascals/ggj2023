@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Script.Decorators.Plants;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace Script.Decorators.Biomes
         public void Awake()
         {
             _ownerTile = GetComponentInParent<Tile>();
+            RootsBuildSounds = Resources.LoadAll<AudioClip>("Sounds/roots/Growing").ToList();
         }
 
         public abstract BiomeType Type { get; }
@@ -28,6 +30,8 @@ namespace Script.Decorators.Biomes
 
         public List<RootsType> RootsList = new List<RootsType>();
 
+        public List<AudioClip> RootsBuildSounds;
+        
         #endregion
 
         #region Cactus

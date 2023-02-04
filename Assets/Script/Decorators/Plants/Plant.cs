@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace Script.Decorators.Plants
 {
@@ -37,6 +40,15 @@ namespace Script.Decorators.Plants
         public virtual float GetEnergyGeneration()
         {
             return energyGeneration;
+        }
+        
+        public List<AudioClip> GrowingSound => GetGrowingSounds();
+
+        private List<AudioClip> _growingSound = null;
+        
+        private List<AudioClip> GetGrowingSounds()
+        {
+            return _growingSound ??= Resources.LoadAll<AudioClip>($"Sounds/{PlantType.ToString()}/Growing").ToList();
         }
     }
 }
