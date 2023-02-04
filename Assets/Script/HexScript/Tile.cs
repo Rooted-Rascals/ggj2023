@@ -31,6 +31,8 @@ public class Tile : MonoBehaviour
 
     public List<TileBuilding> Buildings;
     public List<TileDecorator> TileDecorators;
+
+    public float AICost { get; set; } = float.MaxValue;
     
     public void Awake()
     {
@@ -43,6 +45,11 @@ public class Tile : MonoBehaviour
     public void SetNeighboursTile(List<Tile> neighbours)
     {
         Neighbours = neighbours;
+    }
+
+    public List<Tile> GetNeighboursTile()
+    {
+        return Neighbours;
     }
 
     public void SetActiveBuildingTile(TileBuildingType type)
@@ -86,6 +93,11 @@ public class Tile : MonoBehaviour
     public void SetPosition(Vector3Int newPosition)
     {
         Position = newPosition;
+    }
+
+    public Vector3Int GetPosition()
+    {
+        return Position;
     }
 
 

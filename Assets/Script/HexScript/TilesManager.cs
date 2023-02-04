@@ -9,7 +9,6 @@ public class TilesManager : MonoBehaviour
     [SerializeField]
     private int gridsize = 25;
 
-
     [SerializeField]
     private Tile tile;
 
@@ -17,7 +16,7 @@ public class TilesManager : MonoBehaviour
     private GameObject tilesParentFolder;
 
     private Dictionary<Vector3Int, Tile> tilesMaps = new Dictionary<Vector3Int, Tile>();
-    
+    private List<Tile> tiles = new List<Tile>(); 
 
     private Vector3Int[] neighbourCoords = new Vector3Int[]
         {
@@ -31,7 +30,7 @@ public class TilesManager : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
 
         for (int i = -gridsize; i <= gridsize; i++)
@@ -105,6 +104,7 @@ public class TilesManager : MonoBehaviour
                 t.GetComponent<Tile>().SetActiveTile(TileType.Grass, true);
         }
         tilesMaps.Add(position, t);
+        tiles.Add(t);
     }
 
     private List<Tile> GetNeighbours(Tile obj, Vector3Int position)
@@ -127,5 +127,15 @@ public class TilesManager : MonoBehaviour
         Tile tile = null;
         tilesMaps.TryGetValue(index, out tile);
         return tile;
+    }
+
+    public List<Tile> GetTiles()
+    {
+        return tiles;
+    }
+
+    public int GetGridSize()
+    {
+        return gridsize;
     }
 }
