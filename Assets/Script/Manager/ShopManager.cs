@@ -1,4 +1,7 @@
-﻿using Script.Decorators.Plants;
+﻿using System;
+using System.Linq;
+using Script.Decorators.Plants;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -8,18 +11,20 @@ namespace Script.Manager
     public class ShopManager : MonoBehaviour
     {
         private Canvas _canvas;
-
+        private AudioSource _audioSource;
+        
         [SerializeField] private Button rootButton;
         [SerializeField] private Button cactusButton;
         [SerializeField] private Button lilyPadButton;
         [SerializeField] private Button mushroomButton;
-        
+
         private Tile _currentTile;
         
         private void Start()
         {
             _canvas = GetComponent<Canvas>();
             _canvas.enabled = false;
+            _audioSource = this.AddComponent<AudioSource>();
 
             MouseManager.Instance.onSelection.AddListener(OnSelection);
         }
@@ -50,28 +55,22 @@ namespace Script.Manager
             GetComponent<RootsSystem>().BuildRoots();
             _currentTile.CurrentBiome.hasRoots = true;
 
-            RefreshMenu();
-        }
-
-        public void BuildCactus()
-        {
-            _currentTile.SetActiveBuildingTile(PlantType.CACTUS);
+            _audioSource.PlayOneShot(_currentTile.CurrentBiome.RootsBuildSounds[UnityEngine.Random.Range(0, _currentTile.CurrentBiome.RootsBuildSounds.Count)]);
             
             RefreshMenu();
         }
 
-        public void BuildLilyPad()
+        private void Build(PlantType type)
         {
-            _currentTile.SetActiveBuildingTile(PlantType.LILYPAD);
-            
+            _currentTile.SetActiveBuildingTile(type);
+            _audioSource.PlayOneShot(_currentTile.CurrentBuilding.GrowingSound[UnityEngine.Random.Range(0, _currentTile.CurrentBuilding.GrowingSound.Count)]);
             RefreshMenu();
         }
-        
-        public void BuildMushroom()
-        {
-            _currentTile.SetActiveBuildingTile(PlantType.MUSHROOM);
-            
-            RefreshMenu();
-        }
+
+        public void BuildCactus() => Build(PlantType.CACTUS);
+
+        public void BuildLilyPad() => Build(PlantType.LILYPAD);
+
+        public void BuildMushroom() => Build(PlantType.MUSHROOM);
     }
 }
