@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Script.Decorators;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public enum TileType
 {
@@ -17,15 +18,13 @@ public class Tile : MonoBehaviour
     private Vector3Int Position;
 
     [SerializeField]
-    private GameObject Halo;
-    [SerializeField]
     private GameObject FogOfWar;
 
     [SerializeField]
     private TileType CurrentTyleType;
 
     [SerializeField]
-    private TileBuildingType CurrentBuildingType;
+    private List<TileBuildingType> CurrentBuildingType;
 
     private List<Tile> Neighbours = new List<Tile>();
 
@@ -45,8 +44,19 @@ public class Tile : MonoBehaviour
         Neighbours = neighbours;
     }
 
+    public List<Tile> GetNeighboursTile()
+    {
+        return Neighbours;
+    }
+
+    public List<TileBuildingType> GetBuildingsTile()
+    {
+        return CurrentBuildingType;
+    }
+
     public void SetActiveBuildingTile(TileBuildingType type)
     {
+        CurrentBuildingType.Add(type);
         Buildings.ForEach(b => b.gameObject.SetActive(false));
         if(type != TileBuildingType.NONE)
             Buildings.FirstOrDefault(b => b.type == type).gameObject.SetActive(true);
@@ -88,9 +98,8 @@ public class Tile : MonoBehaviour
         Position = newPosition;
     }
 
-
-    public void SetHalo(bool value)
+    public Vector3Int GetPosition()
     {
-        Halo.SetActive(value);
+        return Position;
     }
 }
