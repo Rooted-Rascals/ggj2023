@@ -81,7 +81,7 @@ public class TilesManager : MonoBehaviour
 
         spawn.GetComponent<Tile>().SetActiveTile(TileType.Grass, false);
         spawn.SetActiveBuildingTile(TileBuildingType.MOTHERTREE);
-        AIPathManager.Instance.UpdateAIGrid();
+        AIController.Instance.UpdateAIGrid();
     }
 
     private void InstantiateTile(Vector3Int position)

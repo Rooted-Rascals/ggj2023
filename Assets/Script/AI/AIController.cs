@@ -10,6 +10,17 @@ using Random = UnityEngine.Random;
 
 public class AIController : MonoBehaviour
 {
+    
+    
+    private static AIController INSTANCE;
+    public static AIController Instance
+    {
+        get
+        {
+            return INSTANCE;
+        }
+    }
+    
     private static float TARGET_RADIUS = 0.1f;
     [SerializeField]
     AISpawner aiSpawner;
@@ -23,10 +34,34 @@ public class AIController : MonoBehaviour
     [SerializeField]
     private float spawnerCount = 2f;
 
+    [SerializeField] private AIPathManager aiPathManager;
+
     private float delay = 0f;
+    
+    public void UpdateAIGrid()
+    {
+        aiPathManager.UpdateAIGrid();
+        UpdateSpawnPoints();
+    }
+    void Awake()
+    {
+        if (INSTANCE == null)
+        {
+            INSTANCE = this;
+        }
+        else if (INSTANCE != this)
+        {
+            Destroy(this);
+        }
+    }
+    
     void Start()
     {
-        UpdateSpawnPoints();
+        if (aiPathManager == null)
+        {
+            aiPathManager = GetComponent<AIPathManager>();
+        }
+        UpdateAIGrid();
     }
 
     void Update()
@@ -67,9 +102,9 @@ public class AIController : MonoBehaviour
 
     private void UpdateSpawnPoints()
     {
-        List<Tile> spawnPossibleTiles = AIPathManager.Instance.GetSpawnPossibleTiles();
+        List<Tile> spawnPossibleTiles = aiPathManager.GetSpawnPossibleTiles();
         List<Tile> randomizedTiles = spawnPossibleTiles.OrderBy(a => Guid.NewGuid()).ToList();
-        while (aiSpawners.Count < spawnerCount)
+        for (int i = 0; i < spawnerCount; i++)
         {
             if (randomizedTiles.Count <= 0)
             {
@@ -78,7 +113,15 @@ public class AIController : MonoBehaviour
 
             Tile spawnTile = randomizedTiles[^1];
             randomizedTiles.RemoveAt(randomizedTiles.Count - 1);
-            aiSpawners.Add(Instantiate(aiSpawner, spawnTile.transform.position + new Vector3(0f, 2f, 0f), Quaternion.identity));
+            Vector3 spawnerPosition = spawnTile.transform.position + new Vector3(0f, 2f, 0f);
+            if (i >= aiSpawners.Count)
+            {
+                aiSpawners.Add(Instantiate(aiSpawner, spawnerPosition, Quaternion.identity));
+            }
+            else
+            {
+                aiSpawners[i].transform.position = spawnerPosition;
+            }
         }
     }
 

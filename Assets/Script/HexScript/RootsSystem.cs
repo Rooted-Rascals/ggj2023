@@ -36,7 +36,7 @@ public class RootsSystem : MonoBehaviour
     public void BuildRoots()
     {
         GetNeighbourBranchDirection(MouseManager.Instance.CurrentSelectedObject.GetComponent<Tile>());
-        AIPathManager.Instance.UpdateAIGrid();
+        AIController.Instance.UpdateAIGrid();
     }
 
     public void GetNeighbourBranchDirection(Tile tile)

@@ -5,21 +5,13 @@ using Script.Decorators;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class AIPathManager : MonoBehaviour
 {
     [SerializeField]
     private bool debugEnable = false;
-    private static AIPathManager INSTANCE;
 
-    public static AIPathManager Instance
-    {
-        get
-        {
-            return INSTANCE;
-        }
-    }
-    
     [SerializeField] private TilesManager tilesManager;
     private List<Tile> spawnPossibleTiles = new List<Tile>();
 
@@ -29,18 +21,7 @@ public class AIPathManager : MonoBehaviour
     }
 
     private const uint BASE_COST = 1;
-    void Awake()
-    {
-        if (INSTANCE == null)
-        {
-            INSTANCE = this;
-        }
-        else if (INSTANCE != this)
-        {
-            Destroy(this);
-        }
-        DontDestroyOnLoad(this);
-    }
+
 
     public void UpdateAIGrid()
     {
