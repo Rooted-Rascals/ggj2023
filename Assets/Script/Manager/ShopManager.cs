@@ -1,5 +1,6 @@
 ﻿using Script.Decorators.Plants;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Script.Manager
@@ -8,11 +9,12 @@ namespace Script.Manager
     {
         private Canvas _canvas;
 
-        [SerializeField] private Button RootButton;
-        [SerializeField] private Button CactusButton;
-
-
-        private Tile currentTile;
+        [SerializeField] private Button rootButton;
+        [SerializeField] private Button cactusButton;
+        [SerializeField] private Button lilyPadButton;
+        [SerializeField] private Button mushroomButton;
+        
+        private Tile _currentTile;
         
         private void Start()
         {
@@ -24,32 +26,50 @@ namespace Script.Manager
 
         private void OnSelection(GameObject selection)
         {
-            currentTile = selection?.GetComponent<Tile>();
+            _currentTile = selection?.GetComponent<Tile>();
             
-            if (currentTile?.CurrentTyleDecorator is null)
+            if (_currentTile?.CurrentBiome is null)
             {
                 _canvas.enabled = false;
                 return;
             }
             
-            RootButton.gameObject.SetActive(currentTile.CurrentTyleDecorator.CanBuildRoots);
-            CactusButton.gameObject.SetActive(currentTile.CurrentTyleDecorator.CanBuildCactus);
+            rootButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildRoots);
+            cactusButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildCactus);
+            lilyPadButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildLilyPad);
+            mushroomButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildMushroom);
+
+            
             _canvas.enabled = true;
         }
 
-        public void RefreshMenu() => OnSelection(currentTile.gameObject);
+        public void RefreshMenu() => OnSelection(_currentTile.gameObject);
         
         public void BuildRoots()
         {
             GetComponent<RootsSystem>().BuildRoots();
-            currentTile.CurrentTyleDecorator.hasRoots = true;
+            _currentTile.CurrentBiome.hasRoots = true;
 
             RefreshMenu();
         }
 
         public void BuildCactus()
         {
-            currentTile.SetActiveBuildingTile(PlantType.CACTUS);
+            _currentTile.SetActiveBuildingTile(PlantType.CACTUS);
+            
+            RefreshMenu();
+        }
+
+        public void BuildLilyPad()
+        {
+            _currentTile.SetActiveBuildingTile(PlantType.LILYPAD);
+            
+            RefreshMenu();
+        }
+        
+        public void BuildMushroom()
+        {
+            _currentTile.SetActiveBuildingTile(PlantType.MUSHROOM);
             
             RefreshMenu();
         }

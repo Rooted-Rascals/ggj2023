@@ -1,12 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
     [SerializeField]
-    private Image HealthBar;
+    private Image HealthBarImage;
 
     [SerializeField]
     private float Health, MaxHealth = 100f;
@@ -16,11 +19,25 @@ public class HealthManager : MonoBehaviour
     [SerializeField]
     private bool isEnnemy = false;
 
-    private void Start()
+    [SerializeField]
+    private float Height = 3.0f;
+
+    public UnityEvent onDeath;
+    GameObject HealthBar;
+
+    private void Awake()
     {
         Health = MaxHealth;
         if (isEnnemy)
-            HealthBar.color = Color.red;
+            HealthBarImage.color = Color.red;
+        HealthBar = Instantiate(Resources.Load("Prefab/HealthBar"), new Vector3(0,Height,0), Quaternion.identity) as GameObject;
+        HealthBar.transform.parent = gameObject.transform;
+        HealthBarImage = HealthBar.GetComponentInChildren<Image>();
+    }
+
+    private void Start()
+    {
+        onDeath.AddListener(OnDeath);
     }
 
     private void Update()
@@ -29,13 +46,13 @@ public class HealthManager : MonoBehaviour
             Health = MaxHealth;
 
         LerpSpeed = 3f * Time.deltaTime;
-
+        HealthBarFiller();
 
     }
 
     public void HealthBarFiller()
     {
-        HealthBar.fillAmount = Mathf.Lerp(HealthBar.fillAmount, Health / MaxHealth, LerpSpeed);
+        HealthBarImage.fillAmount = Mathf.Lerp(HealthBarImage.fillAmount, Health / MaxHealth, LerpSpeed);
     }
 
 
@@ -45,7 +62,7 @@ public class HealthManager : MonoBehaviour
         if(Health < 0)
         {
             Health = 0;
-            //game done
+            onDeath.Invoke();
         }
     }
 
@@ -54,6 +71,11 @@ public class HealthManager : MonoBehaviour
         Health += healingPoint;
         if (Health > MaxHealth)
             Health = MaxHealth;
+    }
+
+    private void OnDeath()
+    {
+        DestroyImmediate(this.gameObject);
     }
 
 }

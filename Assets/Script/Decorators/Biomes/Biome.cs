@@ -16,7 +16,7 @@ namespace Script.Decorators.Biomes
         public abstract BiomeType Type { get; }
         public bool IsVisible { get; set; } = false;
 
-        protected bool HasABuilding => CurrentPlantType != PlantType.NONE;
+        protected bool HasAPlant => CurrentPlantType != PlantType.NONE;
         private PlantType CurrentPlantType => _ownerTile.CurrentBuilding?.PlantType ?? PlantType.NONE;
         
         #region Roots
@@ -33,6 +33,17 @@ namespace Script.Decorators.Biomes
         #region Cactus
 
         public virtual bool CanBuildCactus => false;
+
+        #endregion
+        
+        #region LilyPad
+
+        public virtual bool CanBuildLilyPad => false;
+
+        #endregion
+        
+        #region Mushroom
+        public virtual bool CanBuildMushroom => false;
 
         #endregion
     }

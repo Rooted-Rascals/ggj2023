@@ -3,6 +3,6 @@
     public class Sand : Biome
     {
         public override BiomeType Type => BiomeType.Sand;
-        public override bool CanBuildCactus => hasRoots && !HasABuilding;
+        public override bool CanBuildCactus => hasRoots && !HasAPlant;
     }
 }

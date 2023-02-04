@@ -3,5 +3,7 @@
     public class Water : Biome
     {
         public override BiomeType Type => BiomeType.Water;
+
+        public override bool CanBuildLilyPad => hasRoots && !HasAPlant;
     }
 }
