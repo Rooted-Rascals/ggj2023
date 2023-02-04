@@ -6,7 +6,7 @@ using UnityEngine;
 public class AIPathManager : MonoBehaviour
 {
     [SerializeField]
-    private bool debugEnable = true;
+    private bool debugEnable = false;
     private static AIPathManager INSTANCE;
 
     public AIPathManager Instance
