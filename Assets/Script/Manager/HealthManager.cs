@@ -20,12 +20,12 @@ public class HealthManager : MonoBehaviour
     [SerializeField]
     private float Height = 3.0f;
 
-    UnityEvent _ObjectDeath;
+    UnityEvent _OnDeath;
 
 
     GameObject HealthBar;
 
-    private void Start()
+    private void Awake()
     {
         Health = MaxHealth;
         if (isEnnemy)
@@ -33,6 +33,8 @@ public class HealthManager : MonoBehaviour
         HealthBar = Instantiate(Resources.Load("Prefab/HealthBar"), new Vector3(0,Height,0), Quaternion.identity) as GameObject;
         HealthBar.transform.parent = gameObject.transform;
         HealthBarImage = HealthBar.GetComponentInChildren<Image>();
+
+        _OnDeath.AddListener(OnDeath);
     }
 
     private void Update()
@@ -41,7 +43,7 @@ public class HealthManager : MonoBehaviour
             Health = MaxHealth;
 
         LerpSpeed = 3f * Time.deltaTime;
-
+        HealthBarFiller();
 
     }
 
@@ -57,7 +59,7 @@ public class HealthManager : MonoBehaviour
         if(Health < 0)
         {
             Health = 0;
-            //game done
+            _OnDeath.Invoke();
         }
     }
 
@@ -66,6 +68,11 @@ public class HealthManager : MonoBehaviour
         Health += healingPoint;
         if (Health > MaxHealth)
             Health = MaxHealth;
+    }
+
+    private void OnDeath()
+    {
+        DestroyImmediate(this.gameObject);
     }
 
 }
