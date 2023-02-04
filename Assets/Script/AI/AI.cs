@@ -9,7 +9,16 @@ using UnityEngine.EventSystems;
 public class AI : MonoBehaviour
 {
     public float movementSpeed = 2.0f;
+    public float movementSpeedModifier = 1.0f;
     public float attackRange = 1f;
+    public float attackDelay = 3f;
+    public float attackDamage = 5f;
+    private float attackCooldown = 0f;
+
+    private void Update()
+    {
+        attackCooldown = Mathf.Max(0f, attackCooldown - Time.deltaTime);
+    }
 
     public void OnDrawGizmos()
     {
@@ -48,8 +57,13 @@ public class AI : MonoBehaviour
 
     public void Attack(GameObject target)
     {
-        // Trigger attack animation
-        // Reduce target life point
+        if (attackCooldown <= 0)
+        {
+            attackCooldown = attackDelay;
+            // Trigger attack animation
+            HealthManager health = target.GetComponent<HealthManager>();
+            health.Damage(attackDamage);
+        }
     }
 
 }
