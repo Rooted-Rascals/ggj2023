@@ -10,8 +10,8 @@ namespace Script.Manager
 
         [SerializeField] private Button RootButton;
         [SerializeField] private Button CactusButton;
-
-
+        [SerializeField] private Button LilyPadButton;
+        
         private Tile currentTile;
         
         private void Start()
@@ -26,14 +26,16 @@ namespace Script.Manager
         {
             currentTile = selection?.GetComponent<Tile>();
             
-            if (currentTile?.CurrentTyleDecorator is null)
+            if (currentTile?.CurrentBiome is null)
             {
                 _canvas.enabled = false;
                 return;
             }
             
-            RootButton.gameObject.SetActive(currentTile.CurrentTyleDecorator.CanBuildRoots);
-            CactusButton.gameObject.SetActive(currentTile.CurrentTyleDecorator.CanBuildCactus);
+            RootButton.gameObject.SetActive(currentTile.CurrentBiome.CanBuildRoots);
+            CactusButton.gameObject.SetActive(currentTile.CurrentBiome.CanBuildCactus);
+            LilyPadButton.gameObject.SetActive(currentTile.CurrentBiome.CanBuildLilyPad);
+
             _canvas.enabled = true;
         }
 
@@ -42,7 +44,7 @@ namespace Script.Manager
         public void BuildRoots()
         {
             GetComponent<RootsSystem>().BuildRoots();
-            currentTile.CurrentTyleDecorator.hasRoots = true;
+            currentTile.CurrentBiome.hasRoots = true;
 
             RefreshMenu();
         }
@@ -50,6 +52,13 @@ namespace Script.Manager
         public void BuildCactus()
         {
             currentTile.SetActiveBuildingTile(PlantType.CACTUS);
+            
+            RefreshMenu();
+        }
+
+        public void BuildLilyPad()
+        {
+            currentTile.SetActiveBuildingTile(PlantType.LILYPAD);
             
             RefreshMenu();
         }

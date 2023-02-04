@@ -22,7 +22,7 @@ public class Tile : MonoBehaviour
 
     [SerializeField]
     private GameObject FogOfWar;
-    public Biome CurrentTyleDecorator { get; private set; }
+    public Biome CurrentBiome { get; private set; }
 
     [SerializeField]
     private Transform BuildingSpawn;
@@ -123,13 +123,13 @@ public class Tile : MonoBehaviour
 
     public BiomeType GetTileType()
     {
-        return CurrentTyleDecorator.Type;
+        return CurrentBiome.Type;
     }
     
     public void SetActiveTile(BiomeType type, bool fogOfWar)
     {
-        CurrentTyleDecorator = TileDecorators.FirstOrDefault(b => b.Type == type);
-        CurrentTyleDecorator.IsVisible = !fogOfWar;
+        CurrentBiome = TileDecorators.FirstOrDefault(b => b.Type == type);
+        CurrentBiome.IsVisible = !fogOfWar;
         
         TileDecorators.ForEach(b => b.gameObject.SetActive(false)) ;
         if (fogOfWar)
@@ -137,7 +137,7 @@ public class Tile : MonoBehaviour
         else
         {
             FogOfWar.SetActive(false);
-            CurrentTyleDecorator.gameObject.SetActive(true);
+            CurrentBiome.gameObject.SetActive(true);
         }
     }
 
