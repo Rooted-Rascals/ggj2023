@@ -18,6 +18,18 @@ namespace Script
         private HashSet<Tile> RootsList = new HashSet<Tile>();
         private HashSet<Tile> EnabledRootsList = new HashSet<Tile>();
 
+        public void Update()
+        {
+            foreach (Tile EnabledRoots in EnabledRootsList)
+            {
+                Plant plant = EnabledRoots.GetComponentInChildren<Plant>();
+                if (plant)
+                { 
+                    plant.DoAction();
+                }
+            }
+        }
+
         public void AddRoots(Tile tile)
         {
             RootsList.Add(tile);
@@ -80,6 +92,7 @@ namespace Script
         public float GetEnergyGeneration()
         {
             float energyGeneration = defaultEnergyGeneration;
+
             foreach (Tile EnabledRoots in EnabledRootsList)
             {
                 Plant plant = EnabledRoots.GetComponentInChildren<Plant>();
@@ -93,7 +106,6 @@ namespace Script
 
         public float GetWaterConsumption()
         {
-
             float waterConsumption = defaultWaterConsumption;
             foreach (Tile EnabledRoots in EnabledRootsList)
             {
