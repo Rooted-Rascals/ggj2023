@@ -239,6 +239,7 @@ MonoBehaviour:
   tilesManager: {fileID: 976865538}
   resourcesManager: {fileID: 958449597}
   motherTreePrefab: {fileID: 6223853552792695086, guid: 47c3a2eef01232d4db47a3288128025e, type: 3}
+  decayDamage: 3
 --- !u!4 &345565670
 Transform:
   m_ObjectHideFlags: 0
@@ -266,13 +267,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 219887109}
     - target: {fileID: 40579299039953780, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
+      propertyPath: rootButton
+      value: 
+      objectReference: {fileID: 219887109}
+    - target: {fileID: 40579299039953780, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
       propertyPath: CactusButton
+      value: 
+      objectReference: {fileID: 1680572507}
+    - target: {fileID: 40579299039953780, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
+      propertyPath: cactusButton
       value: 
       objectReference: {fileID: 1680572507}
     - target: {fileID: 40579299039953780, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
       propertyPath: LilyPadButton
       value: 
       objectReference: {fileID: 1420965330}
+    - target: {fileID: 40579299039953780, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
+      propertyPath: lilyPadButton
+      value: 
+      objectReference: {fileID: 1420965330}
+    - target: {fileID: 40579299039953780, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
+      propertyPath: mushroomButton
+      value: 
+      objectReference: {fileID: 1317681989}
     - target: {fileID: 797114897226923261, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
       propertyPath: m_Name
       value: SelectionHalo
@@ -356,6 +373,18 @@ PrefabInstance:
     - target: {fileID: 2972931752439679356, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: Script.Manager.ShopManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3897980954923217963, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3897980954923217963, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3897980954923217963, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4139945361971739548, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
       propertyPath: m_AnchorMax.y
@@ -937,6 +966,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c4a83a3a5b24a6fa8ae78072ba43810, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1317681989 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2532531998575301907, guid: 2d81fd102d2e68b44a41d18bb2949896, type: 3}
+  m_PrefabInstance: {fileID: 568253740}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1420965330 stripped

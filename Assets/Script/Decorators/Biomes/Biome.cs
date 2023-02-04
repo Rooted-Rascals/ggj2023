@@ -41,5 +41,10 @@ namespace Script.Decorators.Biomes
         public virtual bool CanBuildLilyPad => false;
 
         #endregion
+        
+        #region Mushroom
+        public virtual bool CanBuildMushroom => false;
+
+        #endregion
     }
 }
