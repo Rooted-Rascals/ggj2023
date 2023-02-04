@@ -28,7 +28,6 @@ namespace Script.Manager
         [SerializeField] private float maxZoom = 2f;
         [SerializeField] private float zoomSpeed = 1f;
 
-        [SerializeField] private GameObject debug;
         public GameObject CurrentSelectedObject { get; private set; }
         public GameObject CurrentHoverObject { get; private set; }
 
@@ -103,7 +102,6 @@ namespace Script.Manager
 
             Ray ray = _mainCamera.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2, 0));
             Physics.Raycast(ray, out RaycastHit middleHit, Mathf.Infinity, LayerMask.GetMask("Ground"));
-            debug.transform.position = middleHit.point;
             transform.RotateAround(middleHit.point, Vector3.up, angle);
         }
 
