@@ -84,7 +84,7 @@ public class AIController : MonoBehaviour
 
     private void UpdateAIs()
     {
-        MotherTree motherTree = GameManager.Instance.MotherTree;
+        MotherTree motherTree = GameManager.Instance.GetMotherTree();
         foreach (AI ai in aiList)
         {
             Vector3 target = aiTargets[ai];

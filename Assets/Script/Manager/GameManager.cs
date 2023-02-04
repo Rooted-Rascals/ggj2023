@@ -32,12 +32,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] MotherTree motherTreePrefab;
     private MotherTree motherTree;
 
-    public MotherTree MotherTree
+    public MotherTree GetMotherTree()
     {
-        get
-        {
-            return motherTree;
-        }
+        return motherTree;
     }
 
     void Awake()
