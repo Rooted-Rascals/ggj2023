@@ -22,9 +22,9 @@ namespace Script.Decorators.Plants
         [SerializeField] private float energyGeneration = 0f;
         public abstract PlantType PlantType { get; }
 
-        public virtual void UpdatePlant()
+        public virtual void DoAction()
         {
-            return; // No-Op plant
+            return;
         }
 
         public virtual float GetWaterConsumption()
