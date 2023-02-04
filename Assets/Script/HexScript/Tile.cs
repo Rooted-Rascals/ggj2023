@@ -22,7 +22,10 @@ public class Tile : MonoBehaviour
 
     [SerializeField]
     private TileType TileType;
-    
+
+    [SerializeField]
+    private TileType TileBuildingType;
+
     public List<TileDecorator> Tiles = new List<TileDecorator>();
 
     public void SetActiveTile(TileType type, bool fogOfWar)
