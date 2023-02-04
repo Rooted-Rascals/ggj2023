@@ -48,39 +48,8 @@ public class RootsSystem : MonoBehaviour
             TileBuildingType ActiveBuildingType = neighbour.GetCurrentBuildingType();
             Vector3Int neighbourPosition = neighbour.GetPosition();
 
-            if (ActiveBuildingType == TileBuildingType.MOTHERTREE)
-            {
-
-                if (NeighboursDirection.TryGetValue(position - neighbourPosition, out string direction))
-                {
-                    switch (direction)
-                    {
-                        case "x":
-                            tile.SetRootsTile(RootsType.Rootsx);
-                            break;
-                        case "x_minus":
-                            tile.SetRootsTile(RootsType.Rootsx_minus);
-                            break;
-                        case "y":
-                            tile.SetRootsTile(RootsType.Rootsy);
-                            break;
-                        case "y_minus":
-                            tile.SetRootsTile(RootsType.Rootsy_minus);
-                            break;
-                        case "z":
-                            tile.SetRootsTile(RootsType.Rootsz);
-                            break;
-                        case "z_minus":
-                            tile.SetRootsTile(RootsType.Rootsz_minus);
-                            break;
-                    }
-                    break;
-                }
-                    
-            }
-
             TileDecorator tileDecorator = neighbour.gameObject.GetComponentInChildren<TileDecorator>();
-            if (tileDecorator && tileDecorator.hasRoots)
+            if (tileDecorator && tileDecorator.hasRoots || ActiveBuildingType == TileBuildingType.MOTHERTREE)
             {
                 if (NeighboursDirection.TryGetValue(position - neighbourPosition, out string direction))
                 {
