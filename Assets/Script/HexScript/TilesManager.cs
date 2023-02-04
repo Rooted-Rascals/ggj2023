@@ -15,6 +15,8 @@ public class TilesManager : MonoBehaviour
     [SerializeField]
     private GameObject TilesParentFolder;
 
+    private Dictionary<Vector3Int, GameObject> TilesMaps = new Dictionary<Vector3Int, GameObject>();
+
 
     // Start is called before the first frame update
     void Start()
@@ -78,6 +80,7 @@ public class TilesManager : MonoBehaviour
             else
                 t.GetComponent<Tile>().SetActiveTile(TileType.Grass, false);
         }
+        TilesMaps.Add(position, t);
     }
 
         /*MouseManager.Instance.onHoverChanged.AddListener((OBJ) => { 
