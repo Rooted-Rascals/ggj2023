@@ -46,5 +46,10 @@ namespace Script.Decorators.Biomes
         public virtual bool CanBuildMushroom => false;
 
         #endregion
+        
+        #region Leaf
+        public virtual bool CanBuildLeaf => hasRoots && !HasAPlant;
+        
+        #endregion
     }
 }

@@ -8,7 +8,8 @@ namespace Script.Decorators.Plants
         MOTHERTREE,
         CACTUS,
         LILYPAD,
-        MUSHROOM
+        MUSHROOM,
+        LEAF
     };
     
     public abstract class Plant : MonoBehaviour

@@ -4,5 +4,6 @@
     {
         public override BiomeType Type => BiomeType.Rock;
         public override bool CanBuildRoots => false;
+        public override bool CanBuildLeaf => false;
     }
 }

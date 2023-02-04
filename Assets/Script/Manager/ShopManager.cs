@@ -13,6 +13,7 @@ namespace Script.Manager
         [SerializeField] private Button cactusButton;
         [SerializeField] private Button lilyPadButton;
         [SerializeField] private Button mushroomButton;
+        [SerializeField] private Button leafButton;
         
         private Tile _currentTile;
         
@@ -38,6 +39,7 @@ namespace Script.Manager
             cactusButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildCactus);
             lilyPadButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildLilyPad);
             mushroomButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildMushroom);
+            leafButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildLeaf);
 
             
             _canvas.enabled = true;
@@ -70,6 +72,13 @@ namespace Script.Manager
         public void BuildMushroom()
         {
             _currentTile.SetActiveBuildingTile(PlantType.MUSHROOM);
+            
+            RefreshMenu();
+        }
+
+        public void BuildLeaf()
+        {
+            _currentTile.SetActiveBuildingTile(PlantType.LEAF);
             
             RefreshMenu();
         }
