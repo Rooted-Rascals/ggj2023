@@ -3,14 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using Script;
+using UnityEditor.Search;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
+    private static GameManager INSTANCE;
+
+    public GameManager Instance
+    {
+        get
+        {
+            return INSTANCE;
+        }
+    }
+
     private float totalTime = 0f;
     private float waitingTime = 0f;
-    private float waterCount = 100f;
-    private float energyCount = 0f;
     [SerializeField] private float delayBetweenResourcesGain = 3f;
     [SerializeField] private float productionMultiplier = 1f;
     [SerializeField] private float waterConsumptionMultiplier = 1f;
@@ -18,20 +28,28 @@ public class GameManager : MonoBehaviour
     [SerializeField] private bool activated = true;
     [SerializeField] private bool isDebugLogging = false;
     [SerializeField] private TilesManager tilesManager;
+    [SerializeField] private ResourcesManager resourcesManager;
     [SerializeField] MotherTree motherTreePrefab;
-
     private MotherTree motherTree;
+
+    void Awake()
+    {
+        if (INSTANCE == null)
+        {
+            INSTANCE = this;
+        }
+        else if (INSTANCE != this)
+        {
+            Destroy(this);
+        }
+        DontDestroyOnLoad(this);
+    }
 
     void Start()
     {
-        waitingTime = 0f;
-        waterCount = 100f;
-        energyCount = 0f;
-        // Get SpawnTile and get the right coordinate for the spawn tile
-        motherTree = Instantiate(motherTreePrefab, new Vector3(0, 0, 0), Quaternion.identity);
+        Initialize();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (!activated)
@@ -43,6 +61,13 @@ public class GameManager : MonoBehaviour
         UpdateTreeStats();
     }
 
+    private void Initialize()
+    {
+        waitingTime = 0f;
+        Tile spawnTile = tilesManager.GetTile(new Vector3Int(0, 0, 0));
+        motherTree = Instantiate(motherTreePrefab, spawnTile.transform.position, Quaternion.identity);
+    }
+
     private void UpdateResources()
     {
         totalTime += Time.deltaTime;
@@ -50,12 +75,8 @@ public class GameManager : MonoBehaviour
 
         if (waitingTime >= delayBetweenResourcesGain)
         {
-            waitingTime = -1f;
+            waitingTime = 0f;
             GainResources();
-            if (isDebugLogging)
-            {
-                Debug.Log($"E : {energyCount} ; W : {waterCount}");
-            }
         }
     }
 
@@ -65,42 +86,25 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-
-        energyCount += GetEnergyGeneration();
-        waterCount -= GetEnergyConsumption();
-        waterCount += GetWaterGeneration();
-
-        if (waterCount < 0)
+        
+        float energyCount = resourcesManager.IncreaseEnergyCount(GetEnergyGeneration());
+        resourcesManager.IncreaseWaterCount(GetWaterGeneration());
+        float waterCount = resourcesManager.DecreaseWaterCount(GetWaterConsumption());
+        if (isDebugLogging)
         {
-            waterCount = 0;
+            Debug.Log($"E : {energyCount} ; W : {waterCount}");
         }
     }
 
     private void UpdateTreeStats()
     {
-        if (waterCount <= 0)
+        if (resourcesManager.GetWaterCount() <= 0)
         {
             // TODO : Hurt tree life
         }
     }
 
-    public bool VerifyIfEnoughEnergy(float cost)
-    {
-        return cost <= energyCount;
-    }
-
-    public bool ReduceEnergy(float energy)
-    {
-        if (VerifyIfEnoughEnergy(energy))
-        {
-            energyCount -= energy;
-            return true;
-        }
-
-        return false;
-    }
-
-    public float GetEnergyConsumption()
+    public float GetWaterConsumption()
     {
         return motherTree.GetWaterConsumption() * waterConsumptionMultiplier;
     }
@@ -113,16 +117,6 @@ public class GameManager : MonoBehaviour
     public float GetWaterGeneration()
     {
         return motherTree.GetWaterGeneration() * waterGenerationMultiplier;
-    }
-
-    public float GetWaterCount()
-    {
-        return waterCount;
-    }
-
-    public float GetEnergyCount()
-    {
-        return energyCount;
     }
 
     public float GetTotalTime()

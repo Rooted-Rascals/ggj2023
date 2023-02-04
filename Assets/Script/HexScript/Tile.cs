@@ -27,7 +27,7 @@ public class Tile : MonoBehaviour
     [SerializeField]
     private TileBuildingType CurrentBuildingType;
 
-    private List<GameObject> Neighbours = new List<GameObject>();
+    private List<Tile> Neighbours = new List<Tile>();
 
     public List<TileBuilding> Buildings;
     public List<TileDecorator> TileDecorators;
@@ -36,11 +36,11 @@ public class Tile : MonoBehaviour
     {
         TileDecorators = GetComponentsInChildren<TileDecorator>().ToList();
         Buildings = GetComponentsInChildren<TileBuilding>().ToList();
-        SetNeighboursTile(new List<GameObject>());
+        SetNeighboursTile(new List<Tile>());
         SetActiveBuildingTile(TileBuildingType.NONE);
     }
-    
-    public void SetNeighboursTile(List<GameObject> neighbours)
+
+    public void SetNeighboursTile(List<Tile> neighbours)
     {
         Neighbours = neighbours;
     }
@@ -56,7 +56,7 @@ public class Tile : MonoBehaviour
 
     public void SetNeighboursActive()
     {
-        foreach (GameObject item in Neighbours)
+        foreach (Tile item in Neighbours)
         {
             TileType type = item.GetComponent<Tile>().GetTileType();
             item.GetComponent<Tile>().SetActiveTile(type, false);

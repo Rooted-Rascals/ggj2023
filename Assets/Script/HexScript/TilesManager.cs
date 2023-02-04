@@ -2,6 +2,7 @@ using Script.Manager;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class TilesManager : MonoBehaviour
 {
@@ -10,15 +11,15 @@ public class TilesManager : MonoBehaviour
 
 
     [SerializeField]
-    private GameObject Tile;
+    private Tile tile;
 
     [SerializeField]
-    private GameObject TilesParentFolder;
+    private GameObject tilesParentFolder;
 
-    private Dictionary<Vector3Int, GameObject> TilesMaps = new Dictionary<Vector3Int, GameObject>();
+    private Dictionary<Vector3Int, Tile> tilesMaps = new Dictionary<Vector3Int, Tile>();
     
 
-    private Vector3Int[] NeighbourCoords = new Vector3Int[]
+    private Vector3Int[] neighbourCoords = new Vector3Int[]
         {
             new Vector3Int(1, -1, 0),
             new Vector3Int(1, 0, -1),
@@ -68,13 +69,13 @@ public class TilesManager : MonoBehaviour
 
 
 
-        foreach(KeyValuePair <Vector3Int, GameObject> Tile  in TilesMaps)
+        foreach(KeyValuePair <Vector3Int, Tile> tile  in tilesMaps)
         {
-            List<GameObject> neighbours = GetNeighbours(Tile.Value, Tile.Key);
-            Tile.Value.GetComponent<Tile>().SetNeighboursTile(neighbours);
+            List<Tile> neighbours = GetNeighbours(tile.Value, tile.Key);
+            tile.Value.GetComponent<Tile>().SetNeighboursTile(neighbours);
         }
 
-        GameObject spawn = TilesMaps[new Vector3Int(0, 0, 0)];
+        Tile spawn = tilesMaps[new Vector3Int(0, 0, 0)];
 
         spawn.GetComponent<Tile>().SetActiveTile(TileType.Grass, false);
         spawn.GetComponent<Tile>().SetActiveBuildingTile(TileBuildingType.MotherTree);
@@ -82,11 +83,11 @@ public class TilesManager : MonoBehaviour
 
     private void InstantiateTile(Vector3Int position)
     {
-        Vector3 SpawnPosition = HexCoordinates.ConvertOffsetToPosition(position);
-        GameObject t = Instantiate(Tile, SpawnPosition, Quaternion.identity);
+        Vector3 spawnPosition = HexCoordinates.ConvertOffsetToPosition(position);
+        Tile t = Instantiate(tile, spawnPosition, Quaternion.identity);
         t.GetComponent<Tile>().SetPosition(position);
         t.name = $"x:{position.x}_y:{position.y}_z:{position.z}";
-        t.transform.parent = TilesParentFolder.transform;
+        t.transform.parent = tilesParentFolder.transform;
         if(position.x == gridsize || position.x == -gridsize ||
            position.y == gridsize || position.y == -gridsize ||
            position.z == gridsize || position.z == -gridsize)
@@ -103,16 +104,16 @@ public class TilesManager : MonoBehaviour
             else
                 t.GetComponent<Tile>().SetActiveTile(TileType.Grass, true);
         }
-        TilesMaps.Add(position, t);
+        tilesMaps.Add(position, t);
     }
 
-    private List<GameObject> GetNeighbours(GameObject obj, Vector3Int position)
+    private List<Tile> GetNeighbours(Tile obj, Vector3Int position)
     {
-        List<GameObject> neighbours = new List<GameObject>();
+        List<Tile> neighbours = new List<Tile>();
 
-        foreach(Vector3Int neighbourCoord in NeighbourCoords)
+        foreach(Vector3Int neighbourCoord in neighbourCoords)
         {
-            if(TilesMaps.TryGetValue(position + neighbourCoord, out GameObject neighbour))
+            if(tilesMaps.TryGetValue(position + neighbourCoord, out Tile neighbour))
             {
                 neighbours.Add(neighbour);
             }
@@ -121,8 +122,10 @@ public class TilesManager : MonoBehaviour
         return neighbours;
     }
 
-    void Update()
+    public Tile GetTile(Vector3Int index)
     {
-        
+        Tile tile = null;
+        tilesMaps.TryGetValue(index, out tile);
+        return tile;
     }
 }
