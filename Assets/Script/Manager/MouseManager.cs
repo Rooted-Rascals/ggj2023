@@ -1,7 +1,9 @@
 using System;
 using System.Numerics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using Plane = UnityEngine.Plane;
 using Vector3 = UnityEngine.Vector3;
 
@@ -53,9 +55,13 @@ namespace Script.Manager
         void Update()
         {
             Ray ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-            Physics.Raycast(ray, out _currentHit, Mathf.Infinity, LayerMask.GetMask("Tiles"));
-            UpdateSelections(_currentHit.collider?.gameObject);
 
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                Physics.Raycast(ray, out _currentHit, Mathf.Infinity, LayerMask.GetMask("Tiles"));
+                UpdateSelections(_currentHit.collider?.gameObject);    
+            }
+            
             Move();
             Rotate();
             Zoom();
@@ -129,13 +135,11 @@ namespace Script.Manager
         private void OnSelection(GameObject obj)
         {
             CurrentSelectedObject = obj;
-            print(CurrentSelectedObject != null ? $"Selected {CurrentSelectedObject.name}" : $"No object selected");
         }
 
         private void OnHoverChanged(GameObject obj)
         {
             CurrentHoverObject = obj;
-            print(CurrentHoverObject != null ? $"Hovering {CurrentHoverObject.name}" : "Hovering nothing");
         }
     }
 }

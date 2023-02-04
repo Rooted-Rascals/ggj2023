@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Script.Decorators;
 using UnityEngine;
 
 public enum TileType
@@ -62,16 +63,23 @@ public class Tile : MonoBehaviour
         return TileType;
     }
 
+    public List<TileDecorator> TileDecorators;
+
+    public void Awake()
+    {
+        TileDecorators = GetComponentsInChildren<TileDecorator>().ToList();
+    }
+
     public void SetActiveTile(TileType type, bool fogOfWar)
     {
         TileType = type;
-        Tiles.ForEach(b => b.gameObject.SetActive(false)) ;
+        TileDecorators.ForEach(b => b.gameObject.SetActive(false)) ;
         if (fogOfWar)
             FogOfWar.SetActive(true);
         else
         {
             FogOfWar.SetActive(false);
-            Tiles.FirstOrDefault(b => b.type == type).gameObject.SetActive(true);
+            TileDecorators.FirstOrDefault(b => b.Type == type).gameObject.SetActive(true);
         }
             
     }
