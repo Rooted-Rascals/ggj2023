@@ -21,9 +21,7 @@ public class Tile : MonoBehaviour
 
     [SerializeField]
     private GameObject FogOfWar;
-
-    [SerializeField]
-    private TileType CurrentTyleType;
+    public TileDecorator CurrentTyleDecorator { get; private set; }
 
     [SerializeField]
     private Transform BuildingSpawn;
@@ -61,6 +59,7 @@ public class Tile : MonoBehaviour
         {
             BuildingDecorator decorator = building.GetComponent<BuildingDecorator>();
             BuildingCache.Add(decorator.BuildingType, building.GameObject());
+            Debug.Log($"Found {decorator.BuildingType.ToString()}");
         }
     }
 
@@ -84,7 +83,7 @@ public class Tile : MonoBehaviour
         
         CurrentBuilding = Instantiate(BuildingCache[type], BuildingSpawn).GetComponent<BuildingDecorator>();
         CurrentBuilding.transform.SetParent(transform);
-        SetNeighboursActive();
+        SetNeighboursActive(3);
     }
 
     public void SetRootsTile(RootsType type)
@@ -93,35 +92,52 @@ public class Tile : MonoBehaviour
         gameObject.GetComponentInChildren<TileDecorator>().RootsList.Add(type);
         gameObject.GetComponentInChildren<TileDecorator>().hasRoots = true;
 
-        SetNeighboursActive();
+        SetNeighboursActive(1);
     }
 
-    public void SetNeighboursActive()
+    public List<Vector3Int> SetNeighboursActive(int size, List<Vector3Int>? alreadySeen = null)
     {
+        if(alreadySeen == null)
+            alreadySeen = new();
+
         foreach (Tile item in Neighbours)
         {
-            TileType type = item.GetComponent<Tile>().GetTileType();
-            item.GetComponent<Tile>().SetActiveTile(type, false);
+            Tile tile = item.GetComponent<Tile>();
+            if (alreadySeen != null)
+            {
+                Vector3Int position = tile.GetPosition();
+
+                if (!alreadySeen.Contains(position))
+                {
+                    TileType type = tile.GetTileType();
+                    tile.SetActiveTile(type, false);
+                }
+                if (size > 1)
+                    alreadySeen = tile.SetNeighboursActive(size - 1, alreadySeen);
+            }
         }
+
+        return alreadySeen;
     }
 
     public TileType GetTileType()
     {
-        return CurrentTyleType;
+        return CurrentTyleDecorator.Type;
     }
     
     public void SetActiveTile(TileType type, bool fogOfWar)
     {
-        CurrentTyleType = type;
+        CurrentTyleDecorator = TileDecorators.FirstOrDefault(b => b.Type == type);
+        CurrentTyleDecorator.IsVisible = !fogOfWar;
+        
         TileDecorators.ForEach(b => b.gameObject.SetActive(false)) ;
         if (fogOfWar)
             FogOfWar.SetActive(true);
         else
         {
             FogOfWar.SetActive(false);
-            TileDecorators.FirstOrDefault(b => b.Type == type).gameObject.SetActive(true);
+            CurrentTyleDecorator.gameObject.SetActive(true);
         }
-            
     }
 
     public void SetPosition(Vector3Int newPosition)

@@ -80,9 +80,7 @@ public class TilesManager : MonoBehaviour
         Tile spawn = tilesMaps[new Vector3Int(0, 0, 0)];
 
         spawn.GetComponent<Tile>().SetActiveTile(TileType.Grass, false);
-        spawn.GetComponentInChildren<TileDecorator>().hasMotherTree = true;
         spawn.SetActiveBuildingTile(TileBuildingType.MOTHERTREE);
-        //spawn.GetComponent<Tile>().SetActiveBuildingTile(TileBuildingType.MotherTree);
     }
 
     private void InstantiateTile(Vector3Int position)

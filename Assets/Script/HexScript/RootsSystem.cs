@@ -19,14 +19,10 @@ public enum RootsType
 
 public class RootsSystem : MonoBehaviour
 {
-    private Tile Tile;
-
     private Dictionary<Vector3Int, string> NeighboursDirection = new Dictionary<Vector3Int, string>();
 
     private void Start()
     {
-        Tile = GetComponent<Tile>();
-
         NeighboursDirection.Add(new Vector3Int(1, -1, 0), "y_minus");
         NeighboursDirection.Add(new Vector3Int(-1, 1, 0), "y");
         NeighboursDirection.Add(new Vector3Int(-1, 0, 1), "z_minus");
@@ -39,85 +35,48 @@ public class RootsSystem : MonoBehaviour
 
     public void BuildRoots()
     {
-        Tile = MouseManager.Instance.CurrentSelectedObject.GetComponent<Tile>();
-        print("build");
-        GetNeighbourBranchDirection();
+        GetNeighbourBranchDirection(MouseManager.Instance.CurrentSelectedObject.GetComponent<Tile>());
     }
 
-    public void GetNeighbourBranchDirection()
+    public void GetNeighbourBranchDirection(Tile tile)
     {
-        List<Tile> neighbours = Tile.GetNeighboursTile();
-        Vector3Int position = Tile.GetPosition();
+        List<Tile> neighbours = tile.GetNeighboursTile();
+        Vector3Int position = tile.GetPosition();
 
         foreach (Tile neighbour in neighbours)
         {
             TileBuildingType ActiveBuildingType = neighbour.GetCurrentBuildingType();
             Vector3Int neighbourPosition = neighbour.GetPosition();
 
-            if (ActiveBuildingType == TileBuildingType.MOTHERTREE)
-            {
-                
-                print(neighbour.GetComponentInChildren<TileDecorator>().hasRoots);
-                print(neighbour.GetComponentInChildren<TileDecorator>().RootsList.Count);
-
-                if (NeighboursDirection.TryGetValue(position - neighbourPosition, out string direction))
-                {
-                    switch (direction)
-                    {
-                        case "x":
-                            Tile.SetRootsTile(RootsType.Rootsx);
-                            break;
-                        case "x_minus":
-                            Tile.SetRootsTile(RootsType.Rootsx_minus);
-                            break;
-                        case "y":
-                            Tile.SetRootsTile(RootsType.Rootsy);
-                            break;
-                        case "y_minus":
-                            Tile.SetRootsTile(RootsType.Rootsy_minus);
-                            break;
-                        case "z":
-                            Tile.SetRootsTile(RootsType.Rootsz);
-                            break;
-                        case "z_minus":
-                            Tile.SetRootsTile(RootsType.Rootsz_minus);
-                            break;
-                    }
-                    break;
-                }
-                    
-            }
-
             TileDecorator tileDecorator = neighbour.gameObject.GetComponentInChildren<TileDecorator>();
-            if (tileDecorator && tileDecorator.hasRoots)
+            if (tileDecorator && tileDecorator.hasRoots || ActiveBuildingType == TileBuildingType.MOTHERTREE)
             {
                 if (NeighboursDirection.TryGetValue(position - neighbourPosition, out string direction))
                 {
-                    print("neighbour");
                     switch (direction)
                     {
                         case "x":
-                            Tile.SetRootsTile(RootsType.Rootsx);
+                            tile.SetRootsTile(RootsType.Rootsx);
                             neighbour.SetRootsTile(RootsType.Rootsx_minus);
                             break;
                         case "x_minus":
-                            Tile.SetRootsTile(RootsType.Rootsx_minus);
+                            tile.SetRootsTile(RootsType.Rootsx_minus);
                             neighbour.SetRootsTile(RootsType.Rootsx);
                             break;
                         case "y":
-                            Tile.SetRootsTile(RootsType.Rootsy);
+                            tile.SetRootsTile(RootsType.Rootsy);
                             neighbour.SetRootsTile(RootsType.Rootsy_minus);
                             break;
                         case "y_minus":
-                            Tile.SetRootsTile(RootsType.Rootsy_minus);
+                            tile.SetRootsTile(RootsType.Rootsy_minus);
                             neighbour.SetRootsTile(RootsType.Rootsy);
                             break;
                         case "z":
-                            Tile.SetRootsTile(RootsType.Rootsz);
+                            tile.SetRootsTile(RootsType.Rootsz);
                             neighbour.SetRootsTile(RootsType.Rootsz_minus);
                             break;
                         case "z_minus":
-                            Tile.SetRootsTile(RootsType.Rootsz_minus);
+                            tile.SetRootsTile(RootsType.Rootsz_minus);
                             neighbour.SetRootsTile(RootsType.Rootsz);
                             break;
                     }
@@ -126,5 +85,28 @@ public class RootsSystem : MonoBehaviour
            }
             
         }
+    }
+
+    public static bool CheckNeighboursForRoots(Tile tile)
+    {
+        bool isNearRoots = false;
+        List<Tile> neighbours = tile.GetNeighboursTile();
+        Vector3Int position = tile.GetPosition();
+
+        foreach (Tile neighbour in neighbours)
+        {
+            TileBuildingType ActiveBuildingType = neighbour.GetCurrentBuildingType();
+            Vector3Int neighbourPosition = neighbour.GetPosition();
+
+            TileDecorator tileDecorator = neighbour.gameObject.GetComponentInChildren<TileDecorator>();
+            if (tileDecorator && tileDecorator.hasRoots || ActiveBuildingType == TileBuildingType.MOTHERTREE)
+            {
+                isNearRoots = true;
+                break;
+            }
+
+        }
+
+        return isNearRoots;
     }
 }
