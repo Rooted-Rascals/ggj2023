@@ -14,7 +14,8 @@ namespace Script.Decorators
         #region Roots
 
         public bool hasRoots = false;
-        public virtual bool CanBuildRoots => !hasRoots;
+        public virtual bool CanBuildRoots => !hasRoots && 
+            RootsSystem.CheckNeighboursForRoots(gameObject.GetComponentInParent<Tile>());
 
         public List<RootsType> RootsList = new List<RootsType>();
 

@@ -84,7 +84,7 @@ public class Tile : MonoBehaviour
         
         CurrentBuilding = Instantiate(BuildingCache[type], BuildingSpawn).GetComponent<BuildingDecorator>();
         CurrentBuilding.transform.SetParent(transform);
-        SetNeighboursActive();
+        SetNeighboursActive(3);
     }
 
     public void SetRootsTile(RootsType type)
@@ -93,16 +93,32 @@ public class Tile : MonoBehaviour
         gameObject.GetComponentInChildren<TileDecorator>().RootsList.Add(type);
         gameObject.GetComponentInChildren<TileDecorator>().hasRoots = true;
 
-        SetNeighboursActive();
+        SetNeighboursActive(1);
     }
 
-    public void SetNeighboursActive()
+    public List<Vector3Int> SetNeighboursActive(int size, List<Vector3Int>? alreadySeen = null)
     {
+        if(alreadySeen == null)
+            alreadySeen = new();
+
         foreach (Tile item in Neighbours)
         {
-            TileType type = item.GetComponent<Tile>().GetTileType();
-            item.GetComponent<Tile>().SetActiveTile(type, false);
+            Tile tile = item.GetComponent<Tile>();
+            if (alreadySeen != null)
+            {
+                Vector3Int position = tile.GetPosition();
+
+                if (!alreadySeen.Contains(position))
+                {
+                    TileType type = tile.GetTileType();
+                    tile.SetActiveTile(type, false);
+                }
+                if (size > 1)
+                    alreadySeen = tile.SetNeighboursActive(size - 1, alreadySeen);
+            }
         }
+
+        return alreadySeen;
     }
 
     public TileType GetTileType()
