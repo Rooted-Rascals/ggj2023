@@ -65,7 +65,6 @@ public class GameManager : MonoBehaviour
         totalTime += 0f;
         
         UpdateResources();
-        UpdateTreeStats();
     }
 
     private void Initialize()
@@ -92,6 +91,7 @@ public class GameManager : MonoBehaviour
         {
             waitingTime = 0f;
             GainResources();
+            UpdateTreeStats();
         }
     }
 

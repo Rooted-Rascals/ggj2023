@@ -109,7 +109,7 @@ public class AIController : MonoBehaviour
             {
                 aiList.Remove(spawnedAi);
                 aiTargets.Remove(spawnedAi);
-                Destroy(spawnedAi);
+                Destroy(spawnedAi.gameObject);
             });
             aiList.Add(spawnedAi);
             aiTargets.Add(spawnedAi, spawnedAi.transform.position);
