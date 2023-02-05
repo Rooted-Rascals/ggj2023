@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace Script.Manager
         public static MouseManager Instance = null;
 
         private Camera _mainCamera;
+        private Camera _uiCamera;
         private GameObject _currentGameObject;
 
         private RaycastHit _currentHit;
@@ -42,7 +44,8 @@ namespace Script.Manager
             Instance = this;
 
             _mainCamera = Camera.main;
-            _speedRatio = _mainCamera.transform.localRotation.eulerAngles.x / 90 -
+            _uiCamera = GetComponentsInChildren<Camera>().FirstOrDefault(b => !b.CompareTag("MainCamera"));
+;            _speedRatio = _mainCamera.transform.localRotation.eulerAngles.x / 90 -
                           _mainCamera.transform.localRotation.eulerAngles.x;
         }
 
@@ -127,6 +130,8 @@ namespace Script.Manager
 
             if (_mainCamera.orthographicSize < minZoom)
                 _mainCamera.orthographicSize = minZoom;
+
+            _uiCamera.orthographicSize = _mainCamera.orthographicSize;
         }
 
         private void UpdateSelections(GameObject obj)
