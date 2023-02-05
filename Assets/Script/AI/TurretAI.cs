@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -24,10 +23,24 @@ public class TurretAI : MonoBehaviour
     [SerializeField]
     private float lifetime = 1.0f;
 
-    void Awake()
+    IEnumerator ScaleUpAndDown(Transform transform, Vector3 upScale, float duration)
     {
+        Vector3 initialScale = transform.localScale;
 
+        for (float time = 0; time < duration; time += Time.deltaTime)
+        {
+            float progress = Mathf.PingPong(time, duration) / duration;
+            transform.localScale = Vector3.Lerp(initialScale, upScale, progress);
+            yield return null;
+        }
+        for (float time = 0; time < duration; time += Time.deltaTime)
+        {
+            float progress = Mathf.PingPong(time, duration) / duration;
+            transform.localScale = Vector3.Lerp(upScale, initialScale, progress);
+            yield return null;
+        }
     }
+
     void Start()
     {
         if(Collider is null)
@@ -37,7 +50,7 @@ public class TurretAI : MonoBehaviour
             Collider = sphereCollider;
         }
 
-        InvokeRepeating("LaunchProjectile", rate, 1f);
+        InvokeRepeating("LaunchProjectile", 3f, 1f);
     }
 
     public void Update()
@@ -63,6 +76,7 @@ public class TurretAI : MonoBehaviour
     {
         if(Target != null)
         {
+            StartCoroutine(ScaleUpAndDown(gameObject.transform, new Vector3(0.9f, 1.1f, 0.9f), 0.2f));
             Vector3 direction = new Vector3(Target.transform.position.x ,0, Target.transform.position.z) - 
                 new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
             Quaternion rotation = Quaternion.LookRotation(direction);
