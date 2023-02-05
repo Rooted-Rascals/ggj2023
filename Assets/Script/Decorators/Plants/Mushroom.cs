@@ -15,7 +15,6 @@ namespace Script.Decorators.Plants
 
         public override PlantType PlantType => PlantType.MUSHROOM;
 
-
         private void Update()
         {
             cooldown -= Time.deltaTime;

@@ -26,7 +26,6 @@ public class Poison : MonoBehaviour
             Collider[] collidingObject = Physics.OverlapSphere(transform.position,  radius);
             foreach (Collider collider in collidingObject)
             {
-                Debug.Log(this.collider);
                 if (collider.GetComponent<AI>())
                 {
                     HealthManager enemyHealth = collider.GetComponent<HealthManager>();

@@ -69,7 +69,6 @@ public class AIController : MonoBehaviour
         delay += Time.deltaTime;
 
         UpdateAIs();
-        
         SpawnAIs();
     }
 
