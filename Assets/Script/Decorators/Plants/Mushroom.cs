@@ -14,7 +14,6 @@ namespace Script.Decorators.Plants
 
         [SerializeField] private float detectionRadius = 1.5f;
         private float cooldown = 5f;
-        private AudioSource audioSource;
         [SerializeField]
         private AudioClip audioClip;
 
@@ -23,7 +22,6 @@ namespace Script.Decorators.Plants
         void Start()
         {
             base.Start();
-            audioSource = GetComponent<AudioSource>();
         }
 
         void Update()
