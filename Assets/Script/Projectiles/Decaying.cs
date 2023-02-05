@@ -23,10 +23,19 @@ public class Decaying : MonoBehaviour
         
         lifeSpan -= Time.deltaTime;
 
+        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
+        if (meshRenderer)
+        {
+            Color color = meshRenderer.material.color;
+            color.a = lifeSpan / 10f;
+            meshRenderer.material.color = color;
+        }
+
         if (lifeSpan <= 0)
         {
             decayCompleted = true;
             completelyDecay.Invoke(gameObject);
+            Destroy(this.gameObject);
         }
     }
 }

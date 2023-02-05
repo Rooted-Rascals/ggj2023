@@ -45,6 +45,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 459266dda68248ee88a9ecde9350f2c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waterConsumption: 1
+  waterGeneration: 0
+  energyGeneration: 0
+  poisonTriggerDelay: 10
+  poisonPatch: {fileID: 2882633420285815187, guid: 2f4a11defe3f35f42b479fdddce00b3c, type: 3}
 --- !u!1001 &6135684927705340124
 PrefabInstance:
   m_ObjectHideFlags: 0
