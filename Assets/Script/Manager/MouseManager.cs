@@ -138,6 +138,11 @@ namespace Script.Manager
                 onHoverChanged.Invoke(obj);
         }
 
+        public void Unselect()
+        {
+            onSelection.Invoke(null);
+        }
+
         private void OnSelection(GameObject obj)
         {
             CurrentSelectedObject = obj;

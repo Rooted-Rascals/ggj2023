@@ -94,8 +94,6 @@ namespace Script.Manager
             
             _canvas.enabled = true;
         }
-
-        private void RefreshMenu() => OnSelection(_currentTile.gameObject);
         
         private int RootPrice => GameManager.Instance.GetMotherTree()?.GetRootsCount() ?? 0;
         
@@ -109,7 +107,7 @@ namespace Script.Manager
             _currentTile.CurrentBiome.hasRoots = true;
             _audioSource.PlayOneShot(_currentTile.CurrentBiome.RootsBuildSounds[UnityEngine.Random.Range(0, _currentTile.CurrentBiome.RootsBuildSounds.Count)]);
             
-            RefreshMenu();
+            MouseManager.Instance.Unselect();
         }
 
         private void Build(PlantType type)
@@ -126,7 +124,7 @@ namespace Script.Manager
             ResourcesManager.Instance.DecreaseEnergyCount(price);
             _audioSource.PlayOneShot(_currentTile.CurrentBuilding.GrowingSound[UnityEngine.Random.Range(0, _currentTile.CurrentBuilding.GrowingSound.Count)]);
             StartCoroutine(Coroutines.SpawnBuilding(_currentTile.CurrentBuilding.gameObject.transform, new Vector3(1.1f, 1.3f, 1.1f), 0.6f, 0.15f));
-            RefreshMenu();
+            MouseManager.Instance.Unselect();
         }
 
         public void BuildLeaf() => Build(PlantType.LEAF);
