@@ -24,8 +24,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2454250856885429974}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.18, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6820166908900192403}
@@ -42,6 +42,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5601814919849390731}
   - component: {fileID: 3909071500578001185}
+  - component: {fileID: 7663553966392149056}
+  - component: {fileID: 2446474907048382569}
+  - component: {fileID: 3946812000960372899}
   m_Layer: 0
   m_Name: Cactus
   m_TagString: Untagged
@@ -58,7 +61,7 @@ Transform:
   m_GameObject: {fileID: 6462816304782186089}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2973660577037745260}
@@ -77,6 +80,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9013472ddb2445bc9538f71ee61e8466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waterConsumption: 1
+  waterGeneration: 0
+  energyGeneration: 0
+--- !u!114 &7663553966392149056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6462816304782186089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2028fa1efdb258b42aefb80f72a9aafa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 5
+  rate: 0.5
+  Speed: 6
+  SpawnPosition: {x: 0, y: 0.8, z: 0}
+  bullet: {fileID: 7869282559274880472, guid: b1050415504aa374785057ced2fb7945, type: 3}
+  lifetime: 1
+--- !u!135 &2446474907048382569
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6462816304782186089}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 3
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!54 &3946812000960372899
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6462816304782186089}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &7247704356992418013
 GameObject:
   m_ObjectHideFlags: 0
