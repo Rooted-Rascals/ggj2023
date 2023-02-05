@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,11 @@ public class Decaying : MonoBehaviour
 
     private bool decayCompleted = false;
 
+    private void Start()
+    {
+        StartCoroutine(Coroutines.SpawnScalingUpAndDecay(gameObject.transform, lifeSpan, 0.5f));
+    }
+
     void Update()
     {
         if (decayCompleted || !decayActivated)
@@ -22,14 +28,6 @@ public class Decaying : MonoBehaviour
         }
         
         lifeSpan -= Time.deltaTime;
-
-        MeshRenderer meshRenderer = GetComponent<MeshRenderer>();
-        if (meshRenderer)
-        {
-            Color color = meshRenderer.material.color;
-            color.a = lifeSpan / 10f;
-            meshRenderer.material.color = color;
-        }
 
         if (lifeSpan <= 0)
         {

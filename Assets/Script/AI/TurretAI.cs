@@ -23,6 +23,10 @@ public class TurretAI : MonoBehaviour
     [SerializeField]
     private float lifetime = 1.0f;
 
+    [SerializeField] private AudioClip audioClip;
+    private AudioSource audioSource;
+    
+
     
 
     void Start()
@@ -32,6 +36,11 @@ public class TurretAI : MonoBehaviour
             SphereCollider sphereCollider = gameObject.AddComponent<SphereCollider>();
             sphereCollider.radius = range;
             Collider = sphereCollider;
+        }
+
+        if (audioSource is null)
+        {
+            audioSource = GetComponent<AudioSource>();
         }
 
         InvokeRepeating("LaunchProjectile", 3f, 1f);
@@ -64,8 +73,11 @@ public class TurretAI : MonoBehaviour
             Vector3 direction = new Vector3(Target.transform.position.x ,0, Target.transform.position.z) - 
                 new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
             Quaternion rotation = Quaternion.LookRotation(direction);
+            if (audioSource)
+            {
+                audioSource.PlayOneShot(audioClip, 0.25f);
+            }
             GameObject instance = Instantiate(bullet, gameObject.transform.position + SpawnPosition, rotation);
-
             instance.GetComponent<Rigidbody>().velocity = direction * Speed;
         }
     }

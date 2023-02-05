@@ -78,7 +78,8 @@ public class GameManager : MonoBehaviour
         GameObject spawnedObject = spawnTile.SetActiveBuildingTile(PlantType.MOTHERTREE);
         if (spawnedObject != null)
         {
-            motherTree = spawnedObject.GetComponent<MotherTreeOrchestrator>();   
+            motherTree = spawnedObject.GetComponent<MotherTreeOrchestrator>();
+            motherTree.UpdateRootsList();
         }
         AIController.Instance.UpdateAIGrid();
     }

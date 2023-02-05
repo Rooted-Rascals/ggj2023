@@ -58,7 +58,7 @@ namespace Script
             UpdateRootsList();
         }
 
-        private void UpdateRootsList()
+        public void UpdateRootsList()
         {
             //start
             Tile startTile = gameObject.GetComponentInParent<Tile>();
