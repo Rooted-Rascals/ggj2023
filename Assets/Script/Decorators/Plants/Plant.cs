@@ -58,11 +58,14 @@ namespace Script.Decorators.Plants
         public void Start()
         {
             HealthManager buildingsHealth = gameObject.GetComponent<HealthManager>();
-            buildingsHealth.onDeath.AddListener(() =>
-            {
-                Tile tile = gameObject.GetComponentInParent<Tile>();
-                GameManager.Instance.GetMotherTree().RemoveRoots(tile);
-            });
+            buildingsHealth.onDeath.AddListener(Die);
+        }
+
+        public virtual void Die()
+        {
+            Tile tile = gameObject.GetComponentInParent<Tile>();
+            GameManager.Instance.GetMotherTree().RemoveRoots(tile);
+            Destroy(this.gameObject);
         }
     }
 

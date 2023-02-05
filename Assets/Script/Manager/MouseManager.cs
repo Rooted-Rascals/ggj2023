@@ -32,7 +32,7 @@ namespace Script.Manager
 
         public GameObject CurrentSelectedObject { get; private set; }
         public GameObject CurrentHoverObject { get; private set; }
-
+        
         private void Awake()
         {
             if (Instance != null)

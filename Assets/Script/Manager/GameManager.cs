@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
+using JetBrains.Annotations;
 using Script;
 using Script.Decorators.Plants;
+using Script.Manager;
 using UnityEditor.Search;
 using UnityEngine;
 
@@ -33,10 +35,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float decayDamage = 3f;
     private MotherTreeOrchestrator motherTree;
 
-    public MotherTreeOrchestrator GetMotherTree()
-    {
-        return motherTree;
-    }
+    [CanBeNull]
+    public MotherTreeOrchestrator GetMotherTree() =>  motherTree ? motherTree : null;
 
     void Awake()
     {
@@ -48,7 +48,6 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
-        DontDestroyOnLoad(this);
     }
 
     void Start()
@@ -56,12 +55,17 @@ public class GameManager : MonoBehaviour
         Initialize();
     }
 
+    public void EndGame()
+    {
+        activated = false;
+        MouseManager.Instance.enabled = false;
+        EndgameMenuController.Instance.Show();
+    }
+
     void Update()
     {
         if (!activated)
-        {
             return;
-        }
 
         totalTime += 0f;
         

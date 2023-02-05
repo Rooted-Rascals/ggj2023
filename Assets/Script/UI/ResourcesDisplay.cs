@@ -34,7 +34,7 @@ public class ResourcesDisplay : MonoBehaviour
         energyProductionText.text = $"{GameManager.Instance.GetEnergyGeneration()}";
         waterCountText.text = $"{resourcesManager.GetWaterCount()}";
         waterProductionText.text = $"{GameManager.Instance.GetWaterGeneration() - GameManager.Instance.GetWaterConsumption()}";
-        healthText.text = $"{GameManager.Instance.GetMotherTree().GetComponent<HealthManager>().GetHealth()}";
+        healthText.text = $"{GameManager.Instance.GetMotherTree()?.GetComponent<HealthManager>()?.GetHealth() ?? 0}";
         timeText.text = $"{Mathf.RoundToInt(GameManager.Instance.GetTotalTime())}s";
     }
 }

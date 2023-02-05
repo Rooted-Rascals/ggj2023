@@ -97,7 +97,7 @@ namespace Script.Manager
 
         private void RefreshMenu() => OnSelection(_currentTile.gameObject);
         
-        private int RootPrice => GameManager.Instance.GetMotherTree().GetRootsCount();
+        private int RootPrice => GameManager.Instance.GetMotherTree()?.GetRootsCount() ?? 0;
         
         public void BuildRoots()
         {
