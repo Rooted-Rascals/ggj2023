@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Script.Decorators.Biomes;
+using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Script.Manager
@@ -25,7 +27,14 @@ namespace Script.Manager
 
         private void OnSelection(GameObject gameObject)
         {
-            if (gameObject is not null)
+            if (gameObject is null)
+            {
+                _renderer.enabled = false;
+                return;
+            }
+            
+            Biome currentBiome = gameObject.GetComponent<Tile>().CurrentBiome;
+            if (currentBiome.IsVisible && currentBiome.Type != BiomeType.Rock)
             {
                 _renderer.enabled = true;
                 transform.position =  gameObject.transform.position + new Vector3(0 , height, 0);

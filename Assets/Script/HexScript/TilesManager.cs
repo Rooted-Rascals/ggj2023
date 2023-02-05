@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Script.Decorators.Plants;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class TilesManager : MonoBehaviour
 {
@@ -67,7 +69,10 @@ public class TilesManager : MonoBehaviour
             List<Tile> neighbours = GetNeighbours(tile.Value, tile.Key);
             tile.Value.GetComponent<Tile>().SetNeighboursTile(neighbours);
         }
-        
+    }
+
+    private void Start()
+    {
         AIController.Instance.UpdateAIGrid();
     }
 

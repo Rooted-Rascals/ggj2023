@@ -41,7 +41,7 @@ namespace Script.Manager
 
         private void PopulatePopupInfos()
         {
-            rootButton.AddComponent<PopupInfo>().Panel.SetInfos("Roots", "Roots allow you to expand you network and explore the area. You can always build next to a root tile.");
+            rootButton.AddComponent<PopupInfo>().Panel.SetInfos("Roots", "Roots allow you to expand you network and explore the area. You can always build next to another root. The price scale the more you have roots.");
             cactusButton.AddComponent<PopupInfo>().Panel.SetInfos<Cactus>();
             leafButton.AddComponent<PopupInfo>().Panel.SetInfos<Leaf>();
             mushroomButton.AddComponent<PopupInfo>().Panel.SetInfos<Mushroom>();

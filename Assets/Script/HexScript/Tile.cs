@@ -119,7 +119,7 @@ public class Tile : MonoBehaviour
 
                 if (!alreadySeen.Contains(position))
                 {
-                    BiomeType type = tile.GetTileType();
+                    BiomeType type = tile.GetTileBiome();
                     tile.SetActiveTile(type, false);
                 }
                 if (size > 1)
@@ -130,7 +130,7 @@ public class Tile : MonoBehaviour
         return alreadySeen;
     }
 
-    public BiomeType GetTileType()
+    public BiomeType GetTileBiome()
     {
         return CurrentBiome.Type;
     }
