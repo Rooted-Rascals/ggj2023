@@ -97,9 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2028fa1efdb258b42aefb80f72a9aafa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 5
-  fireRate: 5
-  Speed: 6
+  range: 5.5
+  fireRate: 2
+  Speed: 10
   SpawnPosition: {x: 0, y: 0.8, z: 0}
   bullet: {fileID: 7869282559274880472, guid: b1050415504aa374785057ced2fb7945, type: 3}
   Target: {fileID: 0}
@@ -116,7 +116,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 3.3
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!54 &3946812000960372899
 Rigidbody:
