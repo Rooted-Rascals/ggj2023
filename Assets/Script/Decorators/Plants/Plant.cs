@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Unity.VisualScripting;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.Events;
 
 namespace Script.Decorators.Plants
 {
@@ -21,6 +25,8 @@ namespace Script.Decorators.Plants
         [SerializeField] private float waterConsumption = 1f;
         [SerializeField] private float waterGeneration = 0f;
         [SerializeField] private float energyGeneration = 0f;
+        private AudioClip deathSound;
+        private AudioSource audioSource;
         bool isReady = false;
         public abstract PlantType PlantType { get; }
 
@@ -62,8 +68,15 @@ namespace Script.Decorators.Plants
 
         public void Start()
         {
+            
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = this.AddComponent<AudioSource>();
+            }
             HealthManager buildingsHealth = gameObject.GetComponent<HealthManager>();
             buildingsHealth.onDeath.AddListener(Die);
+            deathSound = Resources.Load<AudioClip>($"Sounds/death");
             StartCoroutine(SpawnBuilding(transform, new Vector3(1.1f, 1.3f, 1.1f), 0.38f, 0.09f));
         }
 
@@ -91,7 +104,8 @@ namespace Script.Decorators.Plants
         {
             Tile tile = gameObject.GetComponentInParent<Tile>();
             GameManager.Instance.GetMotherTree().RemoveRoots(tile);
-            Destroy(gameObject);
+            audioSource.PlayOneShot(deathSound);
+            Destroy(gameObject, deathSound.length);
         }
     }
 

@@ -95,6 +95,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   enemiesType: 1
+  meshAnimation: {fileID: 0}
+  dieAnimation: {fileID: 7400000, guid: 238d9c985389f47429419ed84c840b22, type: 2}
+  attackAnimation: {fileID: 7400000, guid: 1cf13db05e47a964cb2270956bc60b1e, type: 2}
 --- !u!54 &786924082557063574
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -230,7 +233,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 301646c6615283245a4d21de181778fb, type: 3}
   m_PrefabInstance: {fileID: 94924959209957192}
   m_PrefabAsset: {fileID: 0}
---- !u!111 &8549855608090224138
+--- !u!111 &7131600298722362229
 Animation:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,11 +242,12 @@ Animation:
   m_GameObject: {fileID: 977373953750866457}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 1cf13db05e47a964cb2270956bc60b1e, type: 2}
+  m_Animation: {fileID: 7400000, guid: b12d5b4a772d97f47a606b9a102cc720, type: 2}
   m_Animations:
   - {fileID: 7400000, guid: 1cf13db05e47a964cb2270956bc60b1e, type: 2}
+  - {fileID: 7400000, guid: 238d9c985389f47429419ed84c840b22, type: 2}
   m_WrapMode: 0
-  m_PlayAutomatically: 1
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
 --- !u!1 &8389863508950869176 stripped

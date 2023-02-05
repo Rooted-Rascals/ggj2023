@@ -48,17 +48,14 @@ public class HealthManager : MonoBehaviour
         HealthBarImage = HealthBar.GetComponentInChildren<Image>();
         if (isEnnemy)
         {
-            EnemiesType type = GetComponent<AI>().EnemiesType;
-
-            deathSound = Resources.Load<AudioClip>($"Sounds/ENNEMY/{type.ToString()}_death");
             HealthBarImage.color = Color.red;
         }
-        else
+
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
         {
-            deathSound = Resources.Load<AudioClip>($"Sounds/ENNEMY/death");
+            _audioSource = this.AddComponent<AudioSource>();
         }
-        
-        _audioSource = this.AddComponent<AudioSource>();
         _audioSource.volume = 0.15f;
         hitSound = Resources.Load<AudioClip>("Sounds/ENNEMY/hit");
     }
@@ -87,7 +84,7 @@ public class HealthManager : MonoBehaviour
         
         if(Health < 0 && !isDead && !isDying)
         {
-            StartCoroutine(nameof(Die));
+            Die();
         }
 
         if (isDying || isDead)
@@ -97,12 +94,10 @@ public class HealthManager : MonoBehaviour
             _audioSource.PlayOneShot(hitSound);
     }
 
-    IEnumerator Die()
+    void Die()
     {
         isDying = true;
         Health = 0;
-        _audioSource.PlayOneShot(deathSound);
-        yield return new WaitForSeconds(deathSound.length);
         onDeath.Invoke();
         isDead = true;
     }

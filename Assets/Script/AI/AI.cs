@@ -1,5 +1,6 @@
 using Script.Decorators.Biomes;
 using Script.Decorators.Enemies;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,8 +15,28 @@ public class AI : MonoBehaviour
     public float attackDamage = 5f;
     private float attackCooldown = 0f;
     public UnityEvent<GameObject> deathTrigger = new UnityEvent<GameObject>();
+    private AudioClip deathSound;
+    private AudioSource audioSource;
+    private bool isDead = false;
     [SerializeField] private EnemiesType enemiesType;
-    
+    [SerializeField]
+    private Animation meshAnimation;
+    [SerializeField] private AnimationClip dieAnimation;
+    [SerializeField] private AnimationClip attackAnimation;
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = this.AddComponent<AudioSource>();
+        } 
+        deathSound = Resources.Load<AudioClip>($"Sounds/ENNEMY/{enemiesType.ToString()}_death");
+        if (meshAnimation == null)
+        {
+            meshAnimation = GetComponentInChildren<Animation>();
+        }
+    }
     public float GetRange()
     {
         return attackRange;
@@ -23,6 +44,10 @@ public class AI : MonoBehaviour
     
     private void Update()
     {
+        if (isDead)
+        {
+            return;
+        }
         attackCooldown = Mathf.Max(0f, attackCooldown - Time.deltaTime);
     }
 
@@ -47,6 +72,10 @@ public class AI : MonoBehaviour
 
     public void MoveTo(Vector3 target)
     {
+        if (isDead)
+        {
+            return;
+        }
         float deltaX = target.x - transform.position.x;
         float deltaZ = target.z - transform.position.z;
         Vector3 direction = new Vector3(deltaX, 0f, deltaZ).normalized;
@@ -68,6 +97,10 @@ public class AI : MonoBehaviour
 
     public void Attack(GameObject target)
     {
+        if (isDead)
+        {
+            return;
+        }
         float deltaX = target.transform.position.x - transform.position.x;
         float deltaZ = target.transform.position.z - transform.position.z;
         Vector3 direction = new Vector3(deltaX, 0f, deltaZ).normalized;
@@ -75,8 +108,9 @@ public class AI : MonoBehaviour
         if (attackCooldown <= 0)
         {
             attackCooldown = attackDelay;
-            Animation animation = GetComponentInChildren<Animation>();
-            animation.Play();
+            meshAnimation.Stop();
+            meshAnimation.clip = attackAnimation;
+            meshAnimation.Play();
             HealthManager health = target.GetComponent<HealthManager>();
             health.Damage(attackDamage);
         }
@@ -85,7 +119,12 @@ public class AI : MonoBehaviour
 
     public void Kill()
     {
-        Destroy(gameObject);
+        audioSource.PlayOneShot(deathSound);
+        isDead = true;
+        meshAnimation.Stop();
+        meshAnimation.clip = dieAnimation;
+        meshAnimation.Play();
+        Destroy(gameObject, Mathf.Max(dieAnimation.length, deathSound.length));
     }
 
     public void OnDestroy()
