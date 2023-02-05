@@ -55,7 +55,7 @@ public class HealthManager : MonoBehaviour
         }
         else
         {
-            deathSound = Resources.Load<AudioClip>($"Sounds/death");
+            deathSound = Resources.Load<AudioClip>($"Sounds/ENNEMY/death");
         }
         
         _audioSource = this.AddComponent<AudioSource>();
@@ -84,10 +84,14 @@ public class HealthManager : MonoBehaviour
         onDamage.Invoke();
         Health -= damage;
         
+        
         if(Health < 0 && !isDead && !isDying)
         {
             StartCoroutine(nameof(Die));
         }
+
+        if (isDying || isDead)
+            Health = 0;
         
         if(!isDead && !isDying)
             _audioSource.PlayOneShot(hitSound);
