@@ -125,6 +125,7 @@ namespace Script.Manager
             _currentTile.SetActiveBuildingTile(type);
             ResourcesManager.Instance.DecreaseEnergyCount(price);
             _audioSource.PlayOneShot(_currentTile.CurrentBuilding.GrowingSound[UnityEngine.Random.Range(0, _currentTile.CurrentBuilding.GrowingSound.Count)]);
+            StartCoroutine(Coroutines.SpawnBuilding(_currentTile.CurrentBuilding.gameObject.transform, new Vector3(1.1f, 1.3f, 1.1f), 0.6f, 0.15f));
             RefreshMenu();
         }
 
