@@ -47,6 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 285e730b3c8c4f76aaaa9d059380f983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waterConsumption: 1
+  waterGeneration: 0
+  energyGeneration: 0
 --- !u!114 &8164155232609887389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -71,11 +74,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67d87f86543f0f94c8f7335a74eb3cae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthBar: {fileID: 0}
+  HealthBarImage: {fileID: 0}
+  MaxHealth: 100000
   Health: 0
-  MaxHealth: 100
   LerpSpeed: 0
   isEnnemy: 0
+  Height: 3
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &4048981570656780560
 PrefabInstance:
   m_ObjectHideFlags: 0
