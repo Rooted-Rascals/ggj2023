@@ -27,6 +27,9 @@ public class HealthManager : MonoBehaviour
     private float Height = 3.0f;
 
     public UnityEvent onDeath;
+    public UnityEvent onDamage;
+
+
     GameObject HealthBar;
 
     private bool isDead = false;
@@ -60,6 +63,7 @@ public class HealthManager : MonoBehaviour
 
     public void Damage(float damage)
     {
+        onDamage.Invoke();
         Health -= damage;
         if(Health < 0 && !isDead)
         {
