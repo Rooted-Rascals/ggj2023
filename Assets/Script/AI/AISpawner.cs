@@ -43,9 +43,19 @@ public class AISpawner : MonoBehaviour
         }
 
         List<Vector3> newPath = new List<Vector3>();
+        newPath.Add(aiRoughPath[0].transform.position);
         for (int j = 0; j < aiRoughPath.Count - 2; j += 2)
         {
-            Vector3 p1 = aiRoughPath[j].transform.position;
+            
+            Vector3 p1;
+            if (newPath.Count <= 0)
+            {
+                p1 = aiRoughPath[0].transform.position;
+            }
+            else
+            {
+                p1 = newPath[^1];
+            }
             Vector3 p2 = aiRoughPath[j + 1].transform.position;
             Vector3 p3 = aiRoughPath[j + 2].transform.position;
             for (float t = 0f; t <= 1f; t += 1f/smoothness)
@@ -56,6 +66,7 @@ public class AISpawner : MonoBehaviour
             }
             // newPath.RemoveAt(newPath.Count - 1);
         }
+        
 
         aiPath = newPath;
     }
@@ -66,8 +77,17 @@ public class AISpawner : MonoBehaviour
         return spawnedAI;
     }
 
-#if UnityEditor
-    void OnDrawGizmos()
+
+
+    public void UpdatePosition(Tile tile)
+    {
+        tileUnderneath = tile;
+        Vector3 spawnerPosition = tileUnderneath.transform.position + new Vector3(0f, 1.5f, 0f);
+        transform.position = spawnerPosition;
+    }
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
         Gizmos.DrawSphere(transform.position, 0.5f);
@@ -78,11 +98,4 @@ public class AISpawner : MonoBehaviour
         }
     }
 #endif
-
-    public void UpdatePosition(Tile tile)
-    {
-        tileUnderneath = tile;
-        Vector3 spawnerPosition = tileUnderneath.transform.position + new Vector3(0f, 1.5f, 0f);
-        transform.position = spawnerPosition;
-    }
 }

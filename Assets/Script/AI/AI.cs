@@ -12,6 +12,11 @@ public class AI : MonoBehaviour
     private float attackCooldown = 0f;
     public UnityEvent<GameObject> deathTrigger = new UnityEvent<GameObject>();
 
+    public float GetRange()
+    {
+        return attackRange;
+    }
+    
     private void Update()
     {
         attackCooldown = Mathf.Max(0f, attackCooldown - Time.deltaTime);

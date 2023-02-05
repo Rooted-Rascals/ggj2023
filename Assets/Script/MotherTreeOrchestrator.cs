@@ -3,6 +3,7 @@ using Script.Decorators.Biomes;
 using Script.Decorators.Plants;
 using Script.Manager;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -45,6 +46,11 @@ namespace Script
                 }
             }
             ParticleSystem.Play();
+        }
+
+        public List<Tile> GetAllRoots()
+        {
+            return RootsList.ToList();
         }
 
         public int GetRootsCount() => RootsList.Count;

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Script;
+using Script.Decorators.Plants;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -136,26 +137,62 @@ public class AIController : MonoBehaviour
 
     private void UpdateAIs()
     {
-        MotherTreeOrchestrator motherTree = GameManager.Instance.GetMotherTree();
         foreach (AI ai in aiList)
         {
             List<Vector3> aiPath = aiPaths[ai];
             Vector3 target = aiPath[0];
             Vector3 aiPosition = ai.transform.position;
-            if (Mathf.Pow(aiPosition.x - target.x, 2) + Mathf.Pow(aiPosition.z - target.z, 2) <= TARGET_RADIUS && aiPath.Count > 1)
-            {
-                aiPath.RemoveAt(0);
-                target = aiPath[0];
-            }
 
-            if (motherTree != null && ai.IsInAttackRange(motherTree.transform.position))
+            Plant closestHit = null;
+            float closestDistance = float.MaxValue;
+            List<Tile> roots = GameManager.Instance.GetMotherTree().GetAllRoots();
+            Vector3 updatedAiPosition = new Vector3(ai.transform.position.x, 0f, ai.transform.position.z);
+            foreach (Tile rootTile in roots)
             {
-                ai.Attack(motherTree.GameObject());
+                
+                Plant building = rootTile.CurrentBuilding;
+                if (building != null && ai.IsInAttackRange(building.transform.position))
+                {
+                    Vector3 updatedBuildingPosition = new Vector3(building.transform.position.x, 0f, building.transform.position.z);
+                    Vector3 distance = (updatedAiPosition - updatedBuildingPosition);
+                    if (distance.magnitude < closestDistance)
+                    {
+                        closestHit = building;
+                        closestDistance = distance.magnitude;
+                    }
+                }
+            }
+            if (closestHit != null)
+            {
+                ai.Attack(closestHit.GameObject());
             }
             else
             {
+                if (Mathf.Pow(aiPosition.x - target.x, 2) + Mathf.Pow(aiPosition.z - target.z, 2) <= TARGET_RADIUS)
+                {
+                    if (aiPath.Count > 1)
+                    {
+                        aiPath.RemoveAt(0);
+                        target = aiPath[0];
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
                 ai.MoveTo(target);
             }
         } 
     }
+    
+#if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+
+            foreach (AI ai in aiList)
+            {
+                Gizmos.DrawWireSphere(ai.transform.position, ai.GetRange());
+            }
+        }
+#endif
 }
