@@ -66,7 +66,7 @@ MonoBehaviour:
   Health: 0
   LerpSpeed: 0
   isEnnemy: 1
-  Height: 3
+  Height: 2.3
   onDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -87,6 +87,9 @@ MonoBehaviour:
   attackRange: 1
   attackDelay: 3
   attackDamage: 5
+  deathTrigger:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!54 &786924082557063574
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6135684926683955728}
   - component: {fileID: 6135684926683955729}
   - component: {fileID: 8771548020854023117}
+  - component: {fileID: 6654475207543967040}
   m_Layer: 0
   m_Name: Mushroom
   m_TagString: Untagged
@@ -51,6 +52,7 @@ MonoBehaviour:
   energyGeneration: 0
   poisonTriggerDelay: 10
   poisonPatch: {fileID: 2882633420285815187, guid: 2f4a11defe3f35f42b479fdddce00b3c, type: 3}
+  detectionRadius: 1.5
   audioClip: {fileID: 8300000, guid: 1cebe464c210909459e59f7b76fcd2db, type: 3}
 --- !u!82 &8771548020854023117
 AudioSource:
@@ -148,6 +150,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6654475207543967040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6135684926683955731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d87f86543f0f94c8f7335a74eb3cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarImage: {fileID: 0}
+  MaxHealth: 100
+  Health: 0
+  LerpSpeed: 0
+  isEnnemy: 0
+  Height: 3
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &6135684927705340124
 PrefabInstance:
   m_ObjectHideFlags: 0

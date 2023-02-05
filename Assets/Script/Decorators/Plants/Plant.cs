@@ -54,6 +54,16 @@ namespace Script.Decorators.Plants
         {
             return _growingSound ??= Resources.LoadAll<AudioClip>($"Sounds/{PlantType.ToString()}/Growing").ToList();
         }
+
+        public void Start()
+        {
+            HealthManager buildingsHealth = gameObject.GetComponent<HealthManager>();
+            buildingsHealth.onDeath.AddListener(() =>
+            {
+                Tile tile = gameObject.GetComponentInParent<Tile>();
+                GameManager.Instance.GetMotherTree().RemoveRoots(tile);
+            });
+        }
     }
 
     public class BuyableAttribute : Attribute

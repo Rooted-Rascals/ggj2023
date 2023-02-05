@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6135684926683955728}
   - component: {fileID: 2993427242946474754}
+  - component: {fileID: 675840387553837344}
   m_Layer: 0
   m_Name: Leaf
   m_TagString: Untagged
@@ -48,6 +49,27 @@ MonoBehaviour:
   waterConsumption: 3
   waterGeneration: 0
   energyGeneration: 2
+--- !u!114 &675840387553837344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6135684926683955731}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67d87f86543f0f94c8f7335a74eb3cae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HealthBarImage: {fileID: 0}
+  MaxHealth: 50
+  Health: 0
+  LerpSpeed: 0
+  isEnnemy: 0
+  Height: 2.5
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1001 &7430059876037061855
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -79,7 +79,7 @@ MonoBehaviour:
   Health: 0
   LerpSpeed: 0
   isEnnemy: 0
-  Height: 3
+  Height: 5.2
   onDeath:
     m_PersistentCalls:
       m_Calls: []

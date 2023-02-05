@@ -17,6 +17,7 @@ namespace Script
 
         private HashSet<Tile> RootsList = new HashSet<Tile>();
         private HashSet<Tile> EnabledRootsList = new HashSet<Tile>();
+        private HashSet<Tile> ConnectedPlant = new HashSet<Tile>(); 
 
         public void Update()
         {
@@ -52,9 +53,8 @@ namespace Script
             UpdateRootsList();
         }
 
-        public void RemoveRoots()
+        public void RemoveRoots(Tile tile)
         {
-            Tile tile = MouseManager.Instance.CurrentSelectedObject.GetComponent<Tile>();
             tile.SetRootsTile(null);
 
             UpdateRootsList();
@@ -68,6 +68,7 @@ namespace Script
             Queue<Tile> toVisit = new Queue<Tile>();
             HashSet<Tile> visited = new HashSet<Tile>();
             List<Tile> neighbours = startTile.GetNeighboursTile();
+            ConnectedPlant = new HashSet<Tile>();
 
             visited.Add(startTile);
 
@@ -95,6 +96,8 @@ namespace Script
                     if (biome && biome.hasRoots)
                     {
                         toVisit.Enqueue(neighbour);
+                        if (neighbour.CurrentBuilding != null)
+                            ConnectedPlant.Add(neighbour);
                     }
                 }
                 visited.Add(next);
