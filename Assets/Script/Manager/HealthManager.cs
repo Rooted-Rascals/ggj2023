@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using Script.Decorators.Plants;
+using Script.Decorators.Enemies;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
@@ -30,8 +29,14 @@ public class HealthManager : MonoBehaviour
     public UnityEvent onDamage;
 
 
+    private AudioSource _audioSource;
+    private AudioClip hitSound;
+    private AudioClip deathSound;
+
+    
     GameObject HealthBar;
 
+    private bool isDying = false;
     private bool isDead = false;
 
     private void Awake()
@@ -42,7 +47,20 @@ public class HealthManager : MonoBehaviour
         HealthBar.transform.parent = gameObject.transform;
         HealthBarImage = HealthBar.GetComponentInChildren<Image>();
         if (isEnnemy)
+        {
+            EnemiesType type = GetComponent<AI>().EnemiesType;
+
+            deathSound = Resources.Load<AudioClip>($"Sounds/ENNEMY/{type.ToString()}_death");
             HealthBarImage.color = Color.red;
+        }
+        else
+        {
+            deathSound = Resources.Load<AudioClip>($"Sounds/death");
+        }
+        
+        _audioSource = this.AddComponent<AudioSource>();
+        _audioSource.volume = 0.15f;
+        hitSound = Resources.Load<AudioClip>("Sounds/ENNEMY/hit");
     }
 
     private void Update()
@@ -65,12 +83,24 @@ public class HealthManager : MonoBehaviour
     {
         onDamage.Invoke();
         Health -= damage;
-        if(Health < 0 && !isDead)
+        
+        if(Health < 0 && !isDead && !isDying)
         {
-            Health = 0;
-            isDead = true;
-            onDeath.Invoke();
+            StartCoroutine(nameof(Die));
         }
+        
+        if(!isDead && !isDying)
+            _audioSource.PlayOneShot(hitSound);
+    }
+
+    IEnumerator Die()
+    {
+        isDying = true;
+        Health = 0;
+        _audioSource.PlayOneShot(deathSound);
+        yield return new WaitForSeconds(deathSound.length);
+        onDeath.Invoke();
+        isDead = true;
     }
 
     public void Heal(float healingPoint)
