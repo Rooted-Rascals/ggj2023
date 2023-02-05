@@ -15,6 +15,7 @@ public class PopupInfo : MonoBehaviour
         GameObject panel = Instantiate(Resources.Load<GameObject>("Prefab/InfoPanel"), transform);
         panel.transform.SetParent(transform);
         Panel = panel.GetComponent<InfoPanel>();
+        Panel.gameObject.SetActive(false);
     }
 
     private void OnMouseEnter()
