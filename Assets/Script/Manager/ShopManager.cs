@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Script.Decorators.Biomes;
 using Script.Decorators.Plants;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -20,14 +23,48 @@ namespace Script.Manager
         [SerializeField] private Button leafButton;
         
         private Tile _currentTile;
-        
+        private Dictionary<PlantType, int> _pricesCache;
+        private Material GrayedOutMaterial;
+        private string SunEmoticon = "<sprite index= 0>";
+
         private void Start()
         {
             _canvas = GetComponent<Canvas>();
             _canvas.enabled = false;
             _audioSource = this.AddComponent<AudioSource>();
-
+            GrayedOutMaterial = Resources.Load<Material>("Materail/Gray");
             MouseManager.Instance.onSelection.AddListener(OnSelection);
+
+            CalculatePrices();
+        }
+
+        private void CalculatePrices()
+        {
+            _pricesCache = new Dictionary<PlantType, int>
+            {
+                { PlantType.CACTUS, typeof(Cactus).GetAttribute<PriceAttribute>().Price },
+                { PlantType.LEAF, typeof(Leaf).GetAttribute<PriceAttribute>().Price },
+                { PlantType.MUSHROOM, typeof(Mushroom).GetAttribute<PriceAttribute>().Price },
+                { PlantType.LILYPAD, typeof(LilyPad).GetAttribute<PriceAttribute>().Price },
+                { PlantType.MOTHERTREE, typeof(MotherTree).GetAttribute<PriceAttribute>().Price }
+            };
+
+            rootButton.GetComponentInChildren<TextMeshProUGUI>().text = Biome.RootPrice + SunEmoticon;
+            cactusButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.CACTUS] + SunEmoticon;
+            leafButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.LEAF] + SunEmoticon;
+            mushroomButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.MUSHROOM] + SunEmoticon;
+            lilyPadButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.LILYPAD] + SunEmoticon;
+
+        }
+
+        private void Update()
+        {
+            //If you can't buy, the button is gray.
+            rootButton.image.material = !ResourcesManager.Instance.CanAfford(Biome.RootPrice) ? GrayedOutMaterial : null;
+            leafButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.LEAF]) ? GrayedOutMaterial : null;
+            mushroomButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.MUSHROOM]) ? GrayedOutMaterial : null;
+            cactusButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.CACTUS]) ? GrayedOutMaterial : null;
+            lilyPadButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.LILYPAD]) ? GrayedOutMaterial : null;
         }
 
         private void OnSelection(GameObject selection)
@@ -50,21 +87,33 @@ namespace Script.Manager
             _canvas.enabled = true;
         }
 
-        public void RefreshMenu() => OnSelection(_currentTile.gameObject);
+        private void RefreshMenu() => OnSelection(_currentTile.gameObject);
         
         public void BuildRoots()
         {
+            if (!ResourcesManager.Instance.CanAfford(Biome.RootPrice))
+                return;
+            
             GetComponent<RootsSystem>().BuildRoots();
+            ResourcesManager.Instance.DecreaseEnergyCount(Biome.RootPrice);
             _currentTile.CurrentBiome.hasRoots = true;
             _audioSource.PlayOneShot(_currentTile.CurrentBiome.RootsBuildSounds[UnityEngine.Random.Range(0, _currentTile.CurrentBiome.RootsBuildSounds.Count)]);
             
             RefreshMenu();
         }
 
-        private void Build(PlantType type, int cost = 0)
+        private void Build(PlantType type)
         {
+            int price = _pricesCache[type];
+
+            if (!ResourcesManager.Instance.CanAfford(price))
+            {
+                //Play error sound?
+                return;    
+            }
+            
             _currentTile.SetActiveBuildingTile(type);
-            ResourcesManager.Instance.DecreaseEnergyCount(cost);
+            ResourcesManager.Instance.DecreaseEnergyCount(price);
             _audioSource.PlayOneShot(_currentTile.CurrentBuilding.GrowingSound[UnityEngine.Random.Range(0, _currentTile.CurrentBuilding.GrowingSound.Count)]);
             RefreshMenu();
         }
@@ -75,14 +124,6 @@ namespace Script.Manager
 
         public void BuildLilyPad() => Build(PlantType.LILYPAD);
 
-        public void BuildMushroom()
-        {
-            int price = typeof(Mushroom).GetAttribute<PriceAttribute>().Price;
-            
-            if (ResourcesManager.Instance.CanAfford(price))
-            {
-                Build(PlantType.MUSHROOM, price);
-            }
-        }
+        public void BuildMushroom() => Build(PlantType.MUSHROOM);
     }
 }

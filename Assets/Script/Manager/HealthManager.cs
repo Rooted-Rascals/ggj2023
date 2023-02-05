@@ -12,7 +12,10 @@ public class HealthManager : MonoBehaviour
     private Image HealthBarImage;
 
     [SerializeField]
-    private float Health, MaxHealth = 100f;
+    public float MaxHealth = 100f;
+    
+    [SerializeField]
+    private float Health;
     [SerializeField]
     private float LerpSpeed;
 

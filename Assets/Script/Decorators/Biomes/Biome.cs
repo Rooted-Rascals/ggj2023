@@ -23,13 +23,15 @@ namespace Script.Decorators.Biomes
         
         #region Roots
 
+        public static int RootPrice => 5;
+        
         public bool hasRoots = false;
         public virtual bool CanBuildRoots => !hasRoots && 
             RootsSystem.CheckNeighboursForRoots(gameObject.GetComponentInParent<Tile>()) &&
             IsVisible;
 
         public List<AudioClip> RootsBuildSounds;
-        
+
         #endregion
 
         #region Cactus

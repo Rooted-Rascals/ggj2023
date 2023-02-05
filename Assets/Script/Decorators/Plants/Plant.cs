@@ -15,7 +15,6 @@ namespace Script.Decorators.Plants
         LEAF
     };
     
-    [Price(10)]
     public abstract class Plant : MonoBehaviour
     {
         [SerializeField] private float waterConsumption = 1f;
@@ -51,13 +50,14 @@ namespace Script.Decorators.Plants
             return _growingSound ??= Resources.LoadAll<AudioClip>($"Sounds/{PlantType.ToString()}/Growing").ToList();
         }
     }
-    
+
     public class PriceAttribute : Attribute
     {
-        public int Price;
+        public readonly int Price;
+
         public PriceAttribute(int price)
         {
-            this.Price = price;
+            Price = price;
         }
     }
 }
