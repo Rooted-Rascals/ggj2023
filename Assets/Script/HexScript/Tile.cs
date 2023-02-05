@@ -93,8 +93,10 @@ public class Tile : MonoBehaviour
     {
         if(type is null)
         {
-            Roots.FirstOrDefault(b => b.type == type).gameObject.SetActive(false);
+            Roots.ForEach(b => b.gameObject.SetActive(false));
             gameObject.GetComponentInChildren<Biome>().hasRoots = false;
+            CurrentBuilding = null;
+
         }
         else
         {

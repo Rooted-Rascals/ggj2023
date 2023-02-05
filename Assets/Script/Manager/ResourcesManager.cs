@@ -10,8 +10,8 @@ public class ResourcesManager : MonoBehaviour
     private static ResourcesManager _instance = null;
     public static ResourcesManager Instance => _instance;
     
-    private float waterCount = 100f;
-    private float energyCount = 10f;
+    private float waterCount = 10000000f;
+    private float energyCount = 10000000f;
     public UnityEvent<float> energyChangeEvent = new UnityEvent<float>();
 
     public void Awake()

@@ -66,7 +66,6 @@ namespace Script
         public void RemoveRoots(Tile tile)
         {
             tile.SetRootsTile(null);
-
             UpdateRootsList();
         }
 

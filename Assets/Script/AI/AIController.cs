@@ -162,7 +162,7 @@ public class AIController : MonoBehaviour
                     }
                 }
             }
-            if (closestHit != null)
+            if (closestHit != null && closestHit.GameObject() != null)
             {
                 ai.Attack(closestHit.GameObject());
             }

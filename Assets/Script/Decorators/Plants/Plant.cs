@@ -65,7 +65,7 @@ namespace Script.Decorators.Plants
         {
             Tile tile = gameObject.GetComponentInParent<Tile>();
             GameManager.Instance.GetMotherTree().RemoveRoots(tile);
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 
