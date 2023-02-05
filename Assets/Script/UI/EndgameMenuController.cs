@@ -1,4 +1,6 @@
 using System;
+using System.Resources;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,6 +12,10 @@ public class EndgameMenuController : MonoBehaviour
     private static EndgameMenuController _instance;
     public static EndgameMenuController Instance => _instance;
 
+    [SerializeField] private TextMeshProUGUI subtext;
+    [SerializeField] private TextMeshProUGUI score;
+
+
     public void Awake()
     {
         _instance = this;
@@ -19,6 +25,8 @@ public class EndgameMenuController : MonoBehaviour
 
     public void Show()
     {
+        subtext.text = ResourcesManager.Instance.GetWaterCount() < 0 ? "Your tree dried out!" : "The critters destroyed your tree";
+        score.text = $"You survived for {TimeSpan.FromSeconds(GameManager.Instance.GetTotalTime()).ToString("mm\\:ss")} !";
         _canvas.enabled = true;
     }
 
