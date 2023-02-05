@@ -25,6 +25,7 @@ public class EndgameMenuController : MonoBehaviour
 
     public void Show()
     {
+        Time.timeScale = 0;
         subtext.text = ResourcesManager.Instance.GetWaterCount() < 0 ? "Your tree dried out!" : "The critters destroyed your tree";
         score.text = $"You survived for {TimeSpan.FromSeconds(GameManager.Instance.GetTotalTime()).ToString("mm\\:ss")} !";
         _canvas.enabled = true;
