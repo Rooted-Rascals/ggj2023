@@ -1,3 +1,4 @@
+using System.Collections;
 using JetBrains.Annotations;
 using Script;
 using Script.Decorators.Plants;
@@ -50,6 +51,14 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Initialize();
+        StartCoroutine(StartInformationPopup());
+    }
+
+    IEnumerator StartInformationPopup()
+    {
+        yield return new WaitForSeconds(0.5f);
+        PauseGame();
+        Instantiate(Resources.Load<GameObject>("Prefab/InstructionPanelCanvas"));
     }
 
     public void EndGame()
@@ -159,5 +168,15 @@ public class GameManager : MonoBehaviour
     public float GetTotalTime()
     {
         return totalTime;
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+    }
+
+    public void UnPauseGame()
+    {
+        Time.timeScale = 1;
     }
 }
