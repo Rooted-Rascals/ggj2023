@@ -42,6 +42,8 @@ namespace Script
             }
         }
 
+        public int GetRootsCount() => RootsList.Count;
+
         public void AddRoots(Tile tile)
         {
             RootsList.Add(tile);
