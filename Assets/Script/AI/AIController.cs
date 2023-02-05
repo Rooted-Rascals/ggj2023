@@ -30,16 +30,17 @@ public class AIController : MonoBehaviour
     private Dictionary<AI, Vector3> aiTargets = new Dictionary<AI, Vector3>();
 
     [SerializeField]
-    private float spawnDelay = 5f;
+    private float spawnDelay = 20f;
     [SerializeField]
-    private float spawnerCount = 2f;
+    private int spawnerCount = 3;
 
     [SerializeField] private long maxAmountOfAi = 5;
 
     [SerializeField] private AIPathManager aiPathManager;
-
-    private float delay = 0f;
+    [SerializeField] private float timeBeforeFirstSpawn = 30f;
     
+    private float delay = 0f;
+
     public void UpdateAIGrid()
     {
         aiPathManager.UpdateAIGrid();
@@ -68,8 +69,13 @@ public class AIController : MonoBehaviour
 
     void Update()
     {
-        delay += Time.deltaTime;
+        timeBeforeFirstSpawn -= Time.deltaTime;
 
+        if (timeBeforeFirstSpawn > 0)
+        {
+            return;
+        } 
+        
         UpdateAIs();
         SpawnAIs();
     }
@@ -87,6 +93,7 @@ public class AIController : MonoBehaviour
 
     private void SpawnAIs()
     {
+        delay += Time.deltaTime;
         if (delay >= spawnDelay && aiList.Count < maxAmountOfAi)
         {
             delay = 0;
@@ -121,7 +128,7 @@ public class AIController : MonoBehaviour
 
             Tile spawnTile = randomizedTiles[^1];
             randomizedTiles.RemoveAt(randomizedTiles.Count - 1);
-            Vector3 spawnerPosition = spawnTile.transform.position + new Vector3(0f, 2f, 0f);
+            Vector3 spawnerPosition = spawnTile.transform.position + new Vector3(0f, 1.5f, 0f);
             if (i >= aiSpawners.Count)
             {
                 aiSpawners.Add(Instantiate(aiSpawner, spawnerPosition, Quaternion.identity));
