@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,9 +7,9 @@ public class Poison : MonoBehaviour
     [SerializeField] private float poisonTickDelay = 3f;
 
     [SerializeField] private float poisonTickDmg = 5f;
+    [SerializeField] private float radius = 2f;
 
     private float cooldown = 0;
-    private List<Collider> collidingObject = new List<Collider>();
 
     private Collider collider;
     void Start()
@@ -18,23 +19,11 @@ public class Poison : MonoBehaviour
             collider = GetComponent<Collider>();
         }
     }
-
-    void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("TRIGGER IN");
-        collidingObject.Add(other);
-    }
-
-    void OnTriggerExit(Collider other)
-    {
-        Debug.Log("TRIGGER OUT");
-        collidingObject.Remove(other);
-    }
-
     void Update()
     {
         if (cooldown <= 0)
         {
+            Collider[] collidingObject = Physics.OverlapSphere(transform.position,  radius);
             foreach (Collider collider in collidingObject)
             {
                 Debug.Log(this.collider);
@@ -51,5 +40,10 @@ public class Poison : MonoBehaviour
         {
             cooldown -= Time.deltaTime;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(transform.position, radius);
     }
 }
