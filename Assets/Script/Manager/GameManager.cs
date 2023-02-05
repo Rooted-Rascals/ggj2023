@@ -101,7 +101,8 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        
+
+        motherTree.TriggerGeneration();
         float energyCount = resourcesManager.IncreaseEnergyCount(GetEnergyGeneration());
         resourcesManager.IncreaseWaterCount(GetWaterGeneration());
         float waterCount = resourcesManager.DecreaseWaterCount(GetWaterConsumption());

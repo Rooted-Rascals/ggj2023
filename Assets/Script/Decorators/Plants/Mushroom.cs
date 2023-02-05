@@ -28,6 +28,7 @@ namespace Script.Decorators.Plants
         {
             if (cooldown <= 0)
             {
+                StartCoroutine(Coroutines.ScaleUpAndDown(gameObject.transform, new Vector3(0.9f, 1.1f, 0.9f), 0.2f));
                 cooldown = poisonTriggerDelay;
                 Instantiate(poisonPatch, transform.position + Vector3.up * 1f, Quaternion.identity);
             }

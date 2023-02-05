@@ -30,6 +30,18 @@ namespace Script
             }
         }
 
+        public void TriggerGeneration()
+        {
+            foreach (Tile EnabledRoots in EnabledRootsList)
+            {
+                Plant plant = EnabledRoots.GetComponentInChildren<Plant>();
+                if (plant)
+                {
+                    plant.TriggerGeneration();
+                }
+            }
+        }
+
         public void AddRoots(Tile tile)
         {
             RootsList.Add(tile);

@@ -40,6 +40,11 @@ namespace Script.Decorators.Plants
         {
             return energyGeneration;
         }
+
+        public virtual void TriggerGeneration()
+        {
+            return;
+        }
         
         public List<AudioClip> GrowingSound => GetGrowingSounds();
 
