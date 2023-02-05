@@ -75,10 +75,12 @@ public class AI : MonoBehaviour
         if (attackCooldown <= 0)
         {
             attackCooldown = attackDelay;
-            // Trigger attack animation
+            Animation animation = GetComponentInChildren<Animation>();
+            animation.Play();
             HealthManager health = target.GetComponent<HealthManager>();
             health.Damage(attackDamage);
         }
+
     }
 
     public void Kill()

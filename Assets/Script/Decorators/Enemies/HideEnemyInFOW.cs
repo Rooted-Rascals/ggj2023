@@ -21,7 +21,7 @@ public class HideEnemyInFOW : MonoBehaviour
     {
         RaycastHit hit;
         if (Physics.Raycast(
-                transform.position,
+                transform.position + Vector3.up * 10f,
                 Vector3.down,
                 out hit,
                 500f,

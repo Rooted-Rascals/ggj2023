@@ -31,7 +31,7 @@ public class AIController : MonoBehaviour
     private Dictionary<AI, List<Vector3>> aiPaths = new Dictionary<AI, List<Vector3>>();
 
     [SerializeField]
-    private float spawnDelay = 20f;
+    private float spawnDelay = 5f;
     [SerializeField]
     private int spawnerCount = 3;
 

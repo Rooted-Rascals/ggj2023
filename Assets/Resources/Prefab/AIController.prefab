@@ -48,7 +48,9 @@ MonoBehaviour:
   aiSpawner: {fileID: 8451190349675841547, guid: 7d1f9387e3181fd41ac3af898e0ec92d, type: 3}
   spawnDelay: 5
   spawnerCount: 2
+  maxAmountOfAi: 5
   aiPathManager: {fileID: 0}
+  timeBeforeFirstSpawn: 5
 --- !u!114 &7748987440286714007
 MonoBehaviour:
   m_ObjectHideFlags: 0

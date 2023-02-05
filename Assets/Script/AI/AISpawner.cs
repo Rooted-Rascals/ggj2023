@@ -128,7 +128,7 @@ public class AISpawner : MonoBehaviour
     public void UpdatePosition(Tile tile)
     {
         tileUnderneath = tile;
-        Vector3 spawnerPosition = tileUnderneath.transform.position + new Vector3(0f, 1.5f, 0f);
+        Vector3 spawnerPosition = new Vector3(tileUnderneath.transform.position.x, 1f, tileUnderneath.transform.position.z);
         transform.position = spawnerPosition;
     }
 
