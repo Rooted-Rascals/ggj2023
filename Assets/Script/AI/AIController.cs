@@ -95,17 +95,17 @@ public class AIController : MonoBehaviour
                 return;
             }
             AI spawnedAi = aiSpawners[Random.Range(0, aiSpawners.Count)].SpawnAI();
-            spawnedAi.deathTrigger.AddListener(RemoveAIOnDeath);
+            HealthManager aiHealth = spawnedAi.GetComponent<HealthManager>();
+            aiHealth.onDeath.AddListener(() =>
+            {
+                aiList.Remove(spawnedAi);
+                aiTargets.Remove(spawnedAi);
+                Destroy(spawnedAi);
+            });
             aiList.Add(spawnedAi);
             aiTargets.Add(spawnedAi, spawnedAi.transform.position);
         }
         
-    }
-
-    public void RemoveAIOnDeath(GameObject gameObject)
-    {
-        aiList.Remove(gameObject.GetComponent<AI>());
-        aiTargets.Remove(gameObject.GetComponent<AI>());
     }
 
     private void UpdateSpawnPoints()
