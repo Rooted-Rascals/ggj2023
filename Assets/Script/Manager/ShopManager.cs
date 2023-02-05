@@ -36,17 +36,27 @@ namespace Script.Manager
             MouseManager.Instance.onSelection.AddListener(OnSelection);
 
             CalculatePrices();
+            PopulatePopupInfos();
+        }
+
+        private void PopulatePopupInfos()
+        {
+            rootButton.AddComponent<PopupInfo>().Panel.SetInfos("Roots", "Roots allow you to expand you network and explore the area. You can always build next to a root tile.");
+            cactusButton.AddComponent<PopupInfo>().Panel.SetInfos<Cactus>();
+            leafButton.AddComponent<PopupInfo>().Panel.SetInfos<Leaf>();
+            mushroomButton.AddComponent<PopupInfo>().Panel.SetInfos<Mushroom>();
+            lilyPadButton.AddComponent<PopupInfo>().Panel.SetInfos<LilyPad>();
         }
 
         private void CalculatePrices()
         {
             _pricesCache = new Dictionary<PlantType, int>
             {
-                { PlantType.CACTUS, typeof(Cactus).GetAttribute<PriceAttribute>().Price },
-                { PlantType.LEAF, typeof(Leaf).GetAttribute<PriceAttribute>().Price },
-                { PlantType.MUSHROOM, typeof(Mushroom).GetAttribute<PriceAttribute>().Price },
-                { PlantType.LILYPAD, typeof(LilyPad).GetAttribute<PriceAttribute>().Price },
-                { PlantType.MOTHERTREE, typeof(MotherTree).GetAttribute<PriceAttribute>().Price }
+                { PlantType.CACTUS, typeof(Cactus).GetAttribute<BuyableAttribute>().Price },
+                { PlantType.LEAF, typeof(Leaf).GetAttribute<BuyableAttribute>().Price },
+                { PlantType.MUSHROOM, typeof(Mushroom).GetAttribute<BuyableAttribute>().Price },
+                { PlantType.LILYPAD, typeof(LilyPad).GetAttribute<BuyableAttribute>().Price },
+                { PlantType.MOTHERTREE, typeof(MotherTree).GetAttribute<BuyableAttribute>().Price }
             };
 
             rootButton.GetComponentInChildren<TextMeshProUGUI>().text = Biome.RootPrice + SunEmoticon;
@@ -54,7 +64,6 @@ namespace Script.Manager
             leafButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.LEAF] + SunEmoticon;
             mushroomButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.MUSHROOM] + SunEmoticon;
             lilyPadButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.LILYPAD] + SunEmoticon;
-
         }
 
         private void Update()
@@ -82,7 +91,6 @@ namespace Script.Manager
             lilyPadButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildLilyPad);
             mushroomButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildMushroom);
             leafButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildLeaf);
-
             
             _canvas.enabled = true;
         }

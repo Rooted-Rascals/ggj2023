@@ -2,7 +2,7 @@
 
 namespace Script.Decorators.Plants
 {
-    [Price(8)]
+    [Buyable(8, nameof(LilyPad), "Helps you gain water from water tiles.")]
     public class LilyPad : Plant
     {
         public override PlantType PlantType => PlantType.LILYPAD;

@@ -2,7 +2,7 @@
 
 namespace Script.Decorators.Plants
 {
-    [Price(999999)]
+    [Buyable(999999, nameof(MotherTree), "Don't let the mother tree die!")]
     public class MotherTree : Plant
     {
         public override PlantType PlantType => PlantType.MOTHERTREE;

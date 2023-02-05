@@ -56,13 +56,17 @@ namespace Script.Decorators.Plants
         }
     }
 
-    public class PriceAttribute : Attribute
+    public class BuyableAttribute : Attribute
     {
         public readonly int Price;
-
-        public PriceAttribute(int price)
+        public readonly string Description;
+        public readonly string Name;
+        
+        public BuyableAttribute(int price, string name, string description)
         {
             Price = price;
+            Name = name;
+            Description = description;
         }
     }
 }
