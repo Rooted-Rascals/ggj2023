@@ -8,7 +8,7 @@ namespace Script.Decorators.Biomes
     public class Grass : Biome
     {
         public override BiomeType Type => BiomeType.Grass;
-        public override bool CanBuildMushroom => hasRoots && !HasAPlant;
+        public override bool CanBuildMushroom => hasRoots && !HasAPlant && !gameObject.GetComponentInParent<Tile>().IsNotConnected.activeSelf;
 
         
         public new void Awake()

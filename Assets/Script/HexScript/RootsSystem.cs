@@ -42,6 +42,7 @@ public class RootsSystem : MonoBehaviour
     {
         List<Tile> neighbours = tile.GetNeighboursTile();
         Vector3Int position = tile.GetPosition();
+        bool connection = false;
 
         foreach (Tile neighbour in neighbours)
         {
@@ -49,7 +50,7 @@ public class RootsSystem : MonoBehaviour
             Vector3Int neighbourPosition = neighbour.GetPosition();
 
             Biome biome = neighbour.gameObject.GetComponentInChildren<Biome>();
-            //si conecter a labre
+
             if (biome && biome.hasRoots || ActiveBuildingType == PlantType.MOTHERTREE)
             {
                 if (NeighboursDirection.TryGetValue(position - neighbourPosition, out string direction))
@@ -81,7 +82,6 @@ public class RootsSystem : MonoBehaviour
                             neighbour.SetRootsTile(RootsType.Rootsz);
                             break;
                     }
-                    break;
                 }
            }
             
