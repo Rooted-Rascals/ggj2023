@@ -22,8 +22,6 @@ namespace Script.Decorators.Biomes
         private PlantType CurrentPlantType => _ownerTile.CurrentBuilding?.PlantType ?? PlantType.NONE;
         
         #region Roots
-
-        public static int RootPrice => 5;
         
         public bool hasRoots = false;
         public virtual bool CanBuildRoots => !hasRoots && 

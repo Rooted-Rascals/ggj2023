@@ -41,7 +41,7 @@ namespace Script.Manager
 
         private void PopulatePopupInfos()
         {
-            rootButton.AddComponent<PopupInfo>().Panel.SetInfos("Roots", "Roots allow you to expand you network and explore the area. You can always build next to a root tile.");
+            rootButton.AddComponent<PopupInfo>().Panel.SetInfos("Roots", "Roots allow you to expand you network and explore the area. You can always build next to another root. The price scale the more you have roots.");
             cactusButton.AddComponent<PopupInfo>().Panel.SetInfos<Cactus>();
             leafButton.AddComponent<PopupInfo>().Panel.SetInfos<Leaf>();
             mushroomButton.AddComponent<PopupInfo>().Panel.SetInfos<Mushroom>();
@@ -59,7 +59,6 @@ namespace Script.Manager
                 { PlantType.MOTHERTREE, typeof(MotherTree).GetAttribute<BuyableAttribute>().Price }
             };
 
-            rootButton.GetComponentInChildren<TextMeshProUGUI>().text = Biome.RootPrice + SunEmoticon;
             cactusButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.CACTUS] + SunEmoticon;
             leafButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.LEAF] + SunEmoticon;
             mushroomButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.MUSHROOM] + SunEmoticon;
@@ -69,7 +68,7 @@ namespace Script.Manager
         private void Update()
         {
             //If you can't buy, the button is gray.
-            rootButton.image.material = !ResourcesManager.Instance.CanAfford(Biome.RootPrice) ? GrayedOutMaterial : null;
+            rootButton.image.material = !ResourcesManager.Instance.CanAfford(RootPrice) ? GrayedOutMaterial : null;
             leafButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.LEAF]) ? GrayedOutMaterial : null;
             mushroomButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.MUSHROOM]) ? GrayedOutMaterial : null;
             cactusButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.CACTUS]) ? GrayedOutMaterial : null;
@@ -86,6 +85,7 @@ namespace Script.Manager
                 return;
             }
             
+            rootButton.GetComponentInChildren<TextMeshProUGUI>().text = RootPrice + SunEmoticon;
             rootButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildRoots);
             cactusButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildCactus);
             lilyPadButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildLilyPad);
@@ -97,13 +97,15 @@ namespace Script.Manager
 
         private void RefreshMenu() => OnSelection(_currentTile.gameObject);
         
+        private int RootPrice => GameManager.Instance.GetMotherTree().GetRootsCount();
+        
         public void BuildRoots()
         {
-            if (!ResourcesManager.Instance.CanAfford(Biome.RootPrice))
+            if (!ResourcesManager.Instance.CanAfford(RootPrice))
                 return;
             
             GetComponent<RootsSystem>().BuildRoots();
-            ResourcesManager.Instance.DecreaseEnergyCount(Biome.RootPrice);
+            ResourcesManager.Instance.DecreaseEnergyCount(RootPrice);
             _currentTile.CurrentBiome.hasRoots = true;
             _audioSource.PlayOneShot(_currentTile.CurrentBiome.RootsBuildSounds[UnityEngine.Random.Range(0, _currentTile.CurrentBiome.RootsBuildSounds.Count)]);
             

@@ -117,7 +117,7 @@ public class AIPathManager : MonoBehaviour
 
     private bool TileIsBlocker(Tile tile)
     {
-        BiomeType biomeType = tile.GetTileType();
+        BiomeType biomeType = tile.GetTileBiome();
 
         return biomeType is BiomeType.Rock or BiomeType.Water;
     }
