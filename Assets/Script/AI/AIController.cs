@@ -79,7 +79,8 @@ public class AIController : MonoBehaviour
         UpdateAIs();
         SpawnAIs();
     }
-
+    
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         foreach (AI ai in aiList)
@@ -90,6 +91,7 @@ public class AIController : MonoBehaviour
             Gizmos.DrawLine(ai.transform.position, updatedTarget);
         }
     }
+#endif
 
     private void SpawnAIs()
     {

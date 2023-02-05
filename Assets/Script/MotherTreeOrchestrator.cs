@@ -149,10 +149,12 @@ namespace Script
             }
             return waterGeneration;
         }
-
+        
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             Handles.Label(transform.position + Vector3.up * 3f, EnabledRootsList.ToString());
         }
+#endif
     }
 }

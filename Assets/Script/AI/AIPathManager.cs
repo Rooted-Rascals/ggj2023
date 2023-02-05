@@ -122,15 +122,18 @@ public class AIPathManager : MonoBehaviour
         return biomeType is BiomeType.Rock or BiomeType.Water;
     }
 
+#if UNITY_EDITOR
     void OnDrawGizmos()
     {
         // Debug Helping Code
         foreach (Tile tile in tilesManager.GetTiles())
         {
             string label = float.MaxValue == tile.AICost ? "INF" : $"{tile.AICost}";
+            
             Handles.Label(tile.transform.position + Vector3.up * 1.5f, label);
         }
     }
+#endif
 
     void Start()
     {

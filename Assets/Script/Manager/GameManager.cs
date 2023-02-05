@@ -1,12 +1,7 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
 using JetBrains.Annotations;
 using Script;
 using Script.Decorators.Plants;
 using Script.Manager;
-using UnityEditor.Search;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour

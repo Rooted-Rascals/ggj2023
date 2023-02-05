@@ -40,9 +40,11 @@ public class Poison : MonoBehaviour
             cooldown -= Time.deltaTime;
         }
     }
-
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Gizmos.DrawSphere(transform.position, radius);
     }
+#endif
+
 }
