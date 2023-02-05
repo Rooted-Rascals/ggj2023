@@ -1,19 +1,46 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Script.Decorators.Enemies;
+using Script.Decorators.Plants;
+using Unity.VisualScripting;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 public class AISpawner : MonoBehaviour
 {
-    [SerializeField] private AI aiPrefab;
     [SerializeField] private Tile tileUnderneath;
     public List<Vector3> aiPath = new List<Vector3>();
+    private Dictionary<EnemiesType, AI> AICache;
 
     public List<Vector3> GetAIPath()
     {
         List<Vector3> path = new List<Vector3>();
         aiPath.ForEach(x => path.Add(x));
         return path;
+    }
+
+    public void Awake()
+    {
+        GenerateAICache();
+    }
+
+    public void GenerateAICache()
+    {
+        if (AICache is not null) 
+            return;
+        
+        AICache = new Dictionary<EnemiesType, AI>();
+        
+        //We load all prefabs in the Buildings folder.
+        foreach (Object aiPrefab in Resources.LoadAll("Enemies"))
+        {
+            AI decorator = aiPrefab.GetComponent<AI>();
+            AICache.Add(decorator.EnemiesType, decorator);
+            Debug.Log($"Found {decorator.EnemiesType.ToString()}");
+        }
     }
     
     public void UpdatePath(Tile targetPosition, float smoothness)
@@ -89,7 +116,9 @@ public class AISpawner : MonoBehaviour
     
     public AI SpawnAI(float gameDifficulty)
     {
-        AI spawnedAI = Instantiate(aiPrefab, transform.position, Quaternion.identity);
+        Array aiTypes = Enum.GetValues(typeof(EnemiesType));
+        EnemiesType aiSelectedType = (EnemiesType) aiTypes.GetValue(Random.Range(0, aiTypes.Length));
+        AI spawnedAI = Instantiate(AICache[aiSelectedType], transform.position, Quaternion.identity);
         spawnedAI.UpdateDifficulty(gameDifficulty);
         return spawnedAI;
     }

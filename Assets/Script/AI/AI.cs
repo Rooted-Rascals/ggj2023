@@ -1,3 +1,5 @@
+using Script.Decorators.Biomes;
+using Script.Decorators.Enemies;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,7 +14,8 @@ public class AI : MonoBehaviour
     public float attackDamage = 5f;
     private float attackCooldown = 0f;
     public UnityEvent<GameObject> deathTrigger = new UnityEvent<GameObject>();
-
+    [SerializeField] private EnemiesType enemiesType;
+    
     public float GetRange()
     {
         return attackRange;
@@ -29,6 +32,8 @@ public class AI : MonoBehaviour
         health.UpdateMaxHealth(health.MaxHealth * difficulty);
         attackDamage = attackDamage * difficulty;
     }
+
+    public EnemiesType EnemiesType => enemiesType;
     
 #if UNITY_EDITOR    
     public void OnDrawGizmos()
@@ -49,22 +54,7 @@ public class AI : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(direction);
     }
 
-    public Tile GetTileUnderneath()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(
-                transform.position,
-                Vector3.down,
-                out hit,
-                500f,
-                LayerMask.GetMask("Tiles")
-            ))
-        {
-            return hit.collider.GetComponent<Tile>();
-        }
 
-        return null;
-    }
 
     public bool IsInAgroRange(Vector3 target)
     {
