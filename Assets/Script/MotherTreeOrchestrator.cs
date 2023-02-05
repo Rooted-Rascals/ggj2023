@@ -18,7 +18,9 @@ namespace Script
 
         private HashSet<Tile> RootsList = new HashSet<Tile>();
         private HashSet<Tile> EnabledRootsList = new HashSet<Tile>();
-        private HashSet<Tile> ConnectedPlant = new HashSet<Tile>(); 
+        private HashSet<Tile> ConnectedPlant = new HashSet<Tile>();
+
+        [SerializeField] private ParticleSystem ParticleSystem;
 
         public void Update()
         {
@@ -42,6 +44,7 @@ namespace Script
                     plant.TriggerGeneration();
                 }
             }
+            ParticleSystem.Play();
         }
 
         public int GetRootsCount() => RootsList.Count;
