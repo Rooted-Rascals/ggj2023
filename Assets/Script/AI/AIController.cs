@@ -31,14 +31,14 @@ public class AIController : MonoBehaviour
     private Dictionary<AI, List<Vector3>> aiPaths = new Dictionary<AI, List<Vector3>>();
 
     [SerializeField]
-    private float spawnDelay = 5f;
+    private float spawnDelay = 60f;
     [SerializeField]
     private int spawnerCount = 3;
 
-    [SerializeField] private long maxAmountOfAi = 5;
+    [SerializeField] private long maxAmountOfAi = 15;
 
     [SerializeField] private AIPathManager aiPathManager;
-    [SerializeField] private float timeBeforeFirstSpawn = 30f;
+    [SerializeField] private float timeBeforeFirstSpawn = 20f;
     
     private float delay = 0f;
 
@@ -84,7 +84,7 @@ public class AIController : MonoBehaviour
     private void SpawnAIs()
     {
         delay += Time.deltaTime;
-        if (delay >= spawnDelay && aiList.Count < maxAmountOfAi)
+        if (delay >= spawnDelay/GameManager.Instance.GetGameDifficulty() && aiList.Count < maxAmountOfAi)
         {
             delay = 0;
             if (aiSpawners.Count <= 0)

@@ -26,7 +26,7 @@ namespace Script.Decorators.Plants
         [SerializeField] private float waterGeneration = 0f;
         [SerializeField] private float energyGeneration = 0f;
         private AudioClip deathSound;
-        private AudioSource audioSource;
+        protected AudioSource audioSource;
         bool isReady = false;
         public abstract PlantType PlantType { get; }
 
