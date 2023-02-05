@@ -61,12 +61,31 @@ namespace Script
             EnabledRootsList.Add(tile);
 
             UpdateRootsList();
+            ShowIsNotConnected();
         }
 
         public void RemoveRoots(Tile tile)
         {
             tile.SetRootsTile(null);
             UpdateRootsList();
+            ShowIsNotConnected();
+            tile.IsNotConnected.SetActive(false);
+        }
+
+        public bool IsRootConnected(Tile tile)
+        {
+            return EnabledRootsList.Contains(tile);
+        }
+
+        private void ShowIsNotConnected()
+        {
+            foreach (Tile tile in RootsList)
+            {
+                if (!IsRootConnected(tile))
+                    tile.IsNotConnected.SetActive(true);
+                else
+                    tile.IsNotConnected.SetActive(false);
+            }
         }
 
         public void UpdateRootsList()

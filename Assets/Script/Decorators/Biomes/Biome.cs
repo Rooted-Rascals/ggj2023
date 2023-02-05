@@ -26,7 +26,7 @@ namespace Script.Decorators.Biomes
         public bool hasRoots = false;
         public virtual bool CanBuildRoots => !hasRoots && 
             RootsSystem.CheckNeighboursForRoots(gameObject.GetComponentInParent<Tile>()) &&
-            IsVisible;
+            IsVisible && !gameObject.GetComponentInParent<Tile>().IsNotConnected.activeSelf;
 
         public List<AudioClip> RootsBuildSounds;
 

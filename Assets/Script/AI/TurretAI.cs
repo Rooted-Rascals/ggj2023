@@ -47,24 +47,32 @@ public class TurretAI : MonoBehaviour
 
     public void Update()
     {
-        cooldown = Mathf.Max(0f, cooldown - Time.deltaTime);
-        Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, range);
-
-        float shortestDistance = range;
-        Target = null;
-        foreach (var hitCollider in hitColliders)
+        if(!gameObject.GetComponentInParent<Tile>().IsNotConnected.activeSelf)
         {
-            if (hitCollider.gameObject.GetComponent<AI>())
+            cooldown = Mathf.Max(0f, cooldown - Time.deltaTime);
+            Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, range);
+
+            float shortestDistance = range;
+            Target = null;
+            foreach (var hitCollider in hitColliders)
             {
-                float distanceEnemy = Vector3.Distance(new Vector3(hitCollider.transform.position.x, 0, hitCollider.transform.position.z),
-                new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z));
-                if (distanceEnemy < shortestDistance)
+                if (hitCollider.gameObject.GetComponent<AI>())
                 {
-                    shortestDistance = distanceEnemy;
-                    Target = hitCollider.gameObject;
+                    float distanceEnemy = Vector3.Distance(new Vector3(hitCollider.transform.position.x, 0, hitCollider.transform.position.z),
+                    new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z));
+                    if (distanceEnemy < shortestDistance)
+                    {
+                        shortestDistance = distanceEnemy;
+                        Target = hitCollider.gameObject;
+                    }
                 }
             }
         }
+        else
+        {
+            Target = null;
+        }
+
     }
 
     public void ActionUpdate()

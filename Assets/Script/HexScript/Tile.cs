@@ -37,7 +37,9 @@ public class Tile : MonoBehaviour
     public static Dictionary<PlantType, GameObject> BuildingCache = null;
     
     public List<RootsOnTile> Roots;
-    
+
+    public GameObject IsNotConnected;
+
     public void Awake()
     {
         GenerateBuildingCache();
