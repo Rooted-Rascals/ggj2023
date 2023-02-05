@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   poisonTickDelay: 0.5
-  poisonTickDmg: 10
+  poisonTickDmg: 11
   radius: 1.75
 --- !u!1001 &7862448592141012828
 PrefabInstance:

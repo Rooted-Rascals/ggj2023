@@ -13,9 +13,9 @@ namespace Script
 {
     public class MotherTreeOrchestrator : MonoBehaviour
     {
-        private float defaultWaterConsumption = 10f;
-        private float defaultEnergyGeneration = 3f;
-        private float defaultWaterGeneration = 3f;
+        private float defaultWaterConsumption = 5f;
+        private float defaultEnergyGeneration = 4f;
+        private float defaultWaterGeneration = 4f;
 
         private HashSet<Tile> RootsList = new HashSet<Tile>();
         private HashSet<Tile> EnabledRootsList = new HashSet<Tile>();

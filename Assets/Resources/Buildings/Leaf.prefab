@@ -65,7 +65,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBarImage: {fileID: 0}
-  MaxHealth: 15
+  MaxHealth: 20
   Health: 0
   LerpSpeed: 0
   isEnnemy: 0

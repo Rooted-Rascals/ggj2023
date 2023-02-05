@@ -80,8 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3fe54e335c4408498ac9db9cebcc8bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Damage: 26
-  lifeSpan: 2
+  Damage: 51
   decayActivated: 1
 --- !u!1001 &1302018489156872742
 PrefabInstance:

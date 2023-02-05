@@ -121,6 +121,7 @@ public class HealthManager : MonoBehaviour
 
     public void UpdateMaxHealth(float newMaxHealth)
     {
+        Health = newMaxHealth;
         MaxHealth = newMaxHealth;
     }
 
