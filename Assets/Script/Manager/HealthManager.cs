@@ -80,6 +80,16 @@ public class HealthManager : MonoBehaviour
             Health = MaxHealth;
     }
 
+    public float GetMaxHealth()
+    {
+        return MaxHealth;
+    }
+
+    public void UpdateMaxHealth(float newMaxHealth)
+    {
+        MaxHealth = newMaxHealth;
+    }
+
     public float GetHealth()
     {
         return Health;

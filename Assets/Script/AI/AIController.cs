@@ -22,7 +22,7 @@ public class AIController : MonoBehaviour
         }
     }
     
-    private static float TARGET_RADIUS = 0.1f;
+    private static float TARGET_RADIUS = 0.13f;
     [SerializeField]
     AISpawner aiSpawner;
 
@@ -93,7 +93,7 @@ public class AIController : MonoBehaviour
             }
 
             AISpawner spawner = aiSpawners[Random.Range(0, aiSpawners.Count)];
-            AI spawnedAi = spawner.SpawnAI();
+            AI spawnedAi = spawner.SpawnAI(GameManager.Instance.GetGameDifficulty());
             HealthManager aiHealth = spawnedAi.GetComponent<HealthManager>();
             aiHealth.onDeath.AddListener(() =>
             {
@@ -103,6 +103,7 @@ public class AIController : MonoBehaviour
             });
             aiList.Add(spawnedAi);
             aiPaths.Add(spawnedAi, spawner.GetAIPath());
+            UpdateSpawnPoints();
         }
         
     }
@@ -111,6 +112,10 @@ public class AIController : MonoBehaviour
     {
         List<Tile> spawnPossibleTiles = aiPathManager.GetSpawnPossibleTiles();
         List<Tile> randomizedTiles = spawnPossibleTiles.OrderBy(a => Guid.NewGuid()).ToList();
+        if (GameManager.Instance.GetMotherTree() == null)
+        {
+            return;
+        }
         for (int i = 0; i < spawnerCount; i++)
         {
             if (randomizedTiles.Count <= 0)
@@ -124,13 +129,13 @@ public class AIController : MonoBehaviour
             {
                 AISpawner spawner = Instantiate(aiSpawner, Vector3.zero, Quaternion.identity);
                 spawner.UpdatePosition(spawnTile);
-                spawner.UpdatePath(new Vector3(0f, 0f, 0f), 5f);
+                spawner.UpdatePath(GameManager.Instance.GetMotherTree().GetComponentInParent<Tile>(), 5f);
                 aiSpawners.Add(spawner);
             }
             else
             {
                 aiSpawners[i].UpdatePosition(spawnTile);
-                aiSpawners[i].UpdatePath(new Vector3(0f, 0f, 0f), 5f);
+                aiSpawners[i].UpdatePath(GameManager.Instance.GetMotherTree().GetComponentInParent<Tile>(), 5f);
             }
         }
     }
@@ -151,7 +156,7 @@ public class AIController : MonoBehaviour
             {
                 
                 Plant building = rootTile.CurrentBuilding;
-                if (building != null && ai.IsInAttackRange(building.transform.position))
+                if (building != null && ai.IsInAgroRange(building.transform.position))
                 {
                     Vector3 updatedBuildingPosition = new Vector3(building.transform.position.x, 0f, building.transform.position.z);
                     Vector3 distance = (updatedAiPosition - updatedBuildingPosition);
@@ -164,7 +169,14 @@ public class AIController : MonoBehaviour
             }
             if (closestHit != null && closestHit.GameObject() != null)
             {
-                ai.Attack(closestHit.GameObject());
+                if (ai.IsInAttackRange(closestHit.transform.position))
+                {
+                    ai.Attack(closestHit.GameObject());
+                }
+                else
+                {
+                    ai.MoveTo(closestHit.transform.position);
+                }
             }
             else
             {
@@ -191,7 +203,13 @@ public class AIController : MonoBehaviour
 
             foreach (AI ai in aiList)
             {
-                Gizmos.DrawWireSphere(ai.transform.position, ai.GetRange());
+                Gizmos.color = Color.magenta;
+                List<Vector3> aiPath = aiPaths[ai];
+                for(int i = 0; i < aiPath.Count - 1; i++)
+                {
+                    Gizmos.DrawLine(aiPath[i] + Vector3.up, aiPath[i + 1] + Vector3.up);
+                }
+
             }
         }
 #endif

@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TilesManager tilesManager;
     [SerializeField] private ResourcesManager resourcesManager;
     [SerializeField] private float decayDamage = 3f;
+    [SerializeField] private float gameDifficultyMultiplier = 1f;
+    [SerializeField] private float gameDifficulty = 1f;
     private MotherTreeOrchestrator motherTree;
 
     [CanBeNull]
@@ -63,8 +65,14 @@ public class GameManager : MonoBehaviour
             return;
 
         totalTime += 0f;
-        
+        gameDifficulty = 1f + (gameDifficultyMultiplier * totalTime / 120f);
+
         UpdateResources();
+    }
+
+    public float GetGameDifficulty()
+    {
+        return gameDifficulty;
     }
 
     private void Initialize()
@@ -77,7 +85,7 @@ public class GameManager : MonoBehaviour
         if (spawnedObject != null)
         {
             motherTree = spawnedObject.GetComponent<MotherTreeOrchestrator>();
-            motherTree.UpdateRootsList();
+            motherTree.AddRoots(spawnTile);
         }
         AIController.Instance.UpdateAIGrid();
     }

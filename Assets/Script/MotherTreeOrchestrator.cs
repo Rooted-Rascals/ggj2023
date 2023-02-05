@@ -111,7 +111,8 @@ namespace Script
                 }
                 visited.Add(next);
             }
-            
+
+            visited.Add(startTile);
             EnabledRootsList = visited;
         }
 
