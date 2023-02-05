@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Script.Decorators.Plants
 {
-    [Price(6)]
+    [Buyable(6, nameof(Mushroom), "Creates a cloud of toxic fumes that do damage over time to enemies in the area.")]
     public class Mushroom : Plant
     {
 
