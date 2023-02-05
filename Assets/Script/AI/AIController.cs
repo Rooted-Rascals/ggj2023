@@ -27,7 +27,7 @@ public class AIController : MonoBehaviour
 
     private List<AISpawner> aiSpawners = new List<AISpawner>();
     private List<AI> aiList = new List<AI>();
-    private Dictionary<AI, Vector3> aiTargets = new Dictionary<AI, Vector3>();
+    private Dictionary<AI, List<Vector3>> aiPaths = new Dictionary<AI, List<Vector3>>();
 
     [SerializeField]
     private float spawnDelay = 20f;
@@ -80,17 +80,6 @@ public class AIController : MonoBehaviour
         SpawnAIs();
     }
 
-    private void OnDrawGizmos()
-    {
-        foreach (AI ai in aiList)
-        {
-            Vector3 aiTarget = aiTargets[ai];
-            Gizmos.color = Color.red;
-            Vector3 updatedTarget = new Vector3(aiTarget.x, ai.transform.position.y, aiTarget.z);
-            Gizmos.DrawLine(ai.transform.position, updatedTarget);
-        }
-    }
-
     private void SpawnAIs()
     {
         delay += Time.deltaTime;
@@ -101,16 +90,18 @@ public class AIController : MonoBehaviour
             {
                 return;
             }
-            AI spawnedAi = aiSpawners[Random.Range(0, aiSpawners.Count)].SpawnAI();
+
+            AISpawner spawner = aiSpawners[Random.Range(0, aiSpawners.Count)];
+            AI spawnedAi = spawner.SpawnAI();
             HealthManager aiHealth = spawnedAi.GetComponent<HealthManager>();
             aiHealth.onDeath.AddListener(() =>
             {
                 aiList.Remove(spawnedAi);
-                aiTargets.Remove(spawnedAi);
+                aiPaths.Remove(spawnedAi);
                 Destroy(spawnedAi);
             });
             aiList.Add(spawnedAi);
-            aiTargets.Add(spawnedAi, spawnedAi.transform.position);
+            aiPaths.Add(spawnedAi, spawner.GetAIPath());
         }
         
     }
@@ -128,14 +119,17 @@ public class AIController : MonoBehaviour
 
             Tile spawnTile = randomizedTiles[^1];
             randomizedTiles.RemoveAt(randomizedTiles.Count - 1);
-            Vector3 spawnerPosition = spawnTile.transform.position + new Vector3(0f, 1.5f, 0f);
             if (i >= aiSpawners.Count)
             {
-                aiSpawners.Add(Instantiate(aiSpawner, spawnerPosition, Quaternion.identity));
+                AISpawner spawner = Instantiate(aiSpawner, Vector3.zero, Quaternion.identity);
+                spawner.UpdatePosition(spawnTile);
+                spawner.UpdatePath(new Vector3(0f, 0f, 0f), 5f);
+                aiSpawners.Add(spawner);
             }
             else
             {
-                aiSpawners[i].transform.position = spawnerPosition;
+                aiSpawners[i].UpdatePosition(spawnTile);
+                aiSpawners[i].UpdatePath(new Vector3(0f, 0f, 0f), 5f);
             }
         }
     }
@@ -145,24 +139,13 @@ public class AIController : MonoBehaviour
         MotherTreeOrchestrator motherTree = GameManager.Instance.GetMotherTree();
         foreach (AI ai in aiList)
         {
-            Vector3 target = aiTargets[ai];
+            List<Vector3> aiPath = aiPaths[ai];
+            Vector3 target = aiPath[0];
             Vector3 aiPosition = ai.transform.position;
-            if (Mathf.Pow(aiPosition.x - target.x, 2) + Mathf.Pow(aiPosition.z - target.z, 2) <= TARGET_RADIUS)
+            if (Mathf.Pow(aiPosition.x - target.x, 2) + Mathf.Pow(aiPosition.z - target.z, 2) <= TARGET_RADIUS && aiPath.Count > 1)
             {
-                Tile tile = ai.GetTileUnderneath();
-                if (tile != null)
-                {
-                    float lowestCost = tile.AICost;
-                    foreach (Tile neighbour in tile.GetNeighboursTile())
-                    {
-                        if (lowestCost > neighbour.AICost)
-                        {
-                            lowestCost = neighbour.AICost;
-                            target = HexCoordinates.ConvertOffsetToPosition(neighbour.GetPosition());
-                        }
-                    }
-                    aiTargets[ai] = target;
-                }
+                aiPath.RemoveAt(0);
+                target = aiPath[0];
             }
 
             if (motherTree != null && ai.IsInAttackRange(motherTree.transform.position))
