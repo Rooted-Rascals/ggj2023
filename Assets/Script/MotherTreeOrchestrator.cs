@@ -66,6 +66,7 @@ namespace Script
 
         public void RemoveRoots(Tile tile)
         {
+            RootsList.Remove(tile);
             tile.SetRootsTile(null);
             UpdateRootsList();
             ShowIsNotConnected();
