@@ -79,7 +79,7 @@ public class HealthManager : MonoBehaviour
 
     private void OnDeath()
     {
-        DestroyImmediate(this.gameObject);
+        Destroy(this.gameObject);
     }
 
     public float GetHealth()
