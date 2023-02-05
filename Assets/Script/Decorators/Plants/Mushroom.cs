@@ -22,11 +22,16 @@ namespace Script.Decorators.Plants
 
         void Start()
         {
+            base.Start();
             audioSource = GetComponent<AudioSource>();
         }
 
         void Update()
         {
+            if (!IsReady)
+            {
+                return;
+            }
             cooldown -= Time.deltaTime;
             if (cooldown <= 0)
             {
@@ -36,6 +41,10 @@ namespace Script.Decorators.Plants
 
         public override void DoAction()
         {
+            if (!IsReady)
+            {
+                return;
+            }
             if (cooldown <= 0)
             {
                 bool aiCollision = false;

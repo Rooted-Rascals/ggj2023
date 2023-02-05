@@ -10,6 +10,10 @@ namespace Script.Decorators.Plants
 
         public override void TriggerGeneration()
         {
+            if (!IsReady)
+            {
+                return;
+            }
             StartCoroutine(Coroutines.ScaleUpAndDown(gameObject.transform, new Vector3(0.9f, 1.1f, 0.9f), 0.2f));
             ParticleSystem.Play();
         }

@@ -10,6 +10,7 @@ namespace Script.Decorators.Plants
 
         public void Start()
         {
+            base.Start();
             if (turretAI == null)
             {
                 turretAI = GetComponent<TurretAI>();
@@ -18,6 +19,10 @@ namespace Script.Decorators.Plants
 
         public override void DoAction()
         {
+            if (!IsReady)
+            {
+                return;
+            }
             if (turretAI == null)
             {
                 return;
