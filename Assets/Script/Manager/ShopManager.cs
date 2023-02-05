@@ -23,9 +23,8 @@ namespace Script.Manager
         [SerializeField] private Button leafButton;
         
         private Tile _currentTile;
-        private Dictionary<PlantType, int> _pricesCache;
+        private Dictionary<PlantType, Tuple<int, float>> _pricesCache;
         private Material GrayedOutMaterial;
-        private string SunEmoticon = "<sprite index= 0>";
 
         private void Start()
         {
@@ -50,29 +49,29 @@ namespace Script.Manager
 
         private void CalculatePrices()
         {
-            _pricesCache = new Dictionary<PlantType, int>
+            _pricesCache = new Dictionary<PlantType, Tuple<int, float>>
             {
-                { PlantType.CACTUS, typeof(Cactus).GetAttribute<BuyableAttribute>().Price },
-                { PlantType.LEAF, typeof(Leaf).GetAttribute<BuyableAttribute>().Price },
-                { PlantType.MUSHROOM, typeof(Mushroom).GetAttribute<BuyableAttribute>().Price },
-                { PlantType.LILYPAD, typeof(LilyPad).GetAttribute<BuyableAttribute>().Price },
-                { PlantType.MOTHERTREE, typeof(MotherTree).GetAttribute<BuyableAttribute>().Price }
+                { PlantType.CACTUS, new Tuple<int, float>(typeof(Cactus).GetAttribute<BuyableAttribute>().Price, new Cactus().GetWaterConsumption())},
+                { PlantType.LEAF, new Tuple<int, float>(typeof(Leaf).GetAttribute<BuyableAttribute>().Price, new Leaf().GetWaterConsumption())},
+                { PlantType.MUSHROOM, new Tuple<int, float>(typeof(Mushroom).GetAttribute<BuyableAttribute>().Price, new Mushroom().GetWaterConsumption())},
+                { PlantType.LILYPAD, new Tuple<int, float>(typeof(LilyPad).GetAttribute<BuyableAttribute>().Price, new LilyPad().GetWaterConsumption())},
+                { PlantType.MOTHERTREE, new Tuple<int, float>(typeof(MotherTree).GetAttribute<BuyableAttribute>().Price, new MotherTree().GetWaterConsumption())},
             };
-
-            cactusButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.CACTUS] + SunEmoticon;
-            leafButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.LEAF] + SunEmoticon;
-            mushroomButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.MUSHROOM] + SunEmoticon;
-            lilyPadButton.GetComponentInChildren<TextMeshProUGUI>().text = _pricesCache[PlantType.LILYPAD] + SunEmoticon;
+            
+            cactusButton.GetComponent<ShopButton>().SetValues(_pricesCache[PlantType.CACTUS].Item1, _pricesCache[PlantType.CACTUS].Item2);
+            leafButton.GetComponent<ShopButton>().SetValues(_pricesCache[PlantType.LEAF].Item1, _pricesCache[PlantType.LEAF].Item2);
+            mushroomButton.GetComponent<ShopButton>().SetValues(_pricesCache[PlantType.MUSHROOM].Item1, _pricesCache[PlantType.MUSHROOM].Item2);
+            lilyPadButton.GetComponent<ShopButton>().SetValues(_pricesCache[PlantType.LILYPAD].Item1, _pricesCache[PlantType.LILYPAD].Item2);
         }
 
         private void Update()
         {
             //If you can't buy, the button is gray.
             rootButton.image.material = !ResourcesManager.Instance.CanAfford(RootPrice) ? GrayedOutMaterial : null;
-            leafButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.LEAF]) ? GrayedOutMaterial : null;
-            mushroomButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.MUSHROOM]) ? GrayedOutMaterial : null;
-            cactusButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.CACTUS]) ? GrayedOutMaterial : null;
-            lilyPadButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.LILYPAD]) ? GrayedOutMaterial : null;
+            leafButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.LEAF].Item1) ? GrayedOutMaterial : null;
+            mushroomButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.MUSHROOM].Item1) ? GrayedOutMaterial : null;
+            cactusButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.CACTUS].Item1) ? GrayedOutMaterial : null;
+            lilyPadButton.image.material = !ResourcesManager.Instance.CanAfford(_pricesCache[PlantType.LILYPAD].Item1) ? GrayedOutMaterial : null;
         }
 
         private void OnSelection(GameObject selection)
@@ -85,7 +84,9 @@ namespace Script.Manager
                 return;
             }
             
-            rootButton.GetComponentInChildren<TextMeshProUGUI>().text = RootPrice + SunEmoticon;
+            
+            rootButton.GetComponent<ShopButton>().SetValues(RootPrice, 0);
+
             rootButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildRoots);
             cactusButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildCactus);
             lilyPadButton.gameObject.SetActive(_currentTile.CurrentBiome.CanBuildLilyPad);
@@ -112,7 +113,7 @@ namespace Script.Manager
 
         private void Build(PlantType type)
         {
-            int price = _pricesCache[type];
+            int price = _pricesCache[type].Item1;
 
             if (!ResourcesManager.Instance.CanAfford(price))
             {

@@ -10,17 +10,28 @@ public class InfoPanel : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI Title;
     [SerializeField] private TextMeshProUGUI Description;
-    
-    public void SetInfos<T>() where T : Plant
+    [SerializeField] private TextMeshProUGUI SunProduction;
+    [SerializeField] private TextMeshProUGUI WaterProduction;
+    [SerializeField] private TextMeshProUGUI WaterConsomation;
+
+    public void SetInfos<T>() where T : Plant, new()
     {
         BuyableAttribute att = typeof(T).GetAttribute<BuyableAttribute>();
+
+        Plant plant = new T();
         Title.text = att.Name;
-        Description.text = att.Description;
+        SunProduction.text = "Sun production : " + plant.GetEnergyGeneration();;
+        WaterProduction.text = "Water production : " + plant.GetWaterGeneration();
+        WaterConsomation.text = "Water production :" + plant.GetWaterConsumption();
     }
 
     public void SetInfos(string title, string description)
     {
         Title.text = title;
         Description.text = description;
+
+        SunProduction.text = String.Empty;
+        WaterProduction.text = String.Empty;
+        WaterConsomation.text = String.Empty;
     }
 }
