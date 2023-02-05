@@ -5,7 +5,7 @@ namespace Script.Decorators.Enemies
     public enum EnemiesType
     {
         SQUIRREL,
-        TURTLE,
-        BIRD
+        TURTLE //,
+    //    BIRD
     }
 }

@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class TilesManager : MonoBehaviour
 {
     [SerializeField]
-    private int gridsize = 50;
+    private int gridsize = 120;
 
     [SerializeField]
     private Tile tile;
