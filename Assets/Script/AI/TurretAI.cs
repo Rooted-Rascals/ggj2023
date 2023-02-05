@@ -23,23 +23,7 @@ public class TurretAI : MonoBehaviour
     [SerializeField]
     private float lifetime = 1.0f;
 
-    IEnumerator ScaleUpAndDown(Transform transform, Vector3 upScale, float duration)
-    {
-        Vector3 initialScale = transform.localScale;
-
-        for (float time = 0; time < duration; time += Time.deltaTime)
-        {
-            float progress = Mathf.PingPong(time, duration) / duration;
-            transform.localScale = Vector3.Lerp(initialScale, upScale, progress);
-            yield return null;
-        }
-        for (float time = 0; time < duration; time += Time.deltaTime)
-        {
-            float progress = Mathf.PingPong(time, duration) / duration;
-            transform.localScale = Vector3.Lerp(upScale, initialScale, progress);
-            yield return null;
-        }
-    }
+    
 
     void Start()
     {
@@ -76,7 +60,7 @@ public class TurretAI : MonoBehaviour
     {
         if(Target != null)
         {
-            StartCoroutine(ScaleUpAndDown(gameObject.transform, new Vector3(0.9f, 1.1f, 0.9f), 0.2f));
+            StartCoroutine(Coroutines.ScaleUpAndDown(gameObject.transform, new Vector3(0.9f, 1.1f, 0.9f), 0.2f));
             Vector3 direction = new Vector3(Target.transform.position.x ,0, Target.transform.position.z) - 
                 new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
             Quaternion rotation = Quaternion.LookRotation(direction);
