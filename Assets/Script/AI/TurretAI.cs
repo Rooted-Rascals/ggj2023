@@ -8,7 +8,8 @@ public class TurretAI : MonoBehaviour
     [SerializeField]
     private float range = 3f;
     [SerializeField]
-    private float rate = 5f;
+    private float fireRate = 5f;
+
     [SerializeField]
     private float Speed = 8f;
     private SphereCollider Collider;
@@ -22,12 +23,11 @@ public class TurretAI : MonoBehaviour
     private GameObject Target = null;
     [SerializeField]
     private float lifetime = 1.0f;
+    private float cooldown = 3f;
 
     [SerializeField] private AudioClip audioClip;
     private AudioSource audioSource;
-    
 
-    
 
     void Start()
     {
@@ -42,12 +42,11 @@ public class TurretAI : MonoBehaviour
         {
             audioSource = GetComponent<AudioSource>();
         }
-
-        InvokeRepeating("LaunchProjectile", 3f, 1f);
     }
 
     public void Update()
     {
+        cooldown = Mathf.Max(0f, cooldown - Time.deltaTime);
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, range);
         float shortestDistance = range;
         foreach (var hitCollider in hitColliders)
@@ -64,6 +63,15 @@ public class TurretAI : MonoBehaviour
         }
     }
 
+    public void ActionUpdate()
+    {
+        if (cooldown <= 0)
+        {
+            LaunchProjectile();
+            cooldown = fireRate;
+        }
+    }
+    
     // Update is called once per frame
     void LaunchProjectile()
     {
@@ -79,6 +87,7 @@ public class TurretAI : MonoBehaviour
             }
             GameObject instance = Instantiate(bullet, gameObject.transform.position + SpawnPosition, rotation);
             instance.GetComponent<Rigidbody>().velocity = direction * Speed;
+            cooldown = fireRate;
         }
     }
 }
