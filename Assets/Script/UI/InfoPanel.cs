@@ -13,16 +13,19 @@ public class InfoPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI SunProduction;
     [SerializeField] private TextMeshProUGUI WaterProduction;
     [SerializeField] private TextMeshProUGUI WaterConsomation;
+    private const string Emoticon = "<sprite index= 0>";
 
     public void SetInfos<T>() where T : Plant, new()
     {
         BuyableAttribute att = typeof(T).GetAttribute<BuyableAttribute>();
-
-        Plant plant = new T();
+        
+        Plant plant = Resources.Load<GameObject>($"Buildings/{typeof(T).Name}").transform.GetComponent<Plant>();
         Title.text = att.Name;
-        SunProduction.text = "Sun production : " + plant.GetEnergyGeneration();;
-        WaterProduction.text = "Water production : " + plant.GetWaterGeneration();
-        WaterConsomation.text = "Water production :" + plant.GetWaterConsumption();
+        Description.text = att.Description;
+        
+        SunProduction.text = "Sun production : " + plant.GetEnergyGeneration() + " " + Emoticon;
+        WaterProduction.text = "Water production : " + plant.GetWaterGeneration() + " " + Emoticon;
+        WaterConsomation.text = "Water consumption :" + plant.GetWaterConsumption() + " " + Emoticon;
     }
 
     public void SetInfos(string title, string description)
