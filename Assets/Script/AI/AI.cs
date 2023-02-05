@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 public class AI : MonoBehaviour
@@ -14,6 +15,7 @@ public class AI : MonoBehaviour
     public float attackDelay = 3f;
     public float attackDamage = 5f;
     private float attackCooldown = 0f;
+    public UnityEvent<GameObject> deathTrigger = new UnityEvent<GameObject>();
 
     private void Update()
     {
@@ -30,7 +32,9 @@ public class AI : MonoBehaviour
     {
         float deltaX = target.x - transform.position.x;
         float deltaZ = target.z - transform.position.z;
-        transform.position += new Vector3(deltaX, 0f, deltaZ).normalized * (Time.deltaTime * movementSpeed);
+        Vector3 direction = new Vector3(deltaX, 0f, deltaZ).normalized;
+        transform.position += direction * (Time.deltaTime * movementSpeed);
+        transform.rotation = Quaternion.LookRotation(direction);
     }
 
     public Tile GetTileUnderneath()
@@ -66,4 +70,8 @@ public class AI : MonoBehaviour
         }
     }
 
+    public void OnDestroy()
+    {
+        deathTrigger.Invoke(this.gameObject);
+    }
 }

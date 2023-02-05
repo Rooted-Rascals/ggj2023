@@ -34,6 +34,8 @@ public class AIController : MonoBehaviour
     [SerializeField]
     private float spawnerCount = 2f;
 
+    [SerializeField] private long maxAmountOfAi = 5;
+
     [SerializeField] private AIPathManager aiPathManager;
 
     private float delay = 0f;
@@ -85,7 +87,7 @@ public class AIController : MonoBehaviour
 
     private void SpawnAIs()
     {
-        if (delay >= spawnDelay)
+        if (delay >= spawnDelay && aiList.Count < maxAmountOfAi)
         {
             delay = 0;
             if (aiSpawners.Count <= 0)
@@ -93,10 +95,17 @@ public class AIController : MonoBehaviour
                 return;
             }
             AI spawnedAi = aiSpawners[Random.Range(0, aiSpawners.Count)].SpawnAI();
+            spawnedAi.deathTrigger.AddListener(RemoveAIOnDeath);
             aiList.Add(spawnedAi);
             aiTargets.Add(spawnedAi, spawnedAi.transform.position);
         }
         
+    }
+
+    public void RemoveAIOnDeath(GameObject gameObject)
+    {
+        aiList.Remove(gameObject.GetComponent<AI>());
+        aiTargets.Remove(gameObject.GetComponent<AI>());
     }
 
     private void UpdateSpawnPoints()
