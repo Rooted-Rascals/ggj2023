@@ -41,4 +41,24 @@ public class Coroutines : MonoBehaviour
             yield return null;
         }
     }
+
+    public static IEnumerator SpawnBuilding(Transform transform, Vector3 upScale, float duration1, float duration2)
+    {
+        Vector3 finalScale = transform.localScale;
+        Vector3 initialScale = Vector3.zero;
+
+        for (float time = 0; time < duration1; time += Time.deltaTime)
+        {
+            float progress = Mathf.PingPong(time, duration1) / duration1;
+            transform.localScale = Vector3.Lerp(initialScale, upScale, progress);
+            yield return null;
+        }
+
+        for (float time = 0; time < duration2; time += Time.deltaTime)
+        {
+            float progress = Mathf.PingPong(time, duration2) / duration2; 
+            transform.localScale = Vector3.Lerp(upScale, finalScale, progress);
+            yield return null;
+        }
+    }
 }

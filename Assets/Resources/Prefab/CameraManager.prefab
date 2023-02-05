@@ -144,6 +144,7 @@ MonoBehaviour:
   minZoom: 1
   maxZoom: 2
   zoomSpeed: 1
+  clampBuffer: -4
 --- !u!82 &3743862713328318585
 AudioSource:
   m_ObjectHideFlags: 0

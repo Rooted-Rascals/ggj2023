@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class TilesManager : MonoBehaviour
 {
     [SerializeField]
-    private int gridsize = 25;
+    private int gridsize = 50;
 
     [SerializeField]
     private Tile tile;
@@ -28,6 +28,9 @@ public class TilesManager : MonoBehaviour
             new Vector3Int(-1, 0, 1)
         };
 
+    public static float GridWidth { get; private set; }
+    public static float GridHeight { get; private set; }
+    
     void Awake()
     {
 
@@ -101,6 +104,12 @@ public class TilesManager : MonoBehaviour
         }
         tilesMaps.Add(position, t);
         tiles.Add(t);
+
+        if (t.transform.position.x > GridWidth)
+            GridWidth = t.transform.position.x;
+        
+        if (t.transform.position.z > GridHeight)
+            GridHeight = t.transform.position.z;
     }
 
     private List<Tile> GetNeighbours(Tile obj, Vector3Int position)

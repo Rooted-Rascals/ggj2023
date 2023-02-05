@@ -98,7 +98,7 @@ public class AIController : MonoBehaviour
             {
                 aiList.Remove(spawnedAi);
                 aiPaths.Remove(spawnedAi);
-                Destroy(spawnedAi);
+                spawnedAi.Kill();
             });
             aiList.Add(spawnedAi);
             aiPaths.Add(spawnedAi, spawner.GetAIPath());

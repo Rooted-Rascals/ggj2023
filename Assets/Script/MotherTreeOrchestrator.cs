@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Script
 {
@@ -148,10 +149,12 @@ namespace Script
             }
             return waterGeneration;
         }
-
+        
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             Handles.Label(transform.position + Vector3.up * 3f, EnabledRootsList.ToString());
         }
+#endif
     }
 }

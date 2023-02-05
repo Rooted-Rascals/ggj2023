@@ -29,10 +29,11 @@ namespace Script.Manager
         [SerializeField] private float minZoom = 1f;
         [SerializeField] private float maxZoom = 2f;
         [SerializeField] private float zoomSpeed = 1f;
+        [SerializeField] private float clampBuffer = -4f;
 
         public GameObject CurrentSelectedObject { get; private set; }
         public GameObject CurrentHoverObject { get; private set; }
-
+        
         private void Awake()
         {
             if (Instance != null)
@@ -91,6 +92,11 @@ namespace Script.Manager
 
             Vector3 dir = (_mainCamera.transform.right * xSpeed) + transform.forward * (zSpeed);
             transform.position += dir * (-1 * Time.deltaTime);
+
+            Vector3 clamped = Vector3.ClampMagnitude(transform.position,
+                new Vector3(TilesManager.GridWidth - clampBuffer, 0, TilesManager.GridHeight - clampBuffer).magnitude);
+            
+            transform.position = new Vector3(clamped.x, transform.position.y, clamped.z);
         }
 
         void Rotate()

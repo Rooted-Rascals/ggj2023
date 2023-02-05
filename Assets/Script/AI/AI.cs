@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 
 public class AI : MonoBehaviour
 {
@@ -22,11 +17,14 @@ public class AI : MonoBehaviour
         attackCooldown = Mathf.Max(0f, attackCooldown - Time.deltaTime);
     }
 
+    
+#if UNITY_EDITOR    
     public void OnDrawGizmos()
     {
         Handles.color = Color.yellow;
         Handles.DrawWireDisc(transform.position, Vector3.up, Mathf.Sqrt(attackRange), 0.25f);
     }
+#endif   
 
     public void MoveTo(Vector3 target)
     {
@@ -68,6 +66,11 @@ public class AI : MonoBehaviour
             HealthManager health = target.GetComponent<HealthManager>();
             health.Damage(attackDamage);
         }
+    }
+
+    public void Kill()
+    {
+        Destroy(gameObject);
     }
 
     public void OnDestroy()

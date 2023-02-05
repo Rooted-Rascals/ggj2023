@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -48,13 +49,16 @@ public class TurretAI : MonoBehaviour
     {
         cooldown = Mathf.Max(0f, cooldown - Time.deltaTime);
         Collider[] hitColliders = Physics.OverlapSphere(gameObject.transform.position, range);
+
         float shortestDistance = range;
+        Target = null;
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.gameObject.GetComponent<AI>() && Target == null)
+            if (hitCollider.gameObject.GetComponent<AI>())
             {
-                float distanceEnemy = Vector3.Distance(transform.position, hitCollider.transform.position);
-                if(distanceEnemy < shortestDistance)
+                float distanceEnemy = Vector3.Distance(new Vector3(hitCollider.transform.position.x, 0, hitCollider.transform.position.z),
+                new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z));
+                if (distanceEnemy < shortestDistance)
                 {
                     shortestDistance = distanceEnemy;
                     Target = hitCollider.gameObject;
@@ -78,8 +82,8 @@ public class TurretAI : MonoBehaviour
         if(Target != null)
         {
             StartCoroutine(Coroutines.ScaleUpAndDown(gameObject.transform, new Vector3(0.9f, 1.1f, 0.9f), 0.2f));
-            Vector3 direction = new Vector3(Target.transform.position.x ,0, Target.transform.position.z) - 
-                new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z);
+            Vector3 direction = (new Vector3(Target.transform.position.x ,0, Target.transform.position.z) - 
+                new Vector3(gameObject.transform.position.x, 0, gameObject.transform.position.z)).normalized;
             Quaternion rotation = Quaternion.LookRotation(direction);
             if (audioSource)
             {

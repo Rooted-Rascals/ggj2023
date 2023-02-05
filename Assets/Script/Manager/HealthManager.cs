@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Script.Decorators.Plants;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -28,6 +29,8 @@ public class HealthManager : MonoBehaviour
     public UnityEvent onDeath;
     GameObject HealthBar;
 
+    private bool isDead = false;
+
     private void Awake()
     {
         Health = MaxHealth;
@@ -37,11 +40,6 @@ public class HealthManager : MonoBehaviour
         HealthBarImage = HealthBar.GetComponentInChildren<Image>();
         if (isEnnemy)
             HealthBarImage.color = Color.red;
-    }
-
-    private void Start()
-    {
-        onDeath.AddListener(OnDeath);
     }
 
     private void Update()
@@ -63,9 +61,10 @@ public class HealthManager : MonoBehaviour
     public void Damage(float damage)
     {
         Health -= damage;
-        if(Health < 0)
+        if(Health < 0 && !isDead)
         {
             Health = 0;
+            isDead = true;
             onDeath.Invoke();
         }
     }
@@ -75,11 +74,6 @@ public class HealthManager : MonoBehaviour
         Health += healingPoint;
         if (Health > MaxHealth)
             Health = MaxHealth;
-    }
-
-    private void OnDeath()
-    {
-        Destroy(this.gameObject);
     }
 
     public float GetHealth()

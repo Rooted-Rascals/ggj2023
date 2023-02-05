@@ -66,6 +66,7 @@ public class AISpawner : MonoBehaviour
         return spawnedAI;
     }
 
+#if UnityEditor
     void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
@@ -76,6 +77,7 @@ public class AISpawner : MonoBehaviour
             Gizmos.DrawLine(aiPath[i] + Vector3.up, aiPath[i + 1] + Vector3.up);
         }
     }
+#endif
 
     public void UpdatePosition(Tile tile)
     {
