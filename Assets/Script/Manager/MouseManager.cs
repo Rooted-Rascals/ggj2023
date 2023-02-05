@@ -1,11 +1,10 @@
 using System;
 using System.Linq;
 using System.Numerics;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using Plane = UnityEngine.Plane;
+using Quaternion = UnityEngine.Quaternion;
 using Vector3 = UnityEngine.Vector3;
 
 namespace Script.Manager
@@ -33,6 +32,10 @@ namespace Script.Manager
         [SerializeField] private float zoomSpeed = 1f;
         [SerializeField] private float clampBuffer = -4f;
 
+        private Vector3 startingPosition;
+        private Quaternion startingRotation;
+
+
         public GameObject CurrentSelectedObject { get; private set; }
         public GameObject CurrentHoverObject { get; private set; }
         
@@ -51,6 +54,9 @@ namespace Script.Manager
 
         private void Start()
         {
+            startingPosition = transform.position;
+            startingRotation = transform.rotation;
+            
             onSelection.AddListener(OnSelection);
             onHoverChanged.AddListener(OnHoverChanged);
         }
@@ -73,6 +79,9 @@ namespace Script.Manager
 
         void Move()
         {
+            if (Input.GetKey(KeyCode.Space))
+                Recenter();
+            
             //Keyboard input
             float xInput = Input.GetAxis("Horizontal");
             float zInput = Input.GetAxis("Vertical");
@@ -141,6 +150,12 @@ namespace Script.Manager
 
             if (CurrentHoverObject != obj)
                 onHoverChanged.Invoke(obj);
+        }
+
+        public void Recenter()
+        {
+            transform.position = startingPosition;
+            transform.rotation = startingRotation;
         }
 
         public void Unselect()
