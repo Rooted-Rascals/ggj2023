@@ -49,14 +49,22 @@ namespace Script.Manager
 
         private void CalculatePrices()
         {
-            _pricesCache = new Dictionary<PlantType, Tuple<int, float>>
-            {
-                { PlantType.CACTUS, new Tuple<int, float>(typeof(Cactus).GetAttribute<BuyableAttribute>().Price, new Cactus().GetWaterConsumption())},
-                { PlantType.LEAF, new Tuple<int, float>(typeof(Leaf).GetAttribute<BuyableAttribute>().Price, new Leaf().GetWaterConsumption())},
-                { PlantType.MUSHROOM, new Tuple<int, float>(typeof(Mushroom).GetAttribute<BuyableAttribute>().Price, new Mushroom().GetWaterConsumption())},
-                { PlantType.LILYPAD, new Tuple<int, float>(typeof(LilyPad).GetAttribute<BuyableAttribute>().Price, new LilyPad().GetWaterConsumption())},
-                { PlantType.MOTHERTREE, new Tuple<int, float>(typeof(MotherTree).GetAttribute<BuyableAttribute>().Price, new MotherTree().GetWaterConsumption())},
-            };
+            _pricesCache = new Dictionary<PlantType, Tuple<int, float>>();
+            
+            Plant plant = Resources.Load<GameObject>($"Buildings/Cactus").transform.GetComponent<Plant>();
+            _pricesCache.Add(PlantType.CACTUS, new Tuple<int, float>(typeof(Cactus).GetAttribute<BuyableAttribute>().Price, plant.GetWaterConsumption()));
+            
+            plant = Resources.Load<GameObject>($"Buildings/Leaf").transform.GetComponent<Plant>();
+            _pricesCache.Add(PlantType.LEAF, new Tuple<int, float>(typeof(Leaf).GetAttribute<BuyableAttribute>().Price, plant.GetWaterConsumption()));
+            
+            plant = Resources.Load<GameObject>($"Buildings/Mushroom").transform.GetComponent<Plant>();
+            _pricesCache.Add(PlantType.MUSHROOM, new Tuple<int, float>(typeof(Mushroom).GetAttribute<BuyableAttribute>().Price, plant.GetWaterConsumption()));
+            
+            plant = Resources.Load<GameObject>($"Buildings/Lilypad").transform.GetComponent<Plant>();
+            _pricesCache.Add(PlantType.LILYPAD, new Tuple<int, float>(typeof(LilyPad).GetAttribute<BuyableAttribute>().Price, plant.GetWaterConsumption()));
+            
+            plant = Resources.Load<GameObject>($"Buildings/Mothertree").transform.GetComponent<Plant>();
+            _pricesCache.Add(PlantType.MOTHERTREE, new Tuple<int, float>(typeof(MotherTree).GetAttribute<BuyableAttribute>().Price, plant.GetWaterConsumption()));
             
             cactusButton.GetComponent<ShopButton>().SetValues(_pricesCache[PlantType.CACTUS].Item1, _pricesCache[PlantType.CACTUS].Item2);
             leafButton.GetComponent<ShopButton>().SetValues(_pricesCache[PlantType.LEAF].Item1, _pricesCache[PlantType.LEAF].Item2);
