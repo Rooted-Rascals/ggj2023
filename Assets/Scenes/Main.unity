@@ -1253,7 +1253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5111973672787173794, guid: 373b5efb012265f4cbe8c3bebd263323, type: 3}
       propertyPath: mouseControlEnabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5111973672787173794, guid: 373b5efb012265f4cbe8c3bebd263323, type: 3}
       propertyPath: ClickableMask.m_Bits

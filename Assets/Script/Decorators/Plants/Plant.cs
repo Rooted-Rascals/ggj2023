@@ -76,7 +76,7 @@ namespace Script.Decorators.Plants
             }
             HealthManager buildingsHealth = gameObject.GetComponent<HealthManager>();
             buildingsHealth.onDeath.AddListener(Die);
-            deathSound = Resources.Load<AudioClip>($"Sounds/death");
+            deathSound = Resources.Load<AudioClip>("Sounds/ENNEMY/death");
             StartCoroutine(SpawnBuilding(transform, new Vector3(1.1f, 1.3f, 1.1f), 0.38f, 0.09f));
         }
 
