@@ -77,12 +77,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBarImage: {fileID: 0}
-  MaxHealth: 100
+  MaxHealth: 200
   Health: 0
   LerpSpeed: 0
   isEnnemy: 0
   Height: 5.2
   onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onDamage:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &1037372103377523620
