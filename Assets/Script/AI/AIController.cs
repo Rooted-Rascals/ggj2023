@@ -83,10 +83,10 @@ public class AIController : MonoBehaviour
 
     private void SpawnAIs()
     {
-        delay += Time.deltaTime;
-        if (delay >= spawnDelay/GameManager.Instance.GetGameDifficulty() && aiList.Count < maxAmountOfAi)
+        delay -= Time.deltaTime;
+        if (delay <= 0  && aiList.Count < maxAmountOfAi)
         {
-            delay = 0;
+            delay = spawnDelay/GameManager.Instance.GetGameDifficulty();
             if (aiSpawners.Count <= 0)
             {
                 return;
