@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waterConsumption: 0
-  waterGeneration: 5
+  waterGeneration: 10
   energyGeneration: 0
   ParticleSystem: {fileID: 403503071238143911}
 --- !u!114 &7518220310490392692

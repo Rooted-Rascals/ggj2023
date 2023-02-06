@@ -138,7 +138,7 @@ namespace Script
 
         public float GetEnergyGeneration()
         {
-            float energyGeneration = defaultEnergyGeneration;
+            float energyGeneration = 0f;
 
             foreach (Tile EnabledRoots in EnabledRootsList)
             {
@@ -153,7 +153,7 @@ namespace Script
 
         public float GetWaterConsumption()
         {
-            float waterConsumption = defaultWaterConsumption;
+            float waterConsumption = 0f;
             foreach (Tile EnabledRoots in EnabledRootsList)
             {
                 Plant plant = EnabledRoots.GetComponentInChildren<Plant>();
@@ -167,7 +167,7 @@ namespace Script
 
         public float GetWaterGeneration()
         {
-            float waterGeneration = defaultWaterGeneration;
+            float waterGeneration = 0f;
             foreach (Tile EnabledRoots in EnabledRootsList)
             {
                 Plant plant = EnabledRoots.GetComponentInChildren<Plant>();

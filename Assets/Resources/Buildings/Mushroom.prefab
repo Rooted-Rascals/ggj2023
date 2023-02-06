@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 459266dda68248ee88a9ecde9350f2c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterConsumption: 1
+  waterConsumption: 5
   waterGeneration: 0
   energyGeneration: 0
   poisonTriggerDelay: 10
@@ -169,6 +169,9 @@ MonoBehaviour:
   isEnnemy: 0
   Height: 3
   onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onDamage:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1001 &6135684927705340124

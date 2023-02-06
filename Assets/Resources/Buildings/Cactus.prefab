@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9013472ddb2445bc9538f71ee61e8466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waterConsumption: 1
+  waterConsumption: 5
   waterGeneration: 0
   energyGeneration: 0
 --- !u!114 &7663553966392149056
@@ -249,6 +249,9 @@ MonoBehaviour:
   isEnnemy: 0
   Height: 3
   onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onDamage:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &7247704356992418013
